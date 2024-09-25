@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     isAdmin = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username', 'email', '_id', 'name', 'isAdmin']
 
     def get__id(self, obj):
         return obj.id
@@ -22,4 +22,3 @@ class UserSerializer(serializers.ModelSerializer):
             name = obj.email
         return name
     
-

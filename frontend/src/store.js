@@ -1,23 +1,30 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { thunk } from 'redux-thunk'
 import { recipeListReducer } from './reducers/recipeReducers'
+import { userLoginReducer } from './reducers/userReducers'
+
 
 const reducer = ({
     recipeList: recipeListReducer,
+    userLogin: userLoginReducer,
 
 })
 
+const userInfoFromStorage = localStorage.getItem('userInfo') ?
+    JSON.parse(localStorage.getItem('userInfo')) : null
+
 const initialState = {
+    userLogin: {userInfo: userInfoFromStorage}
 
 }
 
-const middleware = [thunk]
+// const middleware = [thunk]
 
 const store = configureStore({
     reducer, 
-    initialState,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middleware),
+    preloadedState: initialState,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 
-})
+});
 
 export default store
