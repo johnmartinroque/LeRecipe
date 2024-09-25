@@ -12,8 +12,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,6 +31,9 @@ SECRET_KEY = 'django-insecure-wl-cqwlbgvcl(x!-*)!p+ph1df_^b9p@8i$m-m$v2-uyi-9akb
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+
+
 
 
 # Application definition
@@ -122,7 +130,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+import os
+
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [BASE_DIR / "static_my_project", ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static cdn", "static root")
+
+MEDIA_URL = 'media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "static cdn", "media root")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
