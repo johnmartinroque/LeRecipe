@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listRecipes } from '../actions/recipeActions'; // Import the action
 
+
 function HomeScreen() {
   const dispatch = useDispatch();
 
@@ -19,7 +20,9 @@ function HomeScreen() {
       <h1>Recipes</h1>
       
       {loading ? (
-        <p>Loading...</p>
+        <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
