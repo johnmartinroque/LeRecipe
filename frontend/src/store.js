@@ -1,13 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { thunk } from 'redux-thunk'
 import { recipeListReducer } from './reducers/recipeReducers'
-import { userLoginReducer } from './reducers/userReducers'
+import { userLoginReducer, userRegisterReducer } from './reducers/userReducers'
+
 
 
 const reducer = ({
     recipeList: recipeListReducer,
     userLogin: userLoginReducer,
-
+    userRegister: userRegisterReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?
@@ -15,6 +16,7 @@ const userInfoFromStorage = localStorage.getItem('userInfo') ?
 
 const initialState = {
     userLogin: {userInfo: userInfoFromStorage}
+
 
 }
 
