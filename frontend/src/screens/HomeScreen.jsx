@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listRecipes } from '../actions/recipeActions'; // Import the action
+import Recipe from '../components/Recipe';
+import { Col, Row } from 'react-bootstrap';
+
 
 
 function HomeScreen() {
@@ -26,17 +29,14 @@ function HomeScreen() {
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
-        <ul>
+          <Row>
           {recipes.map((recipe) => (
-            <div style={{backgroundColor: 'blue', maxWidth: "20rem"}} >
-              <li style={{listStyleType: 'none'}} key={recipe.id}>
-              <h2>{recipe.name}</h2>
-              <img src={recipe.image} alt={recipe.name} style={{ width: '200px' }} />
-              <p>{recipe.description}</p>
-            </li>
-            </div>
+            <Col key={recipe._id} sm={12} md={6} lg={4} xl={3}>
+              <Recipe recipe={recipe}/>
+
+            </Col>
           ))}
-        </ul>
+          </Row>
       )}
     </div>
   );
