@@ -12,3 +12,16 @@ export const recipeListReducer = (state={recipes: []}, action) => {
             return state
     }
 }
+
+export const recipeDetailedReducer = (state = { recipe: {} }, action) => {
+    switch (action.type) {
+        case "RECIPE_DETAILED_REQUEST":
+            return { loading: true };
+        case "RECIPE_DETAILED_SUCCESS":
+            return { loading: false, recipe: action.payload };
+        case "RECIPE_DETAILED_FAIL":
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
