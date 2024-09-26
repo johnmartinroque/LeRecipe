@@ -42,7 +42,7 @@ const RegisterScreen = () => {
             {loading && <div className="loading-spinner">Loading...</div>}
             <form onSubmit={submitHandler}>
                 <div className="form-group">
-                    <label>Name</label>
+                    <label>Username</label>
                     <input
                         type="text"
                         value={name}
