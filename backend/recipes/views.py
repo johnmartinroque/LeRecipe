@@ -11,4 +11,11 @@ def getRecipes(request):
     return Response(serializer.data)
 
 
-
+@api_view(['GET'])
+def getRecipe(request, pk):
+    try:
+        recipe = Recipe.objects.get(pk=pk)
+        serializer = RecipeSerializer(recipe)
+        return Response(serializer.data)
+    except Recipe.DoesNotExist:
+        return Response({'error': 'Recipe not found'}, status=404)

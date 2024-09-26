@@ -23,3 +23,12 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
     
+class Step(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='steps', on_delete=models.CASCADE)
+    stepname = models.CharField(max_length=255)  # Name of the step
+    description = models.TextField()  # Description of the step
+    image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+    video = models.FileField(upload_to='videos/', null=True, blank=True)
+
+    def __str__(self):
+        return self.stepname
