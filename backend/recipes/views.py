@@ -68,7 +68,6 @@ def createRecipe(request):
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
 """
-<<<<<<< HEAD
 class RecipeCreateView(APIView):
     permission_classes = [IsAuthenticated]  # If you want only authenticated users to create recipes
 
@@ -112,5 +111,3 @@ class RecipeCreateView(APIView):
         # Add logging to help debug if needed
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-=======
->>>>>>> origin/mglibunao

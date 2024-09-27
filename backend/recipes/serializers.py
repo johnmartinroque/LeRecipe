@@ -7,10 +7,15 @@ class StepSerializer(serializers.ModelSerializer):
         fields = ['id', 'stepname', 'description', 'image', 'video']
 
 class CommentSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'text', 'created_at', 'rating']
-        read_only_fields = ['user', 'recipe', 'created_at']
+        fields = ['id', 'username', 'text', 'created_at', 'rating']
+        read_only_fields = ['username', 'recipe', 'created_at']
+
+    def get_username(self, obj):
+        return obj.user.username
 
 class RecipeListSerializer(serializers.ModelSerializer):
     class Meta:

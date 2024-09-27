@@ -9,5 +9,6 @@ urlpatterns = [
     path('recipes/bookmarks/', views.getBookmarks, name='getBookmarks'),
     path('recipe/bookmark/<int:pk>/', views.bookmarkRecipe, name='bookmarkRecipe'),
     path('recipe/create/', RecipeCreateView.as_view(), name='createRecipe'),
+    path('recipe/comment/<int:pk>/', views.RecipeCommentListCreateView.as_view(), name="recipeList")
     
 ]
