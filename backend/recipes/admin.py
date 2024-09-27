@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Recipe, Step
+from .models import Recipe, Step, Comment
 
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'name', 'description' )  # Specify the fields you want to display in the list view
@@ -13,3 +13,9 @@ class StepAdmin(admin.ModelAdmin):
     search_fields = ('stepname',)  # Add a search box for the step name
     list_filter = ('recipe',) 
 admin.site.register(Step, StepAdmin) 
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'text', 'rating')  
+    search_fields = ('text',)  
+    list_filter = ('recipe',) 
+admin.site.register(Comment, CommentAdmin) 

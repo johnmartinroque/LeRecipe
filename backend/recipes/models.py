@@ -3,6 +3,7 @@ import os
 import random
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from recipes.validators import validate_rating
 
 def get_filename_exit(filepath):
     base_name = os.path.basename(filepath)
@@ -34,6 +35,24 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def average_rating(self):
+        comments = self.comments.all()
+        if not comments:
+            return 0
+        ratings = [comment.rating for comment in comments]
+        avg_rating = sum(ratings) / len(ratings)
+        return self.round_to_nearest_valid_rating(avg_rating)
+
+    def round_to_nearest_valid_rating(self, avg_rating):
+        acceptable_ratings = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
+
+        for rating in acceptable_ratings:
+            if avg_rating <= rating:
+                return rating
+        return 5
+
     
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='steps', on_delete=models.CASCADE)
@@ -44,6 +63,17 @@ class Step(models.Model):
 
     def __str__(self):
         return self.stepname
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name='comments', on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    rating = models.FloatField(validators=[validate_rating])
+
+    def __str__(self):
+        return self.text
     
 
 class Bookmark(models.Model):
