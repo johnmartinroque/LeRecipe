@@ -51,6 +51,7 @@ const RecipeDetailedScreen = () => {
                     <h3>
                       {index + 1}. {step.stepname}
                     </h3>
+                    <p>{step.description}</p>
                     {step.image && (
                       <img
                         style={{ maxWidth: "30rem" }} // Ensure step images are responsive
@@ -58,7 +59,6 @@ const RecipeDetailedScreen = () => {
                         alt={step.stepname}
                       />
                     )}
-                    <p>{step.description}</p>
                     {step.video && <video controls src={step.video} style={{ width: '100%' }} />} {/* Make video responsive */}
                   </div>
                 ))}

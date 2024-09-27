@@ -6,6 +6,7 @@ class StepSerializer(serializers.ModelSerializer):
         model = Step
         fields = ['id', 'stepname', 'description', 'image', 'video']
 
+
 class RecipeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
