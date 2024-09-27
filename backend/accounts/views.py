@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserFollowSerializer
+from .models import UserFollow
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -93,3 +94,43 @@ def registerUser(request):
     except:
         message = {'detail': 'User with this email already exists'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def follow_user(request, user_id):
+    try:
+        followed_user = User.objects.get(id=user_id)
+        follow_relationship, created = UserFollow.objects.get_or_create(user=request.user, followed_user=followed_user)
+
+        if created:
+            return Response({'detail': 'User followed successfully.'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'detail': 'You are already following this user.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    except User.DoesNotExist:
+        return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def unfollow_user(request, user_id):
+    try:
+        followed_user = User.objects.get(id=user_id)
+        follow_relationship = UserFollow.objects.get(user=request.user, followed_user=followed_user)
+        follow_relationship.delete()
+        return Response({'detail': 'User unfollowed successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
+    except User.DoesNotExist:
+        return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+    except UserFollow.DoesNotExist:
+        return Response({'detail': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_following_list(request):
+    user = request.user
+    following_users = UserFollow.objects.filter(user=user).select_related('followed_user')
+
+    following_usernames = [followed_user.followed_user.username for followed_user in following_users]
+
+    return Response(following_usernames, status=status.HTTP_200_OK)

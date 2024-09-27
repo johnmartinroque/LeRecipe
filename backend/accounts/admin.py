@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+from django.contrib import admin
+from .models import UserFollow
 
 class CustomUserAdmin(UserAdmin):
     model = User
@@ -15,3 +17,12 @@ admin.site.unregister(User)
 
 # Register the custom User admin
 admin.site.register(User, CustomUserAdmin)
+
+
+
+
+class UserFollowAdmin(admin.ModelAdmin):
+    list_display = ('user', 'followed_user')  # Fields to display in the admin list view
+    search_fields = ('user__username', 'followed_user__username')  # Enable search by username
+
+admin.site.register(UserFollow, UserFollowAdmin)
