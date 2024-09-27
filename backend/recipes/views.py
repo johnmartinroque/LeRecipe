@@ -1,8 +1,10 @@
+from rest_framework import generics
 from rest_framework.decorators import api_view,  permission_classes
 from rest_framework.response import Response
-from .models import Recipe, Bookmark
-from .serializers import RecipeSerializer, RecipeListSerializer
+from .models import Recipe, Bookmark, Comment
+from .serializers import RecipeSerializer, RecipeListSerializer, CommentSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import NotAuthenticated
 
 @api_view(['GET'])
 def getRecipes(request):
@@ -40,7 +42,21 @@ def bookmarkRecipe(request, pk):
             return Response({'message': 'Recipe is already bookmarked'}, status=400)
     except Recipe.DoesNotExist:
         return Response({'error': 'Recipe not found'}, status=404)
-    
+
+class RecipeCommentListCreateView(generics.ListCreateAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+         recipe_id = self.kwargs['pk']    
+         return Comment.objects.filter(recipe_id=recipe_id)
+
+    def perform_create(self, serializer):
+        if self.request.user.is_anonymous:
+            raise NotAuthenticated("You must logged in to post a comment")
+
+        recipe = Recipe.objects.get(id=self.kwargs['pk'])
+        serializer.save(user=self.request.user, recipe=recipe)
 """
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
