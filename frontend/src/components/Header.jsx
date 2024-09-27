@@ -26,7 +26,7 @@ function Header() {
           <Nav className="me-auto">
             <Nav.Link  as={Link} to="/">Home</Nav.Link>
             <Nav.Link  as={Link} to="/recipe">Recipes</Nav.Link>
-            <Nav.Link  as={Link} to="/upload">Upload</Nav.Link>
+            <Nav.Link  as={Link} to="/create">Create</Nav.Link>
             
             {userInfo ? (
               <NavDropdown title={userInfo.username} id="username-nav-dropdown">

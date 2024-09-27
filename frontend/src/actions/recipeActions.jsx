@@ -5,6 +5,9 @@ import {
   RECIPE_DETAILED_REQUEST,
   RECIPE_DETAILED_SUCCESS,
   RECIPE_DETAILED_FAIL,
+  RECIPE_CREATE_REQUEST,
+  RECIPE_CREATE_SUCCESS,
+  RECIPE_CREATE_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -27,23 +30,56 @@ export const listRecipes = () => async (dispatch) => {
   }
 };
 
-
 export const getRecipeDetails = (id) => async (dispatch) => {
-    try {
-        dispatch({ type: RECIPE_DETAILED_REQUEST });
+  try {
+      dispatch({ type: RECIPE_DETAILED_REQUEST });
 
-        const { data } = await axios.get(`/api/recipes/recipe/${id}/`);  // Adjust the API endpoint as needed
+      const { data } = await axios.get(`/api/recipes/recipe/${id}/`);  // Adjust the API endpoint as needed
 
-        dispatch({
-            type: RECIPE_DETAILED_SUCCESS,
-            payload: data,
-        });
-    } catch (error) {
-        dispatch({
-            type: RECIPE_DETAILED_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
-                : error.message,
-        });
-    }
+      dispatch({
+          type: RECIPE_DETAILED_SUCCESS,
+          payload: data,
+      });
+  } catch (error) {
+      dispatch({
+          type: RECIPE_DETAILED_FAIL,
+          payload: error.response && error.response.data.detail
+              ? error.response.data.detail
+              : error.message,
+      });
+  }
+};
+
+
+export const createRecipe = (recipeData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: RECIPE_CREATE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data", // Ensure correct content type for form-data
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      "/api/recipes/recipe/create/",
+      recipeData,
+      config
+    );
+
+    dispatch({ type: RECIPE_CREATE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: RECIPE_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
 };

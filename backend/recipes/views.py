@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from .models import Recipe, Bookmark
 from .serializers import RecipeSerializer, RecipeListSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework import status
 
 @api_view(['GET'])
 def getRecipes(request):
@@ -51,3 +53,46 @@ def createRecipe(request):
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
 """
+class RecipeCreateView(APIView):
+    permission_classes = [IsAuthenticated]  # If you want only authenticated users to create recipes
+
+    def get(self, request, *args, **kwargs):
+        recipes = Recipe.objects.all()
+        serializer = RecipeListSerializer(recipes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        # Extract steps from form-data manually
+        steps_data = []
+        step_index = 0
+
+        while True:
+            stepname = request.POST.get(f'steps[{step_index}][stepname]')
+            if stepname is None:
+                break  # Stop if there's no more step data
+
+            steps_data.append({
+                'stepname': stepname,
+                'description': request.POST.get(f'steps[{step_index}][description]'),
+                'image': request.FILES.get(f'steps[{step_index}][image]'),
+                'video': request.FILES.get(f'steps[{step_index}][video]'),
+            })
+            step_index += 1
+
+        # Prepare the main recipe data
+        recipe_data = {
+            'name': request.POST.get('name'),
+            'description': request.POST.get('description'),
+            'image': request.FILES.get('image'),
+            'steps': steps_data,
+        }
+
+        # Validate and save the recipe
+        serializer = RecipeSerializer(data=recipe_data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)  # Attach the current logged-in user to the recipe
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        # Add logging to help debug if needed
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

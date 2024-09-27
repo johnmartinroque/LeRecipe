@@ -25,3 +25,18 @@ export const recipeDetailedReducer = (state = { recipe: {} }, action) => {
             return state;
     }
 };
+
+
+
+export const recipeCreateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case "RECIPE_CREATE_REQUEST":
+            return { loading: true };
+        case "RECIPE_CREATE_SUCCESS":
+            return { loading: false, success: true, recipe: action.payload };
+        case "RECIPE_CREATE_FAIL":
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};

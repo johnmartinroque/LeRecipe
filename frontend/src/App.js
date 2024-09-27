@@ -7,8 +7,8 @@ import RegisterScreen from './screens/RegisterScreen';
 import RecipeDetailedScreen from './screens/RecipeDetailedScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import PrivateRoute from './components/PrivateRoute';
-import UploadScreen from './screens/UploadScreen';
 import RecipeScreen from './screens/RecipeScreen';
+import CreateRecipeScreen from './screens/CreateRecipeScreen';
 
 
 
@@ -31,7 +31,7 @@ function App() {
           <Route path='/recipe/:id' element={<RecipeDetailedScreen />}  />
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="/profile" element={<PrivateRoute><ProfileScreen /></PrivateRoute>} />
-          <Route path="/upload" element={<PrivateRoute><UploadScreen /></PrivateRoute>} />
+          <Route path="/create" element={<PrivateRoute><CreateRecipeScreen /></PrivateRoute>} />
         </Routes>
         
       </Router>
