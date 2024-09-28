@@ -25,11 +25,15 @@ class RecipeListSerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
     steps = StepSerializer(many=True)  # Removed read_only=True to allow writable steps
     comments = CommentSerializer(many=True, read_only=True)
+    total_comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Recipe
-        fields = ['id', 'user', 'name', 'image', 'description', 'steps', 'comments', 'average_rating']
+        fields = ['id', 'user', 'name', 'image', 'description', 'steps', 'comments', 'average_rating', 'total_comments']
         read_only_fields = ['user']
+
+    def get_total_comments(self, obj):
+        return obj.comments.count()
 
     def create(self, validated_data):
         steps_data = validated_data.pop('steps')
