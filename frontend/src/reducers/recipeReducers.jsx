@@ -54,3 +54,17 @@ export const bookmarkListReducer = (state = { bookmarks: [] }, action) => {
         return state;
     }
   };
+
+
+  export const ownRecipesReducer = (state = { recipes: [] }, action) => {
+    switch (action.type) {
+        case "GET_OWN_RECIPES_REQUEST":
+            return { loading: true };
+        case "GET_OWN_RECIPES_SUCCESS":
+            return { loading: false, recipes: action.payload };
+        case "GET_OWN_RECIPES_FAIL":
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};

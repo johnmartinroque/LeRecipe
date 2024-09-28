@@ -11,6 +11,9 @@ import {
   BOOKMARK_LIST_REQUEST,
   BOOKMARK_LIST_SUCCESS,
   BOOKMARK_LIST_FAIL,
+  GET_OWN_RECIPES_REQUEST,
+  GET_OWN_RECIPES_SUCCESS,
+  GET_OWN_RECIPES_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -35,24 +38,24 @@ export const listRecipes = () => async (dispatch) => {
 
 export const getRecipeDetails = (id) => async (dispatch) => {
   try {
-      dispatch({ type: RECIPE_DETAILED_REQUEST });
+    dispatch({ type: RECIPE_DETAILED_REQUEST });
 
-      const { data } = await axios.get(`/api/recipes/recipe/${id}/`);  // Adjust the API endpoint as needed
+    const { data } = await axios.get(`/api/recipes/recipe/${id}/`); // Adjust the API endpoint as needed
 
-      dispatch({
-          type: RECIPE_DETAILED_SUCCESS,
-          payload: data,
-      });
+    dispatch({
+      type: RECIPE_DETAILED_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
-      dispatch({
-          type: RECIPE_DETAILED_FAIL,
-          payload: error.response && error.response.data.detail
-              ? error.response.data.detail
-              : error.message,
-      });
+    dispatch({
+      type: RECIPE_DETAILED_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
   }
 };
-
 
 export const createRecipe = (recipeData) => async (dispatch, getState) => {
   try {
@@ -87,7 +90,6 @@ export const createRecipe = (recipeData) => async (dispatch, getState) => {
   }
 };
 
-
 export const listBookmarks = () => async (dispatch, getState) => {
   try {
     dispatch({ type: BOOKMARK_LIST_REQUEST });
@@ -102,7 +104,7 @@ export const listBookmarks = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get('/api/recipes/recipes/bookmarks/', config);
+    const { data } = await axios.get("/api/recipes/recipes/bookmarks/", config);
 
     dispatch({
       type: BOOKMARK_LIST_SUCCESS,
@@ -111,9 +113,40 @@ export const listBookmarks = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: BOOKMARK_LIST_FAIL,
-      payload: error.response && error.response.data.detail
-        ? error.response.data.detail
-        : error.message,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
     });
+  }
+};
+
+export const getOwnRecipes = () => async (dispatch, getState) => {
+  try {
+      dispatch({ type: GET_OWN_RECIPES_REQUEST });
+
+      const {
+          userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${userInfo.token}`,
+          },
+      };
+
+      const { data } = await axios.get('/api/recipes/recipes/own-recipes/', config); 
+
+      dispatch({
+          type: GET_OWN_RECIPES_SUCCESS,
+          payload: data,
+      });
+  } catch (error) {
+      dispatch({
+          type: GET_OWN_RECIPES_FAIL,
+          payload: error.response && error.response.data.detail
+              ? error.response.data.detail
+              : error.message,
+      });
   }
 };

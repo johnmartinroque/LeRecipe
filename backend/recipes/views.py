@@ -6,6 +6,8 @@ from .serializers import RecipeSerializer, RecipeListSerializer, CommentSerializ
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.exceptions import NotAuthenticated
+from django.contrib.auth.models import User
+from rest_framework.exceptions import NotFound
 
 @api_view(['GET'])
 def getRecipes(request):
@@ -43,6 +45,20 @@ def bookmarkRecipe(request, pk):
             return Response({'message': 'Recipe is already bookmarked'}, status=400)
     except Recipe.DoesNotExist:
         return Response({'error': 'Recipe not found'}, status=404)
+    
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def removeBookmark(request, pk):
+    try:
+        recipe = Recipe.objects.get(pk=pk)
+        bookmark = Bookmark.objects.get(user=request.user, recipe=recipe)
+        bookmark.delete()  # Remove the bookmark
+        return Response({'message': 'Bookmark removed successfully'})
+    except Recipe.DoesNotExist:
+        return Response({'error': 'Recipe not found'}, status=404)
+    except Bookmark.DoesNotExist:
+        return Response({'error': 'Bookmark not found'}, status=404)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -122,3 +138,28 @@ class RecipeCreateView(APIView):
         # Add logging to help debug if needed
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getOwnRecipes(request):
+    # Get recipes for the authenticated user, ordered by created_at descending
+    recipes = Recipe.objects.filter(user=request.user).order_by('-id')
+    serializer = RecipeListSerializer(recipes, many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserRecipes(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        raise NotFound("User not found.")
+
+    # Get recipes for the specified user, ordered by id descending
+    recipes = Recipe.objects.filter(user=user).order_by('-id')
+    serializer = RecipeListSerializer(recipes, many=True)
+    return Response(serializer.data)
