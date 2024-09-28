@@ -27,9 +27,9 @@ const Bookmarks = () => {
         ) : error ? (
           <p>Error: {error}</p>
         ) : (
-          <Row>
+          <Row className="flex-column">
             {bookmarks.map((bookmark) => (
-              <Col key={bookmark.id}>
+              <Col key={bookmark.id} style={{maxWidth: '30rem'}}>
                 <Recipe recipe={{ // Pass the bookmark directly to the Recipe component
                   id: bookmark.id,
                   name: bookmark.name,
