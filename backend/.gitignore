@@ -4,6 +4,7 @@ myvenv/
 # Byte-compiled files
 __pycache__/
 *.py[cod]
+*.pyc
 
 # Distribution / packaging
 .Python
