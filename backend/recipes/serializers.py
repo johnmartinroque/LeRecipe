@@ -1,5 +1,7 @@
 from rest_framework import serializers
+from django.db.models import Avg
 from .models import Recipe, Step, Bookmark, Comment
+
 
 class StepSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,6 +28,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     steps = StepSerializer(many=True)  # Removed read_only=True to allow writable steps
     comments = CommentSerializer(many=True, read_only=True)
     total_comments = serializers.SerializerMethodField()
+    average_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Recipe
@@ -61,6 +64,17 @@ class RecipeSerializer(serializers.ModelSerializer):
                 Step.objects.create(recipe=instance, **step_data)
         
         return instance
+
+    def get_average_rating(self, obj):
+        comments = obj.comments.all()
+        if comments.exists():
+            avg_rating = comments.aggregate(avg=Avg('rating'))['avg']
+            return round_to_nearest_valid_rating(avg_rating) if avg_rating is not None else None
+        return None
+    
+def round_to_nearest_valid_rating(avg_rating):
+    acceptable_ratings = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
+    return min(acceptable_ratings, key=lambda x: abs(x - avg_rating))
 
 class BookmarkSerializer(serializers.ModelSerializer):
     class Meta:

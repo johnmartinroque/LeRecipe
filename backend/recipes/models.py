@@ -38,24 +38,6 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
 
-    @property
-    def average_rating(self):
-        comments = self.comments.all()
-        if not comments:
-            return 0
-        ratings = [comment.rating for comment in comments]
-        avg_rating = sum(ratings) / len(ratings)
-        return self.round_to_nearest_valid_rating(avg_rating)
-
-    def round_to_nearest_valid_rating(self, avg_rating):
-        acceptable_ratings = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
-
-        for rating in acceptable_ratings:
-            if avg_rating <= rating:
-                return rating
-        return 5
-
-    
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='steps', on_delete=models.CASCADE)
     stepname = models.CharField(max_length=255) 
