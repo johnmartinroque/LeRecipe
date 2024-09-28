@@ -16,11 +16,13 @@ import {
   GET_OWN_RECIPES_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
-
+const instance = axios.create({
+  baseURL: "http://127.0.0.1:8000/",
+})
 export const listRecipes = () => async (dispatch) => {
   try {
     dispatch({ type: RECIPE_LIST_REQUEST });
-    const { data } = await axios.get("/api/recipes/recipes/");
+    const { data } = await instance.get("/api/recipes/recipes/");
     dispatch({
       type: RECIPE_LIST_SUCCESS,
       payload: data,
@@ -40,7 +42,7 @@ export const getRecipeDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: RECIPE_DETAILED_REQUEST });
 
-    const { data } = await axios.get(`/api/recipes/recipe/${id}/`); // Adjust the API endpoint as needed
+    const { data } = await instance.get(`/api/recipes/recipe/${id}/`); // Adjust the API endpoint as needed
 
     dispatch({
       type: RECIPE_DETAILED_SUCCESS,
@@ -72,7 +74,7 @@ export const createRecipe = (recipeData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
+    const { data } = await instance.post(
       "/api/recipes/recipe/create/",
       recipeData,
       config
@@ -104,7 +106,7 @@ export const listBookmarks = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/recipes/recipes/bookmarks/", config);
+    const { data } = await instance.get("/api/recipes/recipes/bookmarks/", config);
 
     dispatch({
       type: BOOKMARK_LIST_SUCCESS,
@@ -135,7 +137,7 @@ export const getOwnRecipes = () => async (dispatch, getState) => {
           },
       };
 
-      const { data } = await axios.get('/api/recipes/recipes/own-recipes/', config); 
+      const { data } = await instance.get('/api/recipes/recipes/own-recipes/', config); 
 
       dispatch({
           type: GET_OWN_RECIPES_SUCCESS,

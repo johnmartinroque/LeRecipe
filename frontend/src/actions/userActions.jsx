@@ -9,6 +9,9 @@ import {
   USER_REGISTER_FAIL,
 } from "../constants/userConstants";
 
+const instance = axios.create({
+  baseURL: "http://127.0.0.1:8000/",
+})
 
 export const login = (username, password) => async (dispatch) => {
   try {
@@ -23,7 +26,7 @@ export const login = (username, password) => async (dispatch) => {
     };
 
     // Sending username instead of email for login
-    const { data } = await axios.post(
+    const { data } = await instance.post(
       "/api/accounts/users/login/",
       { username: username, password: password },
       config
@@ -64,7 +67,7 @@ export const register =
         },
       };
 
-      const { data } = await axios.post(
+      const { data } = await instance.post(
         "/api/accounts/users/register/",
         { name, email, password1, password2 },
         config
