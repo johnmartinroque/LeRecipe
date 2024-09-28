@@ -7,8 +7,10 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  GET_FOLLOWING_LIST_REQUEST,
+  GET_FOLLOWING_LIST_SUCCESS,
+  GET_FOLLOWING_LIST_FAIL,
 } from "../constants/userConstants";
-
 
 export const login = (username, password) => async (dispatch) => {
   try {
@@ -93,3 +95,32 @@ export const register =
   };
 
 
+  export const getFollowingList = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: GET_FOLLOWING_LIST_REQUEST });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+
+        const { data } = await axios.get('/api/accounts/following/', config);
+
+        dispatch({
+            type: GET_FOLLOWING_LIST_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_FOLLOWING_LIST_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};  

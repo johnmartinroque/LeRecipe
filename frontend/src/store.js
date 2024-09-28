@@ -1,7 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { thunk } from 'redux-thunk'
 import { bookmarkListReducer, ownRecipesReducer, recipeCreateReducer, recipeDetailedReducer, recipeListReducer } from './reducers/recipeReducers'
-import { userLoginReducer, userRegisterReducer } from './reducers/userReducers'
+import { followingListReducer, userLoginReducer, userRegisterReducer } from './reducers/userReducers'
 
 
 
@@ -16,6 +16,7 @@ const reducer = ({
     recipeCreate: recipeCreateReducer,
     bookmarkList: bookmarkListReducer,
     ownRecipes: ownRecipesReducer,
+    followingList: followingListReducer,
 
 })
 

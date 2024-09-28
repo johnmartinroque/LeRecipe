@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Bookmarks from '../components/Bookmarks'
 import UserComments from '../components/UserComments';
 import OwnRecipes from '../components/OwnRecipes'
+import Following from '../components/Following';
 
 
 
@@ -16,6 +17,8 @@ function ProfileScreen() {
         return <Bookmarks />;
       case 'comments':
         return <UserComments />;
+      case 'following':
+        return <Following />;
       default:
         return <OwnRecipes />; // Fallback to Bookmarks
     }
@@ -24,9 +27,10 @@ function ProfileScreen() {
   return (
     <div>
       <div>
-        <button onClick={() => setActiveComponent('ownRecipe')}>Recipes</button>
-        <button onClick={() => setActiveComponent('bookmarks')}>Bookmarks</button>
-        <button onClick={() => setActiveComponent('comments')}>Comments</button>
+        <button class="btn btn-primary" onClick={() => setActiveComponent('ownRecipe')}>Recipes</button>
+        <button class="btn btn-primary" onClick={() => setActiveComponent('bookmarks')}>Bookmarks</button>
+        <button class="btn btn-primary" onClick={() => setActiveComponent('comments')}>Comments</button>
+        <button class="btn btn-primary" onClick={() => setActiveComponent('following')}>Following</button>
       </div>
       <div>
         {renderComponent()} 
