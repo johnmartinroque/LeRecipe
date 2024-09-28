@@ -1,0 +1,56 @@
+.about-us-section,
+.levision-section,
+.lemision-section {
+  width: 100%;
+  padding: 40px 0; 
+}
+.image-above-about {
+    margin-bottom: 0px; 
+  }
+  
+.image-above-about img {
+    width: 100%; 
+    height: auto; 
+    max-height: 200px; 
+    object-fit: cover; 
+  }
+  
+.about-us-section {
+  background-color: #f3f7ef; 
+}
+
+.levision-section {
+  background-color: #d9e4bb; 
+}
+
+.lemision-section {
+    background-color: #ebf2f3; 
+  }
+
+.break-section {
+    width: 100%; 
+  }
+  
+.break-section img {
+    width: 100%;       
+    height: auto;      
+    max-height: 300px; 
+    object-fit: cover; 
+  }
+
+.goat-section {
+    background-color: #f4fac1; 
+    padding: 40px 0; 
+}
+.about-us-container h1, 
+.about-us-container h2 {
+  font-family: 'Playfair Display', serif;
+}
+
+.about-us-container p {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333; 
+}
+
+
