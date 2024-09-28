@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../actions/userActions';
+import '../css/RegisterScreen.css';
 
 const RegisterScreen = () => {
     const [name, setName] = useState('');
@@ -35,8 +36,10 @@ const RegisterScreen = () => {
     };
 
     return (
+        <div className="modal-background">
         <div className="register-container">
-            <h1>Register</h1>
+            <div className="form-container">
+            <h1>Sign Up</h1>
             {message && <div className="error-message">{message}</div>} {/* Password mismatch error */}
             {error && <div className="error-message">{error}</div>} {/* Show registration error */}
             {loading && <div className="loading-spinner">Loading...</div>}
@@ -85,14 +88,19 @@ const RegisterScreen = () => {
                     />
                 </div>
 
-                <button type="submit" className="btn btn-primary">
-                    Register
+                <button type="submit" className="btn-register">
+                    Sign Up
                 </button>
             </form>
 
             <div className="login-link">
                 Have an account? <Link to="/login">Sign In</Link>
             </div>
+            </div>
+            <div className="logo-register">
+                <img src="/LeRecipelogoright.png" alt="LeRecipe Logo" />
+            </div>
+        </div>
         </div>
     );
 };

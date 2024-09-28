@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../actions/userActions';
+import '../css/LoginScreen.css'
 
 const LoginScreen = () => {
     const [username, setUsername] = useState(''); // Changed from email to username
@@ -26,8 +27,14 @@ const LoginScreen = () => {
         dispatch(login(username, password)); // Using username for login
     };
 
+
     return (
+        <div className="modal-background">
         <div className="login-container">
+            <div className="logo-login">
+                <img src="/LeRecipelogoleft.png" alt="LeRecipe Logo" />
+            </div>
+            <div className="form-container-login">
             <h1>Sign In</h1>
             {error && <div className="error-message">{error}</div>} {/* Show error message */}
             {loading && <div className="loading-spinner">Loading...</div>}
@@ -54,14 +61,16 @@ const LoginScreen = () => {
                     />
                 </div>
 
-                <button type="submit" className="btn btn-primary">
-                    Sign In
+                <button type="submit" className="btn-login">
+                    Login
                 </button>
             </form>
 
             <div className="register-link">
-                New customer? <Link to="/register">Register</Link>
+                Don't have an account? <Link to="/register">Register Now</Link>
             </div>
+            </div>
+        </div>
         </div>
     );
 };
