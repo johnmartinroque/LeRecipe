@@ -44,20 +44,31 @@ def bookmarkRecipe(request, pk):
     except Recipe.DoesNotExist:
         return Response({'error': 'Recipe not found'}, status=404)
 
-class RecipeCommentListCreateView(generics.ListCreateAPIView):
-    serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_recipe_comments(request, pk):
+    comments = Comment.objects.filter(recipe_id=pk)  # Fetch comments for the given recipe
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
 
-    def get_queryset(self):
-         recipe_id = self.kwargs['pk']    
-         return Comment.objects.filter(recipe_id=recipe_id)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_recipe_comment(request, pk):
+    try:
+        recipe = Recipe.objects.get(id=pk)  # Get the recipe by its ID
+    except Recipe.DoesNotExist:
+        return Response({'error': 'Recipe not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-    def perform_create(self, serializer):
-        if self.request.user.is_anonymous:
-            raise NotAuthenticated("You must logged in to post a comment")
+    # Deserialize the incoming data
+    serializer = CommentSerializer(data=request.data)
 
-        recipe = Recipe.objects.get(id=self.kwargs['pk'])
-        serializer.save(user=self.request.user, recipe=recipe)
+    if serializer.is_valid():
+        # Save the comment with the current user and recipe
+        serializer.save(user=request.user, recipe=recipe)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 """
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
