@@ -4,13 +4,12 @@ import { listRecipes } from "../actions/recipeActions"; // Import the action
 import Recipe from "../components/Recipe";
 import { Col, Form, Row } from "react-bootstrap";
 
-
 function RecipeScreen() {
   const dispatch = useDispatch();
 
   // Fetching the state from the Redux store
   const recipeList = useSelector((state) => state.recipeList);
-  const { loading, error, recipes } = recipeList;
+  const { loading, error, recipes = [] } = recipeList; // Initialize recipes as an empty array if undefined
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -36,8 +35,8 @@ function RecipeScreen() {
       <h1>Recipes</h1>
 
       {loading ? (
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       ) : error ? (
         <p>Error: {error}</p>
