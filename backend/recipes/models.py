@@ -4,6 +4,7 @@ import random
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from recipes.validators import validate_rating
+from django.utils import timezone
 
 def get_filename_exit(filepath):
     base_name = os.path.basename(filepath)
@@ -79,9 +80,11 @@ class Comment(models.Model):
 class Bookmark(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)  # Add timestamp
 
     class Meta:
-        unique_together = ('user', 'recipe')  
+        unique_together = ('user', 'recipe')
+        ordering = ['-created_at']  # Orders by created_at in descending order
 
     def __str__(self):
         return f"{self.user.username} bookmarked {self.recipe.name}"

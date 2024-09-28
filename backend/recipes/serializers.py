@@ -61,8 +61,8 @@ class RecipeSerializer(serializers.ModelSerializer):
 class BookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookmark
-        fields = ['id', 'user', 'recipe']
-        read_only_fields = ['user']
+        fields = ['id', 'user', 'recipe', 'created_at']
+        read_only_fields = ['user', 'created_at']
 
 
         

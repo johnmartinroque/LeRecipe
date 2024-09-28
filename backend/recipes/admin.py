@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Recipe, Step, Comment
+from .models import Recipe, Step, Comment, Bookmark
 
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'name', 'description' )  # Specify the fields you want to display in the list view
@@ -19,3 +19,12 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('text',)  
     list_filter = ('recipe',) 
 admin.site.register(Comment, CommentAdmin) 
+
+
+class BookmarkAdmin(admin.ModelAdmin):
+    list_display = ('user', 'recipe', 'created_at')  # Fields to display in the admin list view
+    search_fields = ('user__username', 'recipe__name')  # Enable searching by user and recipe
+    list_filter = ('user', 'recipe')  # Filters for the sidebar
+
+# Registering the Bookmark model with the custom BookmarkAdmin
+admin.site.register(Bookmark, BookmarkAdmin)

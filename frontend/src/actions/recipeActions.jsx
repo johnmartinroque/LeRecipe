@@ -8,6 +8,9 @@ import {
   RECIPE_CREATE_REQUEST,
   RECIPE_CREATE_SUCCESS,
   RECIPE_CREATE_FAIL,
+  BOOKMARK_LIST_REQUEST,
+  BOOKMARK_LIST_SUCCESS,
+  BOOKMARK_LIST_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -80,6 +83,37 @@ export const createRecipe = (recipeData) => async (dispatch, getState) => {
         error.response && error.response.data.detail
           ? error.response.data.detail
           : error.message,
+    });
+  }
+};
+
+
+export const listBookmarks = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: BOOKMARK_LIST_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get('/api/recipes/recipes/bookmarks/', config);
+
+    dispatch({
+      type: BOOKMARK_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: BOOKMARK_LIST_FAIL,
+      payload: error.response && error.response.data.detail
+        ? error.response.data.detail
+        : error.message,
     });
   }
 };

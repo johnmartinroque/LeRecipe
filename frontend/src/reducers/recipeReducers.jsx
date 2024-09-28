@@ -40,3 +40,17 @@ export const recipeCreateReducer = (state = {}, action) => {
             return state;
     }
 };
+
+
+export const bookmarkListReducer = (state = { bookmarks: [] }, action) => {
+    switch (action.type) {
+      case "BOOKMARK_LIST_REQUEST":
+        return { loading: true, bookmarks: [] };
+      case "BOOKMARK_LIST_SUCCESS":
+        return { loading: false, bookmarks: action.payload };
+      case "BOOKMARK_LIST_FAIL":
+        return { loading: false, error: action.payload };
+      default:
+        return state;
+    }
+  };
