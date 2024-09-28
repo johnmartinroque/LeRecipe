@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFollowingList } from '../actions/userActions'; // Import your action
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Image } from 'react-bootstrap';
 
 const Following = () => {
     const dispatch = useDispatch();
@@ -23,13 +23,23 @@ const Following = () => {
             ) : error ? (
                 <p>Error: {error}</p>
             ) : (
-                <div>
-                    {following.map((username) => (
-                        <ListGroup.Item key={username}>
-                            {username}
+                <ListGroup>
+                    {following.map((user) => (
+                        <ListGroup.Item key={user.username} className="d-flex align-items-center">
+                            {/* Display Profile Picture */}
+                            <Image
+                                src={user.profile_picture || 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'}  // Provide a default image if profile_picture is null
+                                roundedCircle
+                                width="50"
+                                height="50"
+                                className="mr-3"
+                                alt={user.username}
+                            />
+                            {/* Display Username */}
+                            <span>{user.username}</span>
                         </ListGroup.Item>
                     ))}
-                </div>
+                </ListGroup>
             )}
         </div>
     );

@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
+from .models import UserProfilePicture
 
 # Create your views here.
 @api_view(['GET'])
@@ -85,10 +86,15 @@ def registerUser(request):
 
     try:
         user = User.objects.create(
-            username = data['name'],  # Use 'name' for the username
+            username = data['name'],
             email = data['email'],
-            password = make_password(password1)  # Use password1 for the password
+            password = make_password(password1)
         )
+        
+        # Create UserProfile with profile picture
+        profile_picture = request.FILES.get('profile_picture')
+        UserProfilePicture.objects.create(user=user, profile_picture=profile_picture)
+        
         serializer = UserSerializerWithToken(user, many=False)
         return Response(serializer.data)
     except:
@@ -131,6 +137,18 @@ def get_following_list(request):
     user = request.user
     following_users = UserFollow.objects.filter(user=user).select_related('followed_user')
 
-    following_usernames = [followed_user.followed_user.username for followed_user in following_users]
+    # Building a list with id, username, and profile picture
+    following_data = [
+        {
+            'id': followed_user.followed_user.id,
+            'username': followed_user.followed_user.username,
+            # Access profile picture through the related UserProfilePicture model
+            'profile_picture': followed_user.followed_user.userprofilepicture.profile_picture.url 
+                                if hasattr(followed_user.followed_user, 'userprofilepicture') 
+                                and followed_user.followed_user.userprofilepicture.profile_picture 
+                                else None
+        }
+        for followed_user in following_users
+    ]
 
-    return Response(following_usernames, status=status.HTTP_200_OK)
+    return Response(following_data, status=status.HTTP_200_OK)

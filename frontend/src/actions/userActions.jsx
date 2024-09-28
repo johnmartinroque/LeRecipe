@@ -94,33 +94,33 @@ export const register =
     }
   };
 
+export const getFollowingList = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_FOLLOWING_LIST_REQUEST });
 
-  export const getFollowingList = () => async (dispatch, getState) => {
-    try {
-        dispatch({ type: GET_FOLLOWING_LIST_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
-        const {
-            userLogin: { userInfo },
-        } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
 
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`,
-            },
-        };
+    const { data } = await axios.get("/api/accounts/following/", config);
 
-        const { data } = await axios.get('/api/accounts/following/', config);
-
-        dispatch({
-            type: GET_FOLLOWING_LIST_SUCCESS,
-            payload: data,
-        });
-    } catch (error) {
-        dispatch({
-            type: GET_FOLLOWING_LIST_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
-                : error.message,
-        });
-    }
-};  
+    dispatch({
+      type: GET_FOLLOWING_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_FOLLOWING_LIST_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
