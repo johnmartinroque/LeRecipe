@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Bookmark from "./Bookmark";
 
 function Recipe({ recipe }) {
   return (
@@ -13,6 +14,7 @@ function Recipe({ recipe }) {
           <Link style={{textDecoration: 'none', color: 'black'}} to={`/recipe/${recipe.id}`}>
             <strong>{recipe.name}</strong>
           </Link>
+          <Bookmark recipeId={recipe.id} />
         </Card.Title>
       </Card.Body>
     </Card>

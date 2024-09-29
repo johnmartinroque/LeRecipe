@@ -3,13 +3,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipeDetails } from "../actions/recipeActions";
-import { useParams } from "react-router-dom";
-import { Spinner, Alert, Row, Col } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Spinner, Alert, Row, Col, Button } from "react-bootstrap";
+
 
 
 const RecipeDetailedScreen = () => {
   const { id } = useParams(); // Get the recipe ID from the URL
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const recipeDetailed = useSelector((state) => state.recipeDetailed);
   const { loading, error, recipe } = recipeDetailed;
@@ -20,8 +22,9 @@ const RecipeDetailedScreen = () => {
 
   return (
     <div>
-       <Row className="justify-content-center"> {/* Center the row content */}
-      <Col md={8} className="text-center"> {/* Adjust the column width */}
+      <Button onClick={() => navigate(-1)}>Back</Button>
+      <Row className="justify-content-center"> 
+      <Col md={8} className="text-center"> 
         <div className="recipe-detail-container">
           {loading ? (
             <Spinner animation="border" role="status">

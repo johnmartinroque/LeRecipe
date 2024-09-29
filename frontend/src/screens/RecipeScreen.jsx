@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listRecipes } from "../actions/recipeActions"; // Import the action
+import { listRecipes, listBookmarks } from "../actions/recipeActions"; // Import both actions
 import Recipe from "../components/Recipe";
 import { Col, Form, Row } from "react-bootstrap";
 
 function RecipeScreen() {
   const dispatch = useDispatch();
 
-  // Fetching the state from the Redux store
   const recipeList = useSelector((state) => state.recipeList);
-  const { loading, error, recipes = [] } = recipeList; // Initialize recipes as an empty array if undefined
+  const { loading, error, recipes = [] } = recipeList;
+
+  const bookmarkList = useSelector((state) => state.bookmarkList);
+  const { bookmarks } = bookmarkList;
 
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // Dispatch the action to fetch recipes when the component mounts
     dispatch(listRecipes());
+    dispatch(listBookmarks()); // Fetch bookmarks whenever the component mounts
   }, [dispatch]);
 
   const filteredRecipes = recipes.filter(recipe =>
@@ -29,8 +31,8 @@ function RecipeScreen() {
         placeholder="Search for recipes..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-3" // Add some margin below the search bar
-        style={{width: "50rem"}}
+        className="mb-3"
+        style={{ width: "50rem" }}
       />
       <h1>Recipes</h1>
 

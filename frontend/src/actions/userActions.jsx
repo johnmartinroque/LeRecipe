@@ -10,11 +10,12 @@ import {
   GET_FOLLOWING_LIST_REQUEST,
   GET_FOLLOWING_LIST_SUCCESS,
   GET_FOLLOWING_LIST_FAIL,
+  
 } from "../constants/userConstants";
 
 const instance = axios.create({
   baseURL: "http://127.0.0.1:8000/",
-})
+});
 
 export const login = (username, password) => async (dispatch) => {
   try {
@@ -128,3 +129,7 @@ export const getFollowingList = () => async (dispatch, getState) => {
     });
   }
 };
+
+
+
+

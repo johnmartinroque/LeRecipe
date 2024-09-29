@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createRecipe } from '../actions/recipeActions';
 import { useNavigate } from 'react-router-dom';
-
-
-
 
 const CreateRecipeScreen = () => {
     const dispatch = useDispatch();
@@ -16,9 +13,7 @@ const CreateRecipeScreen = () => {
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
     const [steps, setSteps] = useState([{ stepname: '', description: '', image: null, video: null }]);
-
-    const [isRedirecting, setIsRedirecting] = useState(false);
-
+    
     const handleAddStep = () => {
         setSteps([...steps, { stepname: '', description: '', image: null, video: null }]);
     };
@@ -47,21 +42,17 @@ const CreateRecipeScreen = () => {
             if (step.video) recipeData.append(`steps[${index}][video]`, step.video);
         });
         dispatch(createRecipe(recipeData));
-
-        if (success && recipe) {
-            setIsRedirecting(true);
-        }
     };
 
-    if (isRedirecting && recipe) {
-        navigate(`/recipe/${recipe.id}`);
-    }
-
-
-        
+    // Redirect to the recipe page after successful creation
+    useEffect(() => {
+        if (success && recipe) {
+            navigate(`/recipe/${recipe.id}`);
+        }
+    }, [success, recipe, navigate]);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{maxWidth: '50rem'}}>
             <h1>Create Recipe</h1>
             <div>
                 <label>Name:</label>

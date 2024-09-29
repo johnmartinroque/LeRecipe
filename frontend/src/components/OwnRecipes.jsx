@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Recipe from "./Recipe";
-import { getOwnRecipes } from "../actions/recipeActions"; // Ensure this imports your action correctly
+import { getOwnRecipes, listBookmarks } from "../actions/recipeActions"; // Import the listBookmarks action
 import { Col, Row } from "react-bootstrap";
 
 const OwnRecipes = () => {
@@ -11,9 +11,13 @@ const OwnRecipes = () => {
   const ownRecipes = useSelector((state) => state.ownRecipes);
   const { loading, error, recipes } = ownRecipes;
 
+  const bookmarkList = useSelector((state) => state.bookmarkList);
+  const { bookmarks } = bookmarkList;
+
   useEffect(() => {
-    // Dispatch the action to fetch own recipes when the component mounts
+    // Dispatch both actions to fetch own recipes and bookmarks when the component mounts
     dispatch(getOwnRecipes());
+    dispatch(listBookmarks());
   }, [dispatch]);
 
   return (
@@ -32,7 +36,6 @@ const OwnRecipes = () => {
             <Col key={recipe.id} style={{ maxWidth: "30rem" }}>
               <Recipe
                 recipe={{
-                  // Pass the recipe directly to the Recipe component
                   id: recipe.id,
                   name: recipe.name,
                   image: recipe.image,
