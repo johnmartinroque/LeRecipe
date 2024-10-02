@@ -31,16 +31,16 @@ export const createComment = (recipeId, comment) => async (dispatch, getState) =
   try {
     dispatch({ type: COMMENT_CREATE_REQUEST })
 
-    const { userLogin: { userinfo } } = getState();
+    const { userLogin: { userInfo } } = getState();
 
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ${userInfo.token}',
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
     
-    const { data } = await axios.get(`/api/recipes/${recipeId}/comments/create/`)
+    const { data } = await axios.post(`/api/recipes/recipe/${recipeId}/comments/create/`, comment, config)
 
     dispatch({
       type: COMMENT_CREATE_SUCCESS,
