@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import RecipeCreateView
+from .views import RecipeCreateView, FoodOfTheMonthView, FoodOfTheWeekView, RandomRecipesView
 
 urlpatterns = [
     path('recipes/', views.getRecipes, name="Recipes"),
@@ -13,5 +13,8 @@ urlpatterns = [
     path('recipe/create/', RecipeCreateView.as_view(), name='createRecipe'),
     path('recipes/own-recipes/', views.getOwnRecipes, name='get-own-recipes'),
     path('recipes/user-recipes/<int:user_id>/', views.getUserRecipes, name='get-user-recipes'),
+    path('food-of-the-week/', FoodOfTheWeekView.as_view(), name='food-of-the-week'),
+    path('food-of-the-month/', FoodOfTheMonthView.as_view(), name='food-of-the-month'),
+    path('random-recipes/', RandomRecipesView.as_view(), name='random-recipes'),
     
 ]

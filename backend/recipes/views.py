@@ -8,6 +8,9 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import NotAuthenticated
 from django.contrib.auth.models import User
 from rest_framework.exceptions import NotFound
+from django.utils import timezone
+from django.db.models import Avg, Count
+import random
 
 @api_view(['GET'])
 def getRecipes(request):
@@ -165,3 +168,53 @@ def getUserRecipes(request, user_id):
     recipes = Recipe.objects.filter(user=user).order_by('-id')
     serializer = RecipeListSerializer(recipes, many=True)
     return Response(serializer.data)
+
+
+class FoodOfTheWeekView(generics.ListAPIView):
+    """
+    Get the recipe with the highest average rating for the current week, requiring at least 5 ratings.
+    """
+    serializer_class = RecipeListSerializer
+
+    def get_queryset(self):
+        # Calculate the start of the week (Monday)
+        start_of_week = timezone.now() - timezone.timedelta(days=timezone.now().weekday())
+        end_of_week = start_of_week + timezone.timedelta(days=7)
+
+        # Get recipes with their average ratings for the week, requiring at least 5 ratings
+        return (
+            Recipe.objects
+            .annotate(average_rating=Avg('comments__rating'), rating_count=Count('comments'))
+            .filter(comments__created_at__range=(start_of_week, end_of_week), rating_count__gte=5)
+            .order_by('-average_rating')[:1]  # Get the highest-rated recipe
+        )
+
+
+class FoodOfTheMonthView(generics.ListAPIView):
+    """
+    Get the recipe with the highest average rating for the current month, requiring at least 5 ratings.
+    """
+    serializer_class = RecipeListSerializer
+
+    def get_queryset(self):
+        # Calculate the start of the month
+        start_of_month = timezone.now().replace(day=1)
+        end_of_month = start_of_month + timezone.timedelta(days=31)
+        end_of_month = end_of_month.replace(day=1)  # Move to the first of the next month
+
+        # Get recipes with their average ratings for the month, requiring at least 5 ratings
+        return (
+            Recipe.objects
+            .annotate(average_rating=Avg('comments__rating'), rating_count=Count('comments'))
+            .filter(comments__created_at__range=(start_of_month, end_of_month), rating_count__gte=5)
+            .order_by('-average_rating')[:1]  # Get the highest-rated recipe
+        )
+    
+
+class RandomRecipesView(generics.ListAPIView):
+    serializer_class = RecipeSerializer
+
+    def get_queryset(self):
+        # Get all recipes and return a random selection of 6
+        recipes = list(Recipe.objects.all())
+        return random.sample(recipes, min(len(recipes), 6))  # Ensure not to exceed available recipes

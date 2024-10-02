@@ -20,6 +20,15 @@ import {
   REMOVE_BOOKMARK_REQUEST,
   REMOVE_BOOKMARK_SUCCESS,
   REMOVE_BOOKMARK_FAIL,
+  FOOD_OF_THE_WEEK_REQUEST,
+  FOOD_OF_THE_WEEK_SUCCESS,
+  FOOD_OF_THE_WEEK_FAIL,
+  FOOD_OF_THE_MONTH_REQUEST,
+  FOOD_OF_THE_MONTH_SUCCESS,
+  FOOD_OF_THE_MONTH_FAIL,
+  RANDOM_RECIPE_REQUEST,
+  RANDOM_RECIPE_SUCCESS,
+  RANDOM_RECIPE_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 const instance = axios.create({
@@ -66,9 +75,8 @@ export const getRecipeDetails = (id) => async (dispatch) => {
 };
 
 export const resetCreateRecipe = () => (dispatch) => {
-  dispatch({ type: 'RECIPE_CREATE_RESET' });
+  dispatch({ type: "RECIPE_CREATE_RESET" });
 };
-
 
 export const createRecipe = (recipeData) => async (dispatch, getState) => {
   try {
@@ -207,7 +215,6 @@ export const bookmarkRecipe = (recipeId) => async (dispatch, getState) => {
   }
 };
 
-
 export const removeBookmark = (recipeId) => async (dispatch, getState) => {
   try {
     dispatch({ type: REMOVE_BOOKMARK_REQUEST });
@@ -222,7 +229,10 @@ export const removeBookmark = (recipeId) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/recipes/recipe/remove-bookmark/${recipeId}/`, config);
+    await axios.delete(
+      `/api/recipes/recipe/remove-bookmark/${recipeId}/`,
+      config
+    );
 
     dispatch({
       type: REMOVE_BOOKMARK_SUCCESS,
@@ -231,9 +241,64 @@ export const removeBookmark = (recipeId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: REMOVE_BOOKMARK_FAIL,
-      payload: error.response && error.response.data.error
-        ? error.response.data.error
-        : error.message,
+      payload:
+        error.response && error.response.data.error
+          ? error.response.data.error
+          : error.message,
     });
+  }
+};
+
+export const getFoodOfTheWeek = () => async (dispatch) => {
+  try {
+    dispatch({ type: FOOD_OF_THE_WEEK_REQUEST });
+    const { data } = await axios.get("/api/recipes/food-of-the-week/");
+    dispatch({ type: FOOD_OF_THE_WEEK_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: FOOD_OF_THE_WEEK_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getFoodOfTheMonth = () => async (dispatch) => {
+  try {
+    dispatch({ type: FOOD_OF_THE_MONTH_REQUEST });
+    const { data } = await axios.get("/api/recipes/food-of-the-week/");
+    dispatch({ type: FOOD_OF_THE_MONTH_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: FOOD_OF_THE_MONTH_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+
+export const listRandomRecipes = () => async (dispatch) => {
+  try {
+      dispatch({ type: RANDOM_RECIPE_REQUEST });
+
+      const { data } = await axios.get('/api/recipes/random-recipes/');
+
+      dispatch({
+          type: RANDOM_RECIPE_SUCCESS,
+          payload: data,
+      });
+  } catch (error) {
+      dispatch({
+          type: RANDOM_RECIPE_FAIL,
+          payload: error.response && error.response.data.detail
+              ? error.response.data.detail
+              : error.message,
+      });
   }
 };
