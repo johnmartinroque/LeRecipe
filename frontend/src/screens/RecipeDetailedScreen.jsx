@@ -33,11 +33,16 @@ const RecipeDetailedScreen = () => {
     dispatch(listComments(id));
   }, [dispatch, id, successCreateComment]);
 
+  useEffect(() => {
+    if (successCreateComment) {
+    setCommentText(""); 
+    setRating(0);       
+    }
+  }, [successCreateComment]);
+
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(createComment(id, { text: commentText, rating }));
-    setCommentText(""); // Clear the comment field
-    setRating(0);       // Reset the rating
   };
 
   return (

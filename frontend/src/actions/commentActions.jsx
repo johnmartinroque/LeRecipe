@@ -46,6 +46,14 @@ export const createComment = (recipeId, comment) => async (dispatch, getState) =
       type: COMMENT_CREATE_SUCCESS,
       payload: data,
     });
+
+    const updatedComments = await axios.get(`/api/recipes/recipe/${recipeId}/comments/`)
+
+   dispatch({
+          type: COMMENT_LIST_SUCCESS,
+          payload: [...getState().commentList.comments, data],
+      });
+    
   } catch (error) {
     dispatch({
       type: COMMENT_CREATE_FAIL,
