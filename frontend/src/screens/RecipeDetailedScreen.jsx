@@ -6,6 +6,7 @@ import { getRecipeDetails } from "../actions/recipeActions";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Spinner, Alert, Row, Col, Button, Form } from "react-bootstrap";
 import { listComments, createComment } from '../actions/commentActions';
+import Rating from "../components/Rating";
 
 
 
@@ -107,8 +108,8 @@ const RecipeDetailedScreen = () => {
                       comments.map((comment) => (
                         <div key={comment.id} style={{ margin: "1rem 0", padding: "1rem", border: "1px solid #ccc" }}>
                           <strong>{comment.username}</strong>
+                          <Rating value={comment.rating} text={'#f8e825'} /><br />
                           <p>{comment.text}</p>
-                          <span>Rating: {comment.rating}</span>
                         </div>
                       ))
                     )}

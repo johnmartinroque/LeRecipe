@@ -2,6 +2,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Bookmark from "./Bookmark";
+import Rating from "./Rating";
 
 function Recipe({ recipe }) {
   return (
@@ -13,7 +14,7 @@ function Recipe({ recipe }) {
         <Card.Title>
           <Link style={{textDecoration: 'none', color: 'black'}} to={`/recipe/${recipe.id}`}>
             <strong>{recipe.name}</strong><br />
-            <strong>Average Rating: {recipe.average_rating}</strong><br />
+            <Rating value={recipe.average_rating} text={`${recipe.total_comments} reviews`} text={'#f8e825'} /><br />
             <strong>Comments: {recipe.total_comments}</strong>
           </Link>
           <Bookmark recipeId={recipe.id} />
