@@ -61,7 +61,6 @@ def removeBookmark(request, pk):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def list_recipe_comments(request, pk):
     comments = Comment.objects.filter(recipe_id=pk)  # Fetch comments for the given recipe
     serializer = CommentSerializer(comments, many=True)
