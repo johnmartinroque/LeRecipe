@@ -12,7 +12,9 @@ function Recipe({ recipe }) {
       <Card.Body>
         <Card.Title>
           <Link style={{textDecoration: 'none', color: 'black'}} to={`/recipe/${recipe.id}`}>
-            <strong>{recipe.name}</strong>
+            <strong>{recipe.name}</strong><br />
+            <strong>Average Rating: {recipe.average_rating}</strong><br />
+            <strong>Comments: {recipe.total_comments}</strong>
           </Link>
           <Bookmark recipeId={recipe.id} />
         </Card.Title>

@@ -21,9 +21,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class RecipeListSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField()
+    total_comments = serializers.SerializerMethodField()
+
     class Meta:
         model = Recipe
-        fields = ['id', 'name', 'image', 'description', 'average_rating']
+        fields = ['id', 'name', 'image', 'description', 'average_rating', 'total_comments']
 
     def get_average_rating(self, obj):
         comments = obj.comments.all()
@@ -31,6 +33,8 @@ class RecipeListSerializer(serializers.ModelSerializer):
             avg_rating = comments.aggregate(avg=Avg('rating'))['avg']
             return round_to_nearest_valid_rating(avg_rating) if avg_rating is not None else None
         return None
+    def get_total_comments(self, obj):
+        return obj.comments.count()
 
 class RecipeSerializer(serializers.ModelSerializer):
     steps = StepSerializer(many=True)  # Removed read_only=True to allow writable steps
