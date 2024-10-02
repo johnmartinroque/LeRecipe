@@ -106,7 +106,7 @@ const RecipeDetailedScreen = () => {
                     ) : (
                       comments.map((comment) => (
                         <div key={comment.id} style={{ margin: "1rem 0", padding: "1rem", border: "1px solid #ccc" }}>
-                          <strong>{comment.user.username}</strong>
+                          <strong>{comment.username}</strong>
                           <p>{comment.text}</p>
                           <span>Rating: {comment.rating}</span>
                         </div>
