@@ -61,11 +61,17 @@ class UserSerializerWithToken(UserSerializer):
 
     class Meta:
         model=User
-        fields = ['id', '_id', 'username', 'email', 'isAdmin', 'token']
+        fields = ['id', '_id', 'username', 'email', 'profile_picture', 'isAdmin', 'token']
 
     def get_token(self, obj):
             token = RefreshToken.for_user(obj)
             return str(token.access_token)
+    
+    def get_profile_picture(self, obj):
+        profile = UserProfilePicture.objects.filter(user=obj).first()
+        if profile and profile.profile_picture:
+            return profile.profile_picture.url
+        return None
     
 @api_view(['GET'])
 @permission_classes([IsAdminUser])

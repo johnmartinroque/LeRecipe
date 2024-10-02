@@ -5,7 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { logout } from '../actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { Image } from 'react-bootstrap';
 
 
 
@@ -20,6 +20,8 @@ function Header() {
     navigate('/');
   };
 
+
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -33,7 +35,19 @@ function Header() {
             <Nav.Link as={Link} to="/about">About Us</Nav.Link>
             
             {userInfo ? (
-              <NavDropdown title={userInfo.username} id="username-nav-dropdown">
+              <NavDropdown title={
+                <>
+                  {userInfo.profile_picture && (
+                    <Image
+                      src={userInfo.profile_picture}
+                      alt="profile"
+                      roundedCircle
+                      style={{ width: "30px", height: "30px", marginRight: "10px" }}
+                    />
+                  )}
+                  {userInfo.username}
+                </>
+              } id="username-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={logoutHandler}>
                   Logout

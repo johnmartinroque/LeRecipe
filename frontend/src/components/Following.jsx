@@ -28,7 +28,7 @@ const Following = () => {
                         <ListGroup.Item key={user.username} className="d-flex align-items-center">
                             {/* Display Profile Picture */}
                             <Image
-                                src={user.profile_picture || 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'}  // Provide a default image if profile_picture is null
+                                src={user.profile_picture || 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'}  
                                 roundedCircle
                                 width="50"
                                 height="50"

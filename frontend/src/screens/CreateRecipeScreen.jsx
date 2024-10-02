@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createRecipe } from '../actions/recipeActions';
 import { useNavigate } from 'react-router-dom';
+import { RECIPE_CREATE_RESET } from '../constants/recipeConstants';
+
 
 const CreateRecipeScreen = () => {
     const dispatch = useDispatch();
@@ -13,6 +15,7 @@ const CreateRecipeScreen = () => {
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
     const [steps, setSteps] = useState([{ stepname: '', description: '', image: null, video: null }]);
+    const [ingredients, setIngredients] = useState(['']);
     
     const handleAddStep = () => {
         setSteps([...steps, { stepname: '', description: '', image: null, video: null }]);
@@ -29,12 +32,33 @@ const CreateRecipeScreen = () => {
         setSteps(updatedSteps);
     };
 
+    const handleAddIngredient = () => {
+        setIngredients([...ingredients, '']);
+    };
+    
+    const handleRemoveIngredient = (index) => {
+        const updatedIngredients = ingredients.filter((_, i) => i !== index);
+        setIngredients(updatedIngredients);
+    };
+    
+    const handleIngredientChange = (index, value) => {
+        const updatedIngredients = [...ingredients];
+        updatedIngredients[index] = value;
+        setIngredients(updatedIngredients);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const recipeData = new FormData();
         recipeData.append('name', name);
         recipeData.append('description', description);
         recipeData.append('image', image);
+
+        ingredients.forEach((ingredient) => {
+            recipeData.append('ingredients[]', ingredient);
+        });
+
+
         steps.forEach((step, index) => {
             recipeData.append(`steps[${index}][stepname]`, step.stepname);
             recipeData.append(`steps[${index}][description]`, step.description);
@@ -47,9 +71,10 @@ const CreateRecipeScreen = () => {
     // Redirect to the recipe page after successful creation
     useEffect(() => {
         if (success && recipe) {
+            dispatch({ type: RECIPE_CREATE_RESET }); // Reset the state
             navigate(`/recipe/${recipe.id}`);
         }
-    }, [success, recipe, navigate]);
+    }, [success, recipe, navigate, dispatch]);
 
     return (
         <form onSubmit={handleSubmit} style={{maxWidth: '50rem'}}>
@@ -80,6 +105,20 @@ const CreateRecipeScreen = () => {
                     required 
                 />
             </div>
+            <h2>Ingredients</h2>
+            {ingredients.map((ingredient, index) => (
+                <div key={index}>
+                    <label>Ingredient:</label>
+                    <input 
+                        type="text" 
+                        value={ingredient.ingredient} 
+                        onChange={(e) => handleIngredientChange(index, e.target.value)} 
+                        required 
+                    />
+                    <button type="button" onClick={() => handleRemoveIngredient(index)}>Remove Ingredient</button>
+                </div>
+            ))}
+            <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
             <h2>Steps</h2>
             {steps.map((step, index) => (
                 <div key={index}>

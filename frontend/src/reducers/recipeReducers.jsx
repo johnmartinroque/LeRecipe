@@ -20,6 +20,8 @@ import {
   REMOVE_BOOKMARK_REQUEST,
   REMOVE_BOOKMARK_SUCCESS,
   REMOVE_BOOKMARK_FAIL,
+  RECIPE_CREATE_RESET
+
 } from "../constants/recipeConstants";
 
 export const recipeListReducer = (state = { recipes: [] }, action) => {
@@ -56,6 +58,8 @@ export const recipeCreateReducer = (state = {}, action) => {
       return { loading: false, success: true, recipe: action.payload };
     case RECIPE_CREATE_FAIL:
       return { loading: false, error: action.payload };
+    case RECIPE_CREATE_RESET:  // Reset case
+      return {};
     default:
       return state;
   }

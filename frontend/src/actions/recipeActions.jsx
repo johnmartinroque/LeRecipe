@@ -65,6 +65,11 @@ export const getRecipeDetails = (id) => async (dispatch) => {
   }
 };
 
+export const resetCreateRecipe = () => (dispatch) => {
+  dispatch({ type: 'RECIPE_CREATE_RESET' });
+};
+
+
 export const createRecipe = (recipeData) => async (dispatch, getState) => {
   try {
     dispatch({ type: RECIPE_CREATE_REQUEST });

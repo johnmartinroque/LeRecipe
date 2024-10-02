@@ -43,6 +43,14 @@ const RecipeDetailedScreen = () => {
                 />
               )}
               <p>{recipe.description}</p>
+              <h2>Ingredients</h2>
+              {recipe.ingredients && (
+                  <ul style={{listStyle: 'none'}}>
+                    {recipe.ingredients.map((ingredient, index) => (
+                      <li key={index}>{ingredient}</li>
+                    ))}
+                  </ul>
+                )}
               <h2>Steps</h2>
               {recipe.steps &&
                 recipe.steps.map((step, index) => (

@@ -27,7 +27,7 @@ function ProfileScreen() {
   return (
     <div>
       <div>
-        <button class="btn btn-primary" onClick={() => setActiveComponent('ownRecipe')}>Recipes</button>
+        <button class="btn btn-primary" onClick={() => setActiveComponent('ownRecipe')}>My Recipes</button>
         <button class="btn btn-primary" onClick={() => setActiveComponent('bookmarks')}>Bookmarks</button>
         <button class="btn btn-primary" onClick={() => setActiveComponent('comments')}>Comments</button>
         <button class="btn btn-primary" onClick={() => setActiveComponent('following')}>Following</button>
