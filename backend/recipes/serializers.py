@@ -25,7 +25,7 @@ class RecipeListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['id', 'name', 'image', 'description', 'tags', 'average_rating', 'total_comments']
+        fields = ['id', 'name', 'image', 'description', 'tags', 'average_rating', 'total_comments', 'category']
 
     def get_average_rating(self, obj):
         comments = obj.comments.all()
