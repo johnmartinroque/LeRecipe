@@ -5,10 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRecipeDetails } from "../actions/recipeActions";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Spinner, Alert, Row, Col, Button, Form } from "react-bootstrap";
-import { listComments, createComment } from '../actions/commentActions';
+import { listComments, createComment } from "../actions/commentActions";
 import Rating from "../components/Rating";
-
-
 
 const RecipeDetailedScreen = () => {
   const { id } = useParams(); // Get the recipe ID from the URL
@@ -18,12 +16,16 @@ const RecipeDetailedScreen = () => {
   const recipeDetailed = useSelector((state) => state.recipeDetailed);
   const { loading, error, recipe } = recipeDetailed;
 
-
   const commentList = useSelector((state) => state.commentList);
-  const { loading: loadingComments, error: errorComments, comments } = commentList;
+  const {
+    loading: loadingComments,
+    error: errorComments,
+    comments,
+  } = commentList;
 
   const commentCreate = useSelector((state) => state.commentCreate);
-  const { success: successCreateComment, error: errorCreateComment } = commentCreate;
+  const { success: successCreateComment, error: errorCreateComment } =
+    commentCreate;
 
   const [commentText, setCommentText] = useState("");
   const [rating, setRating] = useState(0);
@@ -35,8 +37,8 @@ const RecipeDetailedScreen = () => {
 
   useEffect(() => {
     if (successCreateComment) {
-    setCommentText(""); 
-    setRating(0);       
+      setCommentText("");
+      setRating(0);
     }
   }, [successCreateComment]);
 
@@ -67,6 +69,17 @@ const RecipeDetailedScreen = () => {
                     alt={recipe.name}
                   />
                 )}
+                <div>
+                  {recipe.tags && recipe.tags.length > 0 && (
+                    <div>
+                      {recipe.tags.map((tag, index) => (
+                        <span key={index} className="badge bg-secondary me-1">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <p>{recipe.description}</p>
 
                 <h2>Steps</h2>
@@ -82,7 +95,9 @@ const RecipeDetailedScreen = () => {
                         padding: "1rem",
                       }}
                     >
-                      <h3>{index + 1}. {step.stepname}</h3>
+                      <h3>
+                        {index + 1}. {step.stepname}
+                      </h3>
                       <p>{step.description}</p>
                       {step.image && (
                         <img
@@ -92,7 +107,11 @@ const RecipeDetailedScreen = () => {
                         />
                       )}
                       {step.video && (
-                        <video controls src={step.video} style={{ width: '100%' }} />
+                        <video
+                          controls
+                          src={step.video}
+                          style={{ width: "100%" }}
+                        />
                       )}
                     </div>
                   ))}
@@ -111,9 +130,17 @@ const RecipeDetailedScreen = () => {
                       <p>No comments yet. Be the first to comment!</p>
                     ) : (
                       comments.map((comment) => (
-                        <div key={comment.id} style={{ margin: "1rem 0", padding: "1rem", border: "1px solid #ccc" }}>
+                        <div
+                          key={comment.id}
+                          style={{
+                            margin: "1rem 0",
+                            padding: "1rem",
+                            border: "1px solid #ccc",
+                          }}
+                        >
                           <strong>{comment.username}</strong>
-                          <Rating value={comment.rating} text={'#f8e825'} /><br />
+                          <Rating value={comment.rating} text={"#f8e825"} />
+                          <br />
                           <p>{comment.text}</p>
                         </div>
                       ))
@@ -123,7 +150,9 @@ const RecipeDetailedScreen = () => {
 
                 {/* Create Comment Form */}
                 <h3>Add a Comment</h3>
-                {errorCreateComment && <Alert variant="danger">{errorCreateComment}</Alert>}
+                {errorCreateComment && (
+                  <Alert variant="danger">{errorCreateComment}</Alert>
+                )}
                 <Form onSubmit={submitHandler}>
                   <Form.Group controlId="commentText">
                     <Form.Label>Comment</Form.Label>

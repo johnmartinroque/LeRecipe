@@ -25,7 +25,7 @@ class RecipeListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['id', 'name', 'image', 'description', 'average_rating', 'total_comments']
+        fields = ['id', 'name', 'image', 'description', 'tags', 'average_rating', 'total_comments']
 
     def get_average_rating(self, obj):
         comments = obj.comments.all()
@@ -44,7 +44,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['id', 'user', 'name', 'image', 'ingredients', 'description', 'steps', 'comments', 'average_rating', 'total_comments']
+        fields = ['id', 'user', 'name', 'image', 'tags', 'ingredients', 'description', 'steps', 'comments', 'average_rating', 'total_comments']
         read_only_fields = ['user']
 
     def get_total_comments(self, obj):

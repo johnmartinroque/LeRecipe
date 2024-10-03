@@ -34,6 +34,9 @@ const Bookmarks = () => {
                   id: bookmark.id,
                   name: bookmark.name,
                   image: bookmark.image,
+                  average_rating: bookmark.average_rating, 
+                  total_comments: bookmark.total_comments, 
+                  tags: bookmark.tags, 
                 }} />
               </Col>
             ))}

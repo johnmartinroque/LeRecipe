@@ -14,9 +14,24 @@ function Recipe({ recipe }) {
         <Card.Title>
           <Link style={{textDecoration: 'none', color: 'black'}} to={`/recipe/${recipe.id}`}>
             <strong>{recipe.name}</strong><br />
-            <Rating value={recipe.average_rating} text={`${recipe.total_comments} reviews`} text={'#f8e825'} /><br />
-            <strong>Comments: {recipe.total_comments}</strong>
+
           </Link>
+          <div>
+          {recipe.tags && recipe.tags.length > 0 && (
+            <div>
+              {recipe.tags.map((tag, index) => (
+                <span key={index} className="badge bg-secondary me-1">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        <div style={{display: 'flex'}}>
+        <Rating value={recipe.average_rating} text={`${recipe.total_comments} reviews`} color={'#f8e825'} /><br /><span> (  {recipe.total_comments} )</span>
+
+        </div>
           <Bookmark recipeId={recipe.id} />
         </Card.Title>
       </Card.Body>

@@ -124,6 +124,7 @@ class RecipeCreateView(APIView):
             step_index += 1
 
         ingredients = request.POST.getlist('ingredients[]')
+        tags = request.POST.getlist('tags[]')
 
         # Prepare the main recipe data
         recipe_data = {
@@ -132,6 +133,8 @@ class RecipeCreateView(APIView):
             'image': request.FILES.get('image'),
             'steps': steps_data,
             'ingredients': ingredients,
+            'category': request.POST.get('category'),
+            'tags': tags,
         }
 
         # Validate and save the recipe

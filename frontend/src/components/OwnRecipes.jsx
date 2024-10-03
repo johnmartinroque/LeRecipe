@@ -39,6 +39,9 @@ const OwnRecipes = () => {
                   id: recipe.id,
                   name: recipe.name,
                   image: recipe.image,
+                  average_rating: recipe.average_rating, 
+                  total_comments: recipe.total_comments, 
+                  tags: recipe.tags, 
                 }}
               />
             </Col>

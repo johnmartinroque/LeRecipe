@@ -35,6 +35,35 @@ class Recipe(models.Model):
     ingredients = models.JSONField(default=list)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    tags = models.JSONField(blank=True, null=True)
+
+    
+    CATEGORY_CHOICES = [
+    ('', 'Not specified'),
+    ('Appetizers & Snacks', 'Appetizers & Snacks'),
+    ('Breakfast & Brunch', 'Breakfast & Brunch'),
+    ('Main Dishes', 'Main Dishes'),
+    ('Soups & Stews', 'Soups & Stews'),
+    ('Salads', 'Salads'),
+    ('Side Dishes', 'Side Dishes'),
+    ('Desserts & Sweets', 'Desserts & Sweets'),
+    ('Beverages', 'Beverages'),
+    ('Vegan & Vegetarian', 'Vegan & Vegetarian'),
+    ('Gluten-Free', 'Gluten-Free'),
+    ('Low-Carb & Keto', 'Low-Carb & Keto'),
+    ('Quick & Easy Meals', 'Quick & Easy Meals'),
+    ('Seafood & Fish', 'Seafood & Fish'),
+    ('Pasta & Noodles', 'Pasta & Noodles'),
+    ('Breads & Baked Goods', 'Breads & Baked Goods'),
+    ('Casseroles', 'Casseroles'),
+    ('Grilling & BBQ', 'Grilling & BBQ'),
+    ('International Cuisine', 'International Cuisine'),
+    ('Comfort Food', 'Comfort Food'),
+    ('Healthy Recipes', 'Healthy Recipes'),
+
+    
+]
+    category = models.CharField(max_length=30, choices=CATEGORY_CHOICES, default='', null=True, blank=True)
 
     def __str__(self):
         return self.name
