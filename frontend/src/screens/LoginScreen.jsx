@@ -27,9 +27,18 @@ const LoginScreen = () => {
         dispatch(login(username, password)); // Using username for login
     };
 
+    const handleCloseModal = () => {
+        navigate('/');
+    };
+
+    const handleBackgroundClick = (e) => {
+        if (e.target.classList.contains('modal-background')) {
+            handleCloseModal();
+        }
+    };
 
     return (
-        <div className="modal-background">
+        <div className="modal-background" onClick={handleBackgroundClick}>
         <div className="login-container">
             <div className="logo-login">
                 <img src="/LeRecipelogoleft.png" alt="LeRecipe Logo" />
@@ -69,6 +78,10 @@ const LoginScreen = () => {
             <div className="register-link">
                 Don't have an account? <Link to="/register">Register Now</Link>
             </div>
+            <button className="close-button" onClick={handleCloseModal}>
+                        x
+            </button>
+
             </div>
         </div>
         </div>

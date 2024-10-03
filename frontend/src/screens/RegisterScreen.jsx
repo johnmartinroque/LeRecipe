@@ -35,8 +35,18 @@ const RegisterScreen = () => {
         }
     };
 
+    const handleCloseModal = () => {
+        navigate('/');
+    };
+
+    const handleBackgroundClick = (e) => {
+        if (e.target.classList.contains('modal-background')) {
+            handleCloseModal();
+        }
+    };
+
     return (
-        <div className="modal-background">
+        <div className="modal-background" onClick={handleBackgroundClick}>
         <div className="register-container">
             <div className="form-container">
             <h1>Sign Up</h1>
@@ -100,6 +110,9 @@ const RegisterScreen = () => {
             <div className="logo-register">
                 <img src="/LeRecipelogoright.png" alt="LeRecipe Logo" />
             </div>
+            <button className="close-button" onClick={handleCloseModal}>
+                        x
+            </button>
         </div>
         </div>
     );
