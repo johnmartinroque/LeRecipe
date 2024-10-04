@@ -139,7 +139,7 @@ const RecipeDetailedScreen = () => {
                           }}
                         >
                           <strong>{comment.username}</strong>
-                          <Rating value={comment.rating} text={"#f8e825"} />
+                          <Rating value={comment.rating} text={"#f8e825"} color={'#f8e825'}/>
                           <br />
                           <p>{comment.text}</p>
                         </div>
