@@ -6,7 +6,7 @@ import { logout } from '../actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
-
+import '../css/Header.css'
 
 
 function Header() {
@@ -25,7 +25,9 @@ function Header() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand as={Link} to="/">LeRecipe</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          <Image src="/LeRecipe.png" alt="LeRecipe Logo" style={{width:'160px', height:'auto'}}/>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
