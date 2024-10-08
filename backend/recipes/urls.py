@@ -16,5 +16,6 @@ urlpatterns = [
     path('food-of-the-week/', FoodOfTheWeekView.as_view(), name='food-of-the-week'),
     path('food-of-the-month/', FoodOfTheMonthView.as_view(), name='food-of-the-month'),
     path('random-recipes/', RandomRecipesView.as_view(), name='random-recipes'),
+    path('recipe/delete/<int:pk>/', views.RecipeDeleteView.as_view(), name='delete-recipe'),
     
 ]

@@ -29,6 +29,9 @@ import {
   RANDOM_RECIPE_REQUEST,
   RANDOM_RECIPE_SUCCESS,
   RANDOM_RECIPE_FAIL,
+  RECIPE_DELETE_REQUEST,
+  RECIPE_DELETE_SUCCESS,
+  RECIPE_DELETE_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 const instance = axios.create({
@@ -281,24 +284,52 @@ export const getFoodOfTheMonth = () => async (dispatch) => {
   }
 };
 
-
-
 export const listRandomRecipes = () => async (dispatch) => {
   try {
-      dispatch({ type: RANDOM_RECIPE_REQUEST });
+    dispatch({ type: RANDOM_RECIPE_REQUEST });
 
-      const { data } = await axios.get('/api/recipes/random-recipes/');
+    const { data } = await axios.get("/api/recipes/random-recipes/");
+
+    dispatch({
+      type: RANDOM_RECIPE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: RANDOM_RECIPE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+
+export const deleteRecipe = (id) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: RECIPE_DELETE_REQUEST });
+
+      const { userLogin: { userInfo } } = getState();
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${userInfo.token}`,
+          },
+      };
+
+      await axios.delete(`/api/recipes/recipe/delete/${id}/`, config);
 
       dispatch({
-          type: RANDOM_RECIPE_SUCCESS,
-          payload: data,
+          type: RECIPE_DELETE_SUCCESS,
       });
   } catch (error) {
       dispatch({
-          type: RANDOM_RECIPE_FAIL,
-          payload: error.response && error.response.data.detail
-              ? error.response.data.detail
-              : error.message,
+          type: RECIPE_DELETE_FAIL,
+          payload:
+              error.response && error.response.data.detail
+                  ? error.response.data.detail
+                  : error.message,
       });
   }
 };

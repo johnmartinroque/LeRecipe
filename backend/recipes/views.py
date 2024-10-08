@@ -5,12 +5,13 @@ from .models import Recipe, Bookmark, Comment
 from .serializers import RecipeSerializer, RecipeListSerializer, CommentSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework.exceptions import NotAuthenticated
+from rest_framework.exceptions import NotAuthenticated, PermissionDenied
 from django.contrib.auth.models import User
 from rest_framework.exceptions import NotFound
 from django.utils import timezone
 from django.db.models import Avg, Count
 import random
+from django.shortcuts import get_object_or_404
 
 @api_view(['GET'])
 def getRecipes(request):
@@ -221,3 +222,20 @@ class RandomRecipesView(generics.ListAPIView):
         # Get all recipes and return a random selection of 6
         recipes = list(Recipe.objects.all())
         return random.sample(recipes, min(len(recipes), 6))  # Ensure not to exceed available recipes
+
+
+class RecipeDeleteView(APIView):
+    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can delete
+
+    def delete(self, request, pk, *args, **kwargs):
+        # Fetch the recipe based on the primary key (pk) from the URL
+        recipe = get_object_or_404(Recipe, pk=pk)
+
+        # Check if the requesting user is the owner of the recipe
+        if recipe.user != request.user:
+            raise PermissionDenied("You do not have permission to delete this recipe.")
+
+        # Delete the recipe
+        recipe.delete()
+
+        return Response({"detail": "Recipe deleted successfully."}, status=status.HTTP_204_NO_CONTENT)

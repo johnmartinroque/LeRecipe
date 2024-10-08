@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getRecipeDetails } from "../actions/recipeActions";
+import { deleteRecipe, getRecipeDetails } from "../actions/recipeActions";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Spinner, Alert, Row, Col, Button, Form } from "react-bootstrap";
+import { Spinner, Alert, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import { listComments, createComment } from "../actions/commentActions";
 import Rating from "../components/Rating";
+
 
 const RecipeDetailedScreen = () => {
   const { id } = useParams(); // Get the recipe ID from the URL
@@ -27,8 +28,13 @@ const RecipeDetailedScreen = () => {
   const { success: successCreateComment, error: errorCreateComment } =
     commentCreate;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin; // Get logged-in user info
+
   const [commentText, setCommentText] = useState("");
   const [rating, setRating] = useState(0);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     dispatch(getRecipeDetails(id));
@@ -47,6 +53,19 @@ const RecipeDetailedScreen = () => {
     dispatch(createComment(id, { text: commentText, rating }));
   };
 
+  const deleteHandler = () => {
+      dispatch(deleteRecipe(id));
+      navigate("/recipes");
+  };
+
+  const handleShowDeleteModal = () => {
+    setShowDeleteModal(true); 
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false); 
+  };
+
   return (
     <div>
       <Button onClick={() => navigate(-1)}>Back</Button>
@@ -61,6 +80,16 @@ const RecipeDetailedScreen = () => {
               <Alert variant="danger">{error}</Alert>
             ) : (
               <div className="recipe-detail">
+                {userInfo && userInfo.id === recipe.user && (
+                  <div className="mb-3">
+                    <Button variant="warning" className="me-2">
+                      Update
+                    </Button>
+                    <Button variant="danger" onClick={handleShowDeleteModal}>
+                      Delete
+                    </Button>
+                  </div>
+                )}
                 <h1>{recipe.name}</h1>
                 {recipe.image && (
                   <img
@@ -139,7 +168,11 @@ const RecipeDetailedScreen = () => {
                           }}
                         >
                           <strong>{comment.username}</strong>
-                          <Rating value={comment.rating} text={"#f8e825"} color={'#f8e825'}/>
+                          <Rating
+                            value={comment.rating}
+                            text={"#f8e825"}
+                            color={"#f8e825"}
+                          />
                           <br />
                           <p>{comment.text}</p>
                         </div>
@@ -193,6 +226,20 @@ const RecipeDetailedScreen = () => {
           </div>
         </Col>
       </Row>
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this recipe?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDeleteModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={deleteHandler}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
