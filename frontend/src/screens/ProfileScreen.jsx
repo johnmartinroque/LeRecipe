@@ -3,7 +3,7 @@ import Bookmarks from '../components/Bookmarks'
 import UserComments from '../components/UserComments';
 import OwnRecipes from '../components/OwnRecipes'
 import Following from '../components/Following';
-
+import Footer from "../components/Footer";
 
 
 function ProfileScreen() {
@@ -35,6 +35,7 @@ function ProfileScreen() {
       <div>
         {renderComponent()} 
       </div>
+      <Footer/>
     </div>
   );
 }

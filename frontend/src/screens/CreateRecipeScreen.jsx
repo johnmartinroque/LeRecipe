@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createRecipe } from '../actions/recipeActions';
 import { useNavigate } from 'react-router-dom';
 import { RECIPE_CREATE_RESET } from '../constants/recipeConstants';
+import '../css/screens/CreateRecipeScreen.css'
+import Footer from "../components/Footer";
 
 const categoryChoices = [
     { value: '', label: 'Not specified' },
@@ -126,6 +128,7 @@ const CreateRecipeScreen = () => {
     }, [success, recipe, navigate, dispatch]);
 
     return (
+        <div>
         <form onSubmit={handleSubmit} style={{maxWidth: '50rem'}}>
             <h1>Create Recipe</h1>
             <div>
@@ -234,6 +237,8 @@ const CreateRecipeScreen = () => {
             {error && <p>{error}</p>}
             {success && <p>Recipe created successfully!</p>}
         </form>
+        <Footer/>
+        </div>
     );
 };
 

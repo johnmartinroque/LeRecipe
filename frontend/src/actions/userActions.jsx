@@ -113,7 +113,7 @@ export const getFollowingList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/accounts/following/", config);
+    const { data } = await instance.get("/api/accounts/following/", config);
 
     dispatch({
       type: GET_FOLLOWING_LIST_SUCCESS,

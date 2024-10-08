@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../actions/userActions';
-import '../css/LoginScreen.css'
+import '../css/screens/LoginScreen.css'
 
 const LoginScreen = () => {
     const [username, setUsername] = useState(''); // Changed from email to username

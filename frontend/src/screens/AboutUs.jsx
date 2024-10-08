@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Row, Container } from "react-bootstrap";
-import '../css/AboutUs.css'; 
+import '../css/screens/AboutUs.css'; 
+import Footer from "../components/Footer";
 
 function AboutUs() {
   return (
@@ -95,51 +96,51 @@ function AboutUs() {
         </Container>
       </div>
 
-    {/* Break Section */}
-    <div className="break-section text-center">
-        <img 
-            src="/FOOD.png"  // Replace with your actual break image path
-            alt="Break Image"
-            className="img-fluid"  // This keeps it responsive
-        />
-    </div>
-
-      {/* The G.O.A.T! Section */}
-<div className="goat-section">
-  <Container>
-    <Row className="my-5 text-center">
-      {/* Text Column */}
-      <Col md={12} className="my-3">
-        <h2>The G.O.A.T!: LeRecipe's Edge Over Others</h2>
-        <div className="text-center"> {/* Centering the text */}
-          <p>
-            At LeRecipe, we strive to stand out in the culinary world. Our platform is designed to provide not just recipes but a community of aspiring chefs who share a passion for cooking. 
-            <br />
-            <br />
-            We offer personalized experiences, innovative meal ideas, and cooking tips that set us apart. Whether you’re looking to impress friends at a dinner party or just want a quick weeknight meal, we have something for everyone.
-            <br />
-            <br />
-            Join us in our culinary journey and discover the G.O.A.T. recipes that will elevate your cooking skills to new heights!
-          </p>
-          <br />
-          <br />
-            WHAT TO LAGAY PA HERE HEHE
+          {/* Break Section */}
+        <div className="break-section text-center">
+            <img 
+                src="/FOOD.png"  // Replace with your actual break image path
+                alt="Break Image"
+                className="img-fluid"  // This keeps it responsive
+            />
         </div>
-      </Col>
-    </Row>
-    <Row className="text-center">
-      {/* Image Column */}
-      <Col md={12} className="my-3 text-center">
-        <img 
-          src="/GOAT.jpg" // Replace with your actual G.O.A.T. image path
-          alt="The G.O.A.T! Example"
-          className="img-fluid" 
-        />
-      </Col>
-    </Row>
-  </Container>
-</div>
 
+        {/* The G.O.A.T! Section */}
+        <div className="goat-section">
+          <Container>
+            <Row className="my-5 text-center">
+              {/* Text Column */}
+              <Col md={12} className="my-3">
+                <h2>The G.O.A.T!: LeRecipe's Edge Over Others</h2>
+                <div className="text-center"> {/* Centering the text */}
+                  <p>
+                    At LeRecipe, we strive to stand out in the culinary world. Our platform is designed to provide not just recipes but a community of aspiring chefs who share a passion for cooking. 
+                    <br />
+                    <br />
+                    We offer personalized experiences, innovative meal ideas, and cooking tips that set us apart. Whether you’re looking to impress friends at a dinner party or just want a quick weeknight meal, we have something for everyone.
+                    <br />
+                    <br />
+                    Join us in our culinary journey and discover the G.O.A.T. recipes that will elevate your cooking skills to new heights!
+                  </p>
+                  <br />
+                  <br />
+                    WHAT TO LAGAY PA HERE HEHE
+                </div>
+              </Col>
+            </Row>
+            <Row className="text-center">
+              {/* Image Column */}
+              <Col md={12} className="my-3 text-center">
+                <img 
+                  src="/GOAT.jpg" // Replace with your actual G.O.A.T. image path
+                  alt="The G.O.A.T! Example"
+                  className="img-fluid" 
+                />
+              </Col>
+            </Row>
+          </Container>
+        </div>
+        <Footer/>
     </div>
   );
 }

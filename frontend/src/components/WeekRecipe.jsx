@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFoodOfTheWeek } from "../actions/recipeActions"; // Import the action
 import Recipe from "../components/Recipe";
 import { Row, Col } from "react-bootstrap";
+import '../css/components/WeekRecipe.css';
 
 function WeekRecipe() {
   const dispatch = useDispatch();
-
   const foodOfTheWeek = useSelector((state) => state.foodOfTheWeek);
   const { loading, error, foodOfTheWeek: recipes } = foodOfTheWeek;
 
@@ -15,15 +15,15 @@ function WeekRecipe() {
   }, [dispatch]);
 
   return (
-    <div>
-      <h1>Recipe of the Week</h1>
+    <div className="week-recipe-container">
+      <h1 className="week-recipe-title">Recipe of the Week</h1>
 
       {loading ? (
         <div className="spinner-border" role="status">
           <span className="sr-only">Loading...</span>
         </div>
       ) : error ? (
-        <p>Error: {error}</p>
+        <p className="error-message">Error: {error}</p>
       ) : (
         <Row>
           {recipes.map((recipe) => (
@@ -36,5 +36,6 @@ function WeekRecipe() {
     </div>
   );
 }
+
 
 export default WeekRecipe;

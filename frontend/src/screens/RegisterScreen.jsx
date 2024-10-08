@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../actions/userActions';
-import '../css/RegisterScreen.css';
+import '../css/screens/RegisterScreen.css';
 
 const RegisterScreen = () => {
     const [name, setName] = useState('');

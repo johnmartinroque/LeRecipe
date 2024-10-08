@@ -4,18 +4,19 @@ import '../css/HomeScreen.css';
 import MonthRecipe from "../components/MonthRecipe";
 import WeekRecipe from "../components/WeekRecipe";
 import RandomRecipes from "../components/RandomRecipes";
-
+import Footer from "../components/Footer";
 
 function HomeScreen() {
   return (
     <div>
       <Row>
         <Col>
-          <MonthRecipe />
-          <WeekRecipe />
           <RandomRecipes />
+          <WeekRecipe />
+          <MonthRecipe />
         </Col>
       </Row>
+      <Footer/>
     </div>
   );
 }

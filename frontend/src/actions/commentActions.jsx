@@ -9,11 +9,15 @@ COMMENT_CREATE_SUCCESS,
 COMMENT_CREATE_FAIL,
 } from '../constants/commentConstants'
 
+const instance = axios.create({
+  baseURL: "http://127.0.0.1:8000/",
+});
+
 export const listComments = (recipeId) => async (dispatch) => {
   try {
     dispatch({ type: COMMENT_LIST_REQUEST })
 
-    const { data } = await axios.get(`/api/recipes/recipe/${recipeId}/comments/`)
+    const { data } = await instance.get(`/api/recipes/recipe/${recipeId}/comments/`)
 
     dispatch({
       type: COMMENT_LIST_SUCCESS,
@@ -40,14 +44,14 @@ export const createComment = (recipeId, comment) => async (dispatch, getState) =
       },
     };
     
-    const { data } = await axios.post(`/api/recipes/recipe/${recipeId}/comments/create/`, comment, config)
+    const { data } = await instance.post(`/api/recipes/recipe/${recipeId}/comments/create/`, comment, config)
 
     dispatch({
       type: COMMENT_CREATE_SUCCESS,
       payload: data,
     });
 
-    const updatedComments = await axios.get(`/api/recipes/recipe/${recipeId}/comments/`)
+    const updatedComments = await instance.get(`/api/recipes/recipe/${recipeId}/comments/`)
 
    dispatch({
           type: COMMENT_LIST_SUCCESS,

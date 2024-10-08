@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Spinner, Alert, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import { listComments, createComment } from "../actions/commentActions";
 import Rating from "../components/Rating";
-
+import Footer from "../components/Footer";
 
 const RecipeDetailedScreen = () => {
   const { id } = useParams(); // Get the recipe ID from the URL
@@ -240,6 +240,7 @@ const RecipeDetailedScreen = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Footer/>
     </div>
   );
 };

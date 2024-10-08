@@ -34,6 +34,7 @@ import {
   RECIPE_DELETE_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
+
 const instance = axios.create({
   baseURL: "http://127.0.0.1:8000/",
 });
@@ -197,7 +198,7 @@ export const bookmarkRecipe = (recipeId) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
+    const { data } = await instance.post(
       `/api/recipes/recipe/bookmark/${recipeId}/`,
       {},
       config
@@ -232,7 +233,7 @@ export const removeBookmark = (recipeId) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(
+    await instance.delete(
       `/api/recipes/recipe/remove-bookmark/${recipeId}/`,
       config
     );
@@ -255,7 +256,7 @@ export const removeBookmark = (recipeId) => async (dispatch, getState) => {
 export const getFoodOfTheWeek = () => async (dispatch) => {
   try {
     dispatch({ type: FOOD_OF_THE_WEEK_REQUEST });
-    const { data } = await axios.get("/api/recipes/food-of-the-week/");
+    const { data } = await instance.get("/api/recipes/food-of-the-week/");
     dispatch({ type: FOOD_OF_THE_WEEK_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -271,7 +272,7 @@ export const getFoodOfTheWeek = () => async (dispatch) => {
 export const getFoodOfTheMonth = () => async (dispatch) => {
   try {
     dispatch({ type: FOOD_OF_THE_MONTH_REQUEST });
-    const { data } = await axios.get("/api/recipes/food-of-the-week/");
+    const { data } = await instance.get("/api/recipes/food-of-the-week/");
     dispatch({ type: FOOD_OF_THE_MONTH_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -288,7 +289,7 @@ export const listRandomRecipes = () => async (dispatch) => {
   try {
     dispatch({ type: RANDOM_RECIPE_REQUEST });
 
-    const { data } = await axios.get("/api/recipes/random-recipes/");
+    const { data } = await instance.get("/api/recipes/random-recipes/");
 
     dispatch({
       type: RANDOM_RECIPE_SUCCESS,
@@ -318,7 +319,7 @@ export const deleteRecipe = (id) => async (dispatch, getState) => {
           },
       };
 
-      await axios.delete(`/api/recipes/recipe/delete/${id}/`, config);
+      await instance.delete(`/api/recipes/recipe/delete/${id}/`, config);
 
       dispatch({
           type: RECIPE_DELETE_SUCCESS,

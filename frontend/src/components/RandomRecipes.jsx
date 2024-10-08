@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listRandomRecipes } from '../actions/recipeActions';
 import Recipe from '../components/Recipe';
 import { Row, Col } from 'react-bootstrap';
-
+import '../css/components/RandomRecipe.css';
 
 const RandomRecipes = () => {
     const dispatch = useDispatch();
@@ -16,14 +16,14 @@ const RandomRecipes = () => {
     }, [dispatch]);
 
     return (
-        <div>
-        <h1>Random Recipes</h1>
+        <div className="random-recipe-container">
+        <h1 className="random-recipe-title">Random Recipes</h1>
         {loading ? (
             <div className="spinner-border" role="status">
                 <span className="sr-only">Loading...</span>
             </div>
         ) : error ? (
-            <p>Error: {error}</p>
+            <p className="error-message">Error: {error}</p>
         ) : (
             <Row>
                 {(recipes || []).map((recipe) => ( 
