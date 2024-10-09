@@ -2,7 +2,7 @@ import React from 'react'
 
 function UserComments() {
   return (
-    <div>UserComments</div>
+    <h1>UserComments</h1>
   )
 }
 

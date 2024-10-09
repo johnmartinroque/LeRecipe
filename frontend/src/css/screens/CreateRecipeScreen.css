@@ -103,14 +103,14 @@ button[type="submit"] {
     border-width: 0.4rem;
 }
 
-button[type="button"] {
+.create-recipe-buttons {
     background-color: #17a2b8;
     margin-top: 1.5rem;
     padding: 0.75rem 1.25rem;
     border-radius: 5px;
 }
 
-button[type="button"]:hover {
+.create-recipe-buttons:hover {
     background-color: #138496;
     box-shadow: 0 4px 10px rgba(19, 132, 150, 0.3);
 }

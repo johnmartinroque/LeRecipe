@@ -171,11 +171,11 @@ const CreateRecipeScreen = () => {
                         }}
                         
                     />
-                    <button type="button" onClick={() => handleRemoveTag(index)}>Remove Tag</button>
+                    <button type="button" className ="create-recipe-buttons" onClick={() => handleRemoveTag(index)}>Remove Tag</button>
                 </div>
             ))}
             {tags.length < 3 && (
-                <button type="button" onClick={() => setTags([...tags, ''])}>Add Tag</button>
+                <button type="button" className ="create-recipe-buttons" onClick={() => setTags([...tags, ''])}>Add Tag</button>
             )}
             <h2>Ingredients</h2>
             {ingredients.map((ingredient, index) => (
@@ -187,10 +187,10 @@ const CreateRecipeScreen = () => {
                         onChange={(e) => handleIngredientChange(index, e.target.value)} 
                         required 
                     />
-                    <button type="button" onClick={() => handleRemoveIngredient(index)}>Remove Ingredient</button>
+                    <button type="button" className ="create-recipe-buttons" onClick={() => handleRemoveIngredient(index)}>Remove Ingredient</button>
                 </div>
             ))}
-            <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
+            <button type="button" className ="create-recipe-buttons" onClick={handleAddIngredient}>Add Ingredient</button>
             <h2>Steps</h2>
             {steps.map((step, index) => (
                 <div key={index}>
@@ -228,10 +228,10 @@ const CreateRecipeScreen = () => {
                             accept="video/*" 
                         />
                     </div>
-                    <button type="button" onClick={() => handleRemoveStep(index)}>Remove Step</button>
+                    <button type="button" className ="create-recipe-buttons" onClick={() => handleRemoveStep(index)}>Remove Step</button>
                 </div>
             ))}
-            <button type="button" onClick={handleAddStep}>Add Step</button>
+            <button type="button" className ="create-recipe-buttons" onClick={handleAddStep}>Add Step</button>
             <button type="submit">Create Recipe</button>
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}

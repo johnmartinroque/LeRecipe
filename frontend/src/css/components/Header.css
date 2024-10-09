@@ -18,9 +18,10 @@
 
 .navbar-nav .nav-link {
     font-size: 18px;
-    color: #000000; /*idk pa ano maganda */
+    color: #242323; /*idk pa ano maganda */
     padding: 8px 15px;
     transition: color 0.3s ease-in-out;
+    font-weight: bold;
 }
 
 .navbar-nav .nav-link:hover {
@@ -32,22 +33,14 @@
     color: #806549;
 }
 
-/* Dropdown styling */
-.navbar-nav .dropdown-item {
-    font-size: 14px;
-    padding: 10px 15px;
-    color: #000000;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.navbar-nav .dropdown-item:hover {
-    background-color: #806549;
-}
-
-/* Mobile menu styling */
 .navbar-toggler {
     border: none;
     color: #333;
+}
+
+.navbar-toggler:hover {
+    background-color: #b0a496; 
+    box-shadow: 0 4px 10px rgba(5, 25, 28, 0.3);
 }
 
 .navbar-toggler:focus {
@@ -66,5 +59,16 @@
 
     .navbar-nav .nav-link {
         padding: 10px 0;
+    }
+
+    .navbar-toggler {
+        width: auto;
+        padding: 0.375rem 0.75rem; 
+        margin-left: 10px;
+    }
+
+    .navbar-toggler:hover {
+        background-color: transparent; 
+        box-shadow: 0 4px 10px rgba(5, 25, 28, 0.3);
     }
 }
