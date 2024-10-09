@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteRecipe, getRecipeDetails } from "../actions/recipeActions";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Spinner, Alert, Row, Col, Button, Form, Modal } from "react-bootstrap";
-import { listComments, createComment } from "../actions/commentActions";
+import { listComments, createComment, updateComment, deleteComment } from "../actions/commentActions";
 import Rating from "../components/Rating";
 import Footer from "../components/Footer";
 
@@ -31,10 +31,22 @@ const RecipeDetailedScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin; // Get logged-in user info
 
+  useEffect(() => {
+    console.log(userInfo); // Check if the userInfo object contains correct data
+  }, [userInfo]);
+
   const [commentText, setCommentText] = useState("");
   const [rating, setRating] = useState(0);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false); 
+  const [commentToDelete, setCommentToDelete] = useState(null); // Store the commen
+
+  const [showUpdateCommentModal, setShowUpdateCommentModal] = useState(false); 
+  const [commentToUpdate, setCommentToUpdate] = useState(null); // Store the comment to update
+  const [updatedCommentText, setUpdatedCommentText] = useState(""); // Comment text for update
+  const [updatedRating, setUpdatedRating] = useState(0); // Rating for update
 
   useEffect(() => {
     dispatch(getRecipeDetails(id));
@@ -64,6 +76,41 @@ const RecipeDetailedScreen = () => {
 
   const handleCloseDeleteModal = () => {
     setShowDeleteModal(false); 
+  };
+
+  const handleShowDeleteCommentModal = (commentId) => {
+    setCommentToDelete(commentId);
+    setShowDeleteCommentModal(true);
+  };
+
+  const handleCloseDeleteCommentModal = () => {
+    setShowDeleteCommentModal(false);
+    setCommentToDelete(null);
+  };
+
+  const deleteCommentHandler = () => {
+    dispatch(deleteComment(id, commentToDelete)); // Dispatch action to delete comment
+    handleCloseDeleteCommentModal();
+  };
+
+
+  const handleShowUpdateCommentModal = (comment) => {
+      setCommentToUpdate(comment.id); // Set the comment to update
+      setUpdatedCommentText(comment.text); // Pre-fill the comment text
+      setUpdatedRating(comment.rating); // Pre-fill the rating
+      setShowUpdateCommentModal(true);
+  };
+
+  const handleCloseUpdateCommentModal = () => {
+      setShowUpdateCommentModal(false);
+      setCommentToUpdate(null);
+      setUpdatedCommentText(""); // Reset fields when modal closes
+      setUpdatedRating(0);
+  };
+
+  const updateCommentHandler = () => {
+      dispatch(updateComment(id, commentToUpdate, { text: updatedCommentText, rating: updatedRating }));
+      handleCloseUpdateCommentModal();
   };
 
   return (
@@ -175,6 +222,23 @@ const RecipeDetailedScreen = () => {
                           />
                           <br />
                           <p>{comment.text}</p>
+                          {userInfo && userInfo.username === comment.username && (
+                            <div className="mb-3">
+                              <Button
+                                variant="warning"
+                                className="me-2"
+                                onClick={() => handleShowUpdateCommentModal(comment)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="danger"
+                                onClick={() => handleShowDeleteCommentModal(comment.id)}
+                              >
+                                Delete
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       ))
                     )}
@@ -237,6 +301,66 @@ const RecipeDetailedScreen = () => {
           </Button>
           <Button variant="danger" onClick={deleteHandler}>
             Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showDeleteCommentModal} onHide={handleCloseDeleteCommentModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this comment?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDeleteCommentModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={deleteCommentHandler}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showUpdateCommentModal} onHide={handleCloseUpdateCommentModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Comment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="updatedCommentText">
+              <Form.Label>Comment</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={updatedCommentText}
+                onChange={(e) => setUpdatedCommentText(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="updatedRating" className="my-3">
+              <Form.Label>Rating</Form.Label>
+              <Form.Control
+                as="select"
+                value={updatedRating}
+                onChange={(e) => setUpdatedRating(e.target.value)}
+              >
+                <option value="0">Select Rating</option>
+                <option value="1">1 - Poor</option>
+                <option value="1.5">1.5</option>
+                <option value="2">2 - Fair</option>
+                <option value="2.5">2.5</option>
+                <option value="3">3 - Good</option>
+                <option value="3.5">3.5</option>
+                <option value="4">4 - Very Good</option>
+                <option value="4.5">4.5</option>
+                <option value="5">5 - Excellent</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseUpdateCommentModal}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={updateCommentHandler}>
+            Update
           </Button>
         </Modal.Footer>
       </Modal>

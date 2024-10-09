@@ -88,6 +88,43 @@ def create_recipe_comment(request, pk):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_comment(request, pk, comment_id):
+    try:
+        comment = Comment.objects.get(id=comment_id, recipe_id=pk)  # Get the comment by its ID and recipe ID
+    except Comment.DoesNotExist:
+        return Response({'error': 'Comment not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    # Check if the current user is the owner of the comment
+    if comment.user != request.user:
+        return Response({'error': 'You do not have permission to edit this comment.'}, status=status.HTTP_403_FORBIDDEN)
+
+    # Deserialize the incoming data and update the comment
+    serializer = CommentSerializer(comment, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_comment(request, pk, comment_id):
+    try:
+        comment = Comment.objects.get(id=comment_id, recipe_id=pk)  # Get the comment by its ID and recipe ID
+    except Comment.DoesNotExist:
+        return Response({'error': 'Comment not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    # Check if the current user is the owner of the comment
+    if comment.user != request.user:
+        return Response({'error': 'You do not have permission to delete this comment.'}, status=status.HTTP_403_FORBIDDEN)
+
+    # Delete the comment
+    comment.delete()
+    return Response({'message': 'Comment deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
 """
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
