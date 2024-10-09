@@ -19,5 +19,5 @@ urlpatterns = [
     path('food-of-the-month/', FoodOfTheMonthView.as_view(), name='food-of-the-month'),
     path('random-recipes/', RandomRecipesView.as_view(), name='random-recipes'),
     path('recipe/delete/<int:pk>/', views.RecipeDeleteView.as_view(), name='delete-recipe'),
-    
+    path('recipe/update/<recipe_id>/', views.RecipeUpdateView.as_view(), name='update-recipe' ),
 ]

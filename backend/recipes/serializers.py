@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.db.models import Avg
 from .models import Recipe, Step, Bookmark, Comment
-
+from accounts.serializers import UserSerializer
 
 class StepSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,6 +41,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     total_comments = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
+    user = UserSerializer()
 
     class Meta:
         model = Recipe
@@ -67,6 +68,10 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         instance.image = validated_data.get('image', instance.image)
         instance.description = validated_data.get('description', instance.description)
+        instance.image = validated_data.get('image', instance.image)
+        instance.category = validated_data.get('category', instance.category)
+        instance.ingredients = validated_data.get('ingredients', instance.ingredients)
+        instance.tags = validated_data.get('tags', instance.tags)
         instance.save()
 
         if steps_data is not None:

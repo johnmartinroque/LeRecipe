@@ -33,6 +33,9 @@ import {
   RECIPE_DELETE_REQUEST,
   RECIPE_DELETE_SUCCESS,
   RECIPE_DELETE_FAIL,
+  USER_RECIPES_REQUEST,
+  USER_RECIPES_SUCCESS,
+  USER_RECIPES_FAIL,
 } from "../constants/recipeConstants";
 
 export const recipeListReducer = (state = { recipes: [] }, action) => {
@@ -173,14 +176,27 @@ export const randomRecipeReducer = (state = {}, action) => {
   }
 };
 
-
 export const recipeDeleteReducer = (state = {}, action) => {
   switch (action.type) {
-      case RECIPE_DELETE_REQUEST:
-          return { loading: true };
-      case RECIPE_DELETE_SUCCESS:
-          return { loading: false, success: true };
-      case RECIPE_DELETE_FAIL:
+    case RECIPE_DELETE_REQUEST:
+      return { loading: true };
+    case RECIPE_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case RECIPE_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+
+export const userRecipesReducer = (state = { recipes: [] }, action) => {
+  switch (action.type) {
+      case USER_RECIPES_REQUEST:
+          return { loading: true, recipes: [] };
+      case USER_RECIPES_SUCCESS:
+          return { loading: false, recipes: action.payload };
+      case USER_RECIPES_FAIL:
           return { loading: false, error: action.payload };
       default:
           return state;

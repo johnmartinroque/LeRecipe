@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import RecipeScreen from './screens/RecipeScreen';
 import CreateRecipeScreen from './screens/CreateRecipeScreen';
 import AboutUs from './screens/AboutUs'; 
+import UserScreen from './screens/UserScreen';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='/recipes' element={<RecipeScreen />} />
           <Route path='/recipe/:id' element={<RecipeDetailedScreen />} />
           <Route path='/about' element={<AboutUs />} /> 
+          <Route path='/user/:id' element={<UserScreen />} /> 
           <Route path="/profile" element={<PrivateRoute><ProfileScreen /></PrivateRoute>} />
           <Route path="/create" element={<PrivateRoute><CreateRecipeScreen /></PrivateRoute>} />
           <Route path="*" element={<Navigate to="/" />} />

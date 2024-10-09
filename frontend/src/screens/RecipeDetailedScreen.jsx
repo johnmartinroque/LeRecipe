@@ -5,7 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteRecipe, getRecipeDetails } from "../actions/recipeActions";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Spinner, Alert, Row, Col, Button, Form, Modal } from "react-bootstrap";
-import { listComments, createComment, updateComment, deleteComment } from "../actions/commentActions";
+import {
+  listComments,
+  createComment,
+  updateComment,
+  deleteComment,
+} from "../actions/commentActions";
 import Rating from "../components/Rating";
 import Footer from "../components/Footer";
 
@@ -40,10 +45,10 @@ const RecipeDetailedScreen = () => {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false); 
+  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null); // Store the commen
 
-  const [showUpdateCommentModal, setShowUpdateCommentModal] = useState(false); 
+  const [showUpdateCommentModal, setShowUpdateCommentModal] = useState(false);
   const [commentToUpdate, setCommentToUpdate] = useState(null); // Store the comment to update
   const [updatedCommentText, setUpdatedCommentText] = useState(""); // Comment text for update
   const [updatedRating, setUpdatedRating] = useState(0); // Rating for update
@@ -66,16 +71,16 @@ const RecipeDetailedScreen = () => {
   };
 
   const deleteHandler = () => {
-      dispatch(deleteRecipe(id));
-      navigate("/recipes");
+    dispatch(deleteRecipe(id));
+    navigate("/recipes");
   };
 
   const handleShowDeleteModal = () => {
-    setShowDeleteModal(true); 
+    setShowDeleteModal(true);
   };
 
   const handleCloseDeleteModal = () => {
-    setShowDeleteModal(false); 
+    setShowDeleteModal(false);
   };
 
   const handleShowDeleteCommentModal = (commentId) => {
@@ -93,24 +98,28 @@ const RecipeDetailedScreen = () => {
     handleCloseDeleteCommentModal();
   };
 
-
   const handleShowUpdateCommentModal = (comment) => {
-      setCommentToUpdate(comment.id); // Set the comment to update
-      setUpdatedCommentText(comment.text); // Pre-fill the comment text
-      setUpdatedRating(comment.rating); // Pre-fill the rating
-      setShowUpdateCommentModal(true);
+    setCommentToUpdate(comment.id); // Set the comment to update
+    setUpdatedCommentText(comment.text); // Pre-fill the comment text
+    setUpdatedRating(comment.rating); // Pre-fill the rating
+    setShowUpdateCommentModal(true);
   };
 
   const handleCloseUpdateCommentModal = () => {
-      setShowUpdateCommentModal(false);
-      setCommentToUpdate(null);
-      setUpdatedCommentText(""); // Reset fields when modal closes
-      setUpdatedRating(0);
+    setShowUpdateCommentModal(false);
+    setCommentToUpdate(null);
+    setUpdatedCommentText(""); // Reset fields when modal closes
+    setUpdatedRating(0);
   };
 
   const updateCommentHandler = () => {
-      dispatch(updateComment(id, commentToUpdate, { text: updatedCommentText, rating: updatedRating }));
-      handleCloseUpdateCommentModal();
+    dispatch(
+      updateComment(id, commentToUpdate, {
+        text: updatedCommentText,
+        rating: updatedRating,
+      })
+    );
+    handleCloseUpdateCommentModal();
   };
 
   return (
@@ -137,6 +146,26 @@ const RecipeDetailedScreen = () => {
                     </Button>
                   </div>
                 )}
+                <div style={{ backgroundColor: "green", padding: "2rem" }}>
+                  {recipe && recipe.user ? (
+                    <>
+                      <Link
+                        to={`/user/${recipe.user.id}`} 
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        {recipe.user.username}
+                      </Link>
+                      <img
+                        style={{ maxWidth: "20rem" }}
+                        src={recipe.user.profile_picture}
+                        alt="profile picture"
+                      />
+                      <Button>Follow</Button>
+                    </>
+                  ) : (
+                    <p>No user information available.</p>
+                  )}
+                </div>
                 <h1>{recipe.name}</h1>
                 {recipe.image && (
                   <img
@@ -222,23 +251,28 @@ const RecipeDetailedScreen = () => {
                           />
                           <br />
                           <p>{comment.text}</p>
-                          {userInfo && userInfo.username === comment.username && (
-                            <div className="mb-3">
-                              <Button
-                                variant="warning"
-                                className="me-2"
-                                onClick={() => handleShowUpdateCommentModal(comment)}
-                              >
-                                Edit
-                              </Button>
-                              <Button
-                                variant="danger"
-                                onClick={() => handleShowDeleteCommentModal(comment.id)}
-                              >
-                                Delete
-                              </Button>
-                            </div>
-                          )}
+                          {userInfo &&
+                            userInfo.username === comment.username && (
+                              <div className="mb-3">
+                                <Button
+                                  variant="warning"
+                                  className="me-2"
+                                  onClick={() =>
+                                    handleShowUpdateCommentModal(comment)
+                                  }
+                                >
+                                  Edit
+                                </Button>
+                                <Button
+                                  variant="danger"
+                                  onClick={() =>
+                                    handleShowDeleteCommentModal(comment.id)
+                                  }
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            )}
                         </div>
                       ))
                     )}
@@ -304,7 +338,11 @@ const RecipeDetailedScreen = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showDeleteCommentModal} onHide={handleCloseDeleteCommentModal} centered>
+      <Modal
+        show={showDeleteCommentModal}
+        onHide={handleCloseDeleteCommentModal}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
@@ -318,7 +356,11 @@ const RecipeDetailedScreen = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showUpdateCommentModal} onHide={handleCloseUpdateCommentModal} centered>
+      <Modal
+        show={showUpdateCommentModal}
+        onHide={handleCloseUpdateCommentModal}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Edit Comment</Modal.Title>
         </Modal.Header>
@@ -364,7 +406,7 @@ const RecipeDetailedScreen = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

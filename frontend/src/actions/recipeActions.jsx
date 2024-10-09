@@ -32,6 +32,9 @@ import {
   RECIPE_DELETE_REQUEST,
   RECIPE_DELETE_SUCCESS,
   RECIPE_DELETE_FAIL,
+  USER_RECIPES_REQUEST,
+  USER_RECIPES_SUCCESS,
+  USER_RECIPES_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -306,31 +309,61 @@ export const listRandomRecipes = () => async (dispatch) => {
   }
 };
 
-
 export const deleteRecipe = (id) => async (dispatch, getState) => {
   try {
-      dispatch({ type: RECIPE_DELETE_REQUEST });
+    dispatch({ type: RECIPE_DELETE_REQUEST });
 
-      const { userLogin: { userInfo } } = getState();
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
-      const config = {
-          headers: {
-              Authorization: `Bearer ${userInfo.token}`,
-          },
-      };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
 
-      await instance.delete(`/api/recipes/recipe/delete/${id}/`, config);
+    await instance.delete(`/api/recipes/recipe/delete/${id}/`, config);
 
-      dispatch({
-          type: RECIPE_DELETE_SUCCESS,
-      });
+    dispatch({
+      type: RECIPE_DELETE_SUCCESS,
+    });
   } catch (error) {
-      dispatch({
-          type: RECIPE_DELETE_FAIL,
-          payload:
-              error.response && error.response.data.detail
-                  ? error.response.data.detail
-                  : error.message,
-      });
+    dispatch({
+      type: RECIPE_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
   }
+};
+
+
+export const getUserRecipes = (userId) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: USER_RECIPES_REQUEST });
+
+        const { userLogin: { userInfo } } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+
+        const { data } = await axios.get(`/api/recipes/recipes/user-recipes/${userId}/`, config);
+
+        dispatch({
+            type: USER_RECIPES_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: USER_RECIPES_FAIL,
+            payload: error.response && error.response.data.message 
+                ? error.response.data.message 
+                : error.message,
+        });
+    }
 };

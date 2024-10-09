@@ -276,3 +276,98 @@ class RecipeDeleteView(APIView):
         recipe.delete()
 
         return Response({"detail": "Recipe deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+class RecipeUpdateView(APIView):
+    permission_classes = [IsAuthenticated]  # Only authenticated users can update recipes
+
+    def get_object(self, recipe_id):
+        return get_object_or_404(Recipe, id=recipe_id)
+
+    def put(self, request, recipe_id, *args, **kwargs):
+        recipe = self.get_object(recipe_id)
+        steps_data = []
+        step_index = 0
+
+        # Extract steps data from the request
+        while True:
+            stepname = request.POST.get(f'steps[{step_index}][stepname]')
+            if stepname is None:
+                break  # Stop if there's no more step data
+
+            steps_data.append({
+                'stepname': stepname,
+                'description': request.POST.get(f'steps[{step_index}][description]'),
+                'image': request.FILES.get(f'steps[{step_index}][image]'),
+                'video': request.FILES.get(f'steps[{step_index}][video]'),
+            })
+            step_index += 1
+
+        ingredients = request.POST.getlist('ingredients[]')
+        tags = request.POST.getlist('tags[]')
+
+        # Prepare the main recipe data
+        recipe_data = {
+            'name': request.POST.get('name'),
+            'description': request.POST.get('description'),
+            'image': request.FILES.get('image'),
+            'steps': steps_data,
+            'ingredients': ingredients,
+            'category': request.POST.get('category'),
+            'tags': tags,
+        }
+
+        # Validate and update the recipe
+        serializer = RecipeSerializer(instance=recipe, data=recipe_data)
+        if serializer.is_valid():
+            serializer.save()  # Save the updated recipe
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        # Add logging to help debug if needed
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, recipe_id, *args, **kwargs):
+        # If you want to allow partial updates, you can implement a PATCH method
+        recipe = self.get_object(recipe_id)
+        steps_data = []
+        step_index = 0
+
+        # Extract steps data from the request
+        while True:
+            stepname = request.POST.get(f'steps[{step_index}][stepname]')
+            if stepname is None:
+                break  # Stop if there's no more step data
+
+            steps_data.append({
+                'stepname': stepname,
+                'description': request.POST.get(f'steps[{step_index}][description]'),
+                'image': request.FILES.get(f'steps[{step_index}][image]'),
+                'video': request.FILES.get(f'steps[{step_index}][video]'),
+            })
+            step_index += 1
+
+        ingredients = request.POST.getlist('ingredients[]')
+        tags = request.POST.getlist('tags[]')
+
+        # Prepare the main recipe data
+        recipe_data = {
+            'name': request.POST.get('name', recipe.name),  # Keep existing name if not updated
+            'description': request.POST.get('description', recipe.description),  # Keep existing description
+            'image': request.FILES.get('image', recipe.image),  # Keep existing image if not updated
+            'steps': steps_data,
+            'ingredients': ingredients,
+            'category': request.POST.get('category', recipe.category),  # Keep existing category
+            'tags': tags,
+        }
+
+        # Validate and update the recipe
+        serializer = RecipeSerializer(instance=recipe, data=recipe_data, partial=True)  # Allow partial updates
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        # Add logging to help debug if needed
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
