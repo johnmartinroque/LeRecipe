@@ -198,7 +198,6 @@ def getOwnRecipes(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def getUserRecipes(request, user_id):
     try:
         user = User.objects.get(id=user_id)
@@ -207,7 +206,7 @@ def getUserRecipes(request, user_id):
 
     # Get recipes for the specified user, ordered by id descending
     recipes = Recipe.objects.filter(user=user).order_by('-id')
-    serializer = RecipeListSerializer(recipes, many=True)
+    serializer = RecipeSerializer(recipes, many=True)
     return Response(serializer.data)
 
 

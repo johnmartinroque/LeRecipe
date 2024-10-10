@@ -340,30 +340,23 @@ export const deleteRecipe = (id) => async (dispatch, getState) => {
 };
 
 
-export const getUserRecipes = (userId) => async (dispatch, getState) => {
-    try {
-        dispatch({ type: USER_RECIPES_REQUEST });
+export const getUserRecipes = (userId) => async (dispatch) => {
+  try {
+      dispatch({ type: USER_RECIPES_REQUEST });
 
-        const { userLogin: { userInfo } } = getState();
+      // Since token is no longer required, remove the config with Authorization
+      const { data } = await axios.get(`/api/recipes/recipes/user-recipes/${userId}/`);
 
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`,
-            },
-        };
-
-        const { data } = await axios.get(`/api/recipes/recipes/user-recipes/${userId}/`, config);
-
-        dispatch({
-            type: USER_RECIPES_SUCCESS,
-            payload: data,
-        });
-    } catch (error) {
-        dispatch({
-            type: USER_RECIPES_FAIL,
-            payload: error.response && error.response.data.message 
-                ? error.response.data.message 
-                : error.message,
-        });
-    }
+      dispatch({
+          type: USER_RECIPES_SUCCESS,
+          payload: data,
+      });
+  } catch (error) {
+      dispatch({
+          type: USER_RECIPES_FAIL,
+          payload: error.response && error.response.data.message 
+              ? error.response.data.message 
+              : error.message,
+      });
+  }
 };
