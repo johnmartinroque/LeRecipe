@@ -11,6 +11,7 @@ import RecipeScreen from './screens/RecipeScreen';
 import CreateRecipeScreen from './screens/CreateRecipeScreen';
 import AboutUs from './screens/AboutUs'; 
 import UserScreen from './screens/UserScreen';
+import UpdateRecipeScreen from './screens/UpdateRecipeScreen';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path='/about' element={<AboutUs />} /> 
           <Route path='/user/:id' element={<UserScreen />} /> 
           <Route path="/profile" element={<PrivateRoute><ProfileScreen /></PrivateRoute>} />
+          <Route path="/update/:id" element={<PrivateRoute><UpdateRecipeScreen /></PrivateRoute>} />
           <Route path="/create" element={<PrivateRoute><CreateRecipeScreen /></PrivateRoute>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

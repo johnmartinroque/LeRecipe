@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFollowingList } from '../actions/userActions'; // Import your action
 import { ListGroup, Image } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
 
 const Following = () => {
     const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const Following = () => {
                                 alt={user.username}
                             />
                             {/* Display Username */}
-                            <span>{user.username}</span>
+                            <Link to={`/user/${user.id}`}><span>{user.username}</span></Link>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>

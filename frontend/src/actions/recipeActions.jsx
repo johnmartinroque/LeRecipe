@@ -35,6 +35,10 @@ import {
   USER_RECIPES_REQUEST,
   USER_RECIPES_SUCCESS,
   USER_RECIPES_FAIL,
+  RECIPE_UPDATE_REQUEST,
+  RECIPE_UPDATE_SUCCESS,
+  RECIPE_UPDATE_FAIL,
+  RECIPE_UPDATE_RESET,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -339,24 +343,63 @@ export const deleteRecipe = (id) => async (dispatch, getState) => {
   }
 };
 
-
 export const getUserRecipes = (userId) => async (dispatch) => {
   try {
-      dispatch({ type: USER_RECIPES_REQUEST });
+    dispatch({ type: USER_RECIPES_REQUEST });
 
-      // Since token is no longer required, remove the config with Authorization
-      const { data } = await axios.get(`/api/recipes/recipes/user-recipes/${userId}/`);
+    // Since token is no longer required, remove the config with Authorization
+    const { data } = await axios.get(
+      `/api/recipes/recipes/user-recipes/${userId}/`
+    );
+
+    dispatch({
+      type: USER_RECIPES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_RECIPES_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+export const updateRecipe = (recipeId, updatedRecipeData) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: RECIPE_UPDATE_REQUEST });
+
+      const {
+          userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${userInfo.token}`,
+          },
+      };
+
+      const { data } = await axios.patch(`/api/recipes/recipe/update/${recipeId}/`, updatedRecipeData, config);
 
       dispatch({
-          type: USER_RECIPES_SUCCESS,
+          type: RECIPE_UPDATE_SUCCESS,
           payload: data,
       });
   } catch (error) {
       dispatch({
-          type: USER_RECIPES_FAIL,
-          payload: error.response && error.response.data.message 
-              ? error.response.data.message 
-              : error.message,
+          type: RECIPE_UPDATE_FAIL,
+          payload:
+              error.response && error.response.data.detail
+                  ? error.response.data.detail
+                  : error.message,
       });
   }
+};
+
+export const resetUpdateRecipe = () => (dispatch) => {
+  dispatch({ type: RECIPE_UPDATE_RESET });
 };

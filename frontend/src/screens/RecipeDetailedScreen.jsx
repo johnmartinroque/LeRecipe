@@ -153,7 +153,7 @@ const RecipeDetailedScreen = () => {
                   {recipe && recipe.user ? (
                     <>
                       <Link
-                        to={`/user/${recipe.user.id}`} 
+                        to={`/user/${recipe.user.id}`}
                         style={{ color: "white", textDecoration: "none" }}
                       >
                         {recipe.user.username}
@@ -190,6 +190,18 @@ const RecipeDetailedScreen = () => {
                 </div>
                 <p>{recipe.category}</p>
                 <p>{recipe.description}</p>
+                <div>
+                  <h2>Ingredients</h2>
+                  {recipe.ingredients && recipe.ingredients.length > 0 ? (
+                    <ul style={{listStyle: 'none'}}>
+                      {recipe.ingredients.map((ingredient, index) => (
+                        <li key={index}><span>{index + 1}</span><p>{ingredient}</p></li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No ingredients listed for this recipe.</p>
+                  )}
+                </div>
 
                 <h2>Steps</h2>
                 {recipe.steps &&
