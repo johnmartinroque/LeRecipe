@@ -125,16 +125,7 @@ def delete_comment(request, pk, comment_id):
     comment.delete()
     return Response({'message': 'Comment deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
-"""
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def createRecipe(request):
-    serializer = RecipeSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(user=request.user)  # Automatically assign the user
-        return Response(serializer.data)
-    return Response(serializer.errors, status=400)
-"""
+
 class RecipeCreateView(APIView):
     permission_classes = [IsAuthenticated]  # If you want only authenticated users to create recipes
 
