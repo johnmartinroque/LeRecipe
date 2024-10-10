@@ -41,7 +41,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     total_comments = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Recipe
