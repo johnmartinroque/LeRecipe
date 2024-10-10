@@ -136,16 +136,19 @@ const RecipeDetailedScreen = () => {
               <Alert variant="danger">{error}</Alert>
             ) : (
               <div className="recipe-detail">
-                {userInfo && userInfo.id === recipe.user && (
-                  <div className="mb-3">
-                    <Button variant="warning" className="me-2">
-                      Update
-                    </Button>
-                    <Button variant="danger" onClick={handleShowDeleteModal}>
-                      Delete
-                    </Button>
-                  </div>
-                )}
+                {userInfo &&
+                  recipe &&
+                  recipe.user &&
+                  userInfo.id === recipe.user.id && ( // Check if the logged-in user owns the recipe
+                    <div className="mb-3">
+                      <Button variant="warning" className="me-2">
+                        <Link to={`/update/${recipe.id}`}>Update</Link>
+                      </Button>
+                      <Button variant="danger" onClick={handleShowDeleteModal}>
+                        Delete
+                      </Button>
+                    </div>
+                  )}
                 <div style={{ backgroundColor: "green", padding: "2rem" }}>
                   {recipe && recipe.user ? (
                     <>
@@ -185,6 +188,7 @@ const RecipeDetailedScreen = () => {
                     </div>
                   )}
                 </div>
+                <p>{recipe.category}</p>
                 <p>{recipe.description}</p>
 
                 <h2>Steps</h2>

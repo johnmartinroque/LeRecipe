@@ -164,7 +164,7 @@ class RecipeCreateView(APIView):
         ingredients = request.POST.getlist('ingredients[]')
         tags = request.POST.getlist('tags[]')
 
-        # Prepare the main recipe data
+        # Prepare the main recipe data (user field is removed)
         recipe_data = {
             'name': request.POST.get('name'),
             'description': request.POST.get('description'),
@@ -180,10 +180,11 @@ class RecipeCreateView(APIView):
         if serializer.is_valid():
             serializer.save(user=request.user)  # Attach the current logged-in user to the recipe
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+
         # Add logging to help debug if needed
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 

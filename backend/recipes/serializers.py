@@ -41,12 +41,13 @@ class RecipeSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     total_comments = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Recipe
-        fields = ['id', 'user', 'name', 'image', 'tags', 'ingredients', 'description', 'steps', 'comments', 'average_rating', 'total_comments']
-        read_only_fields = ['user']
+        fields = '__all__'
+        read_only_fields = ['comments', 'total_comments', 'average_rating']  # user is not read-only
+
 
     def get_total_comments(self, obj):
         return obj.comments.count()

@@ -157,6 +157,16 @@ const CreateRecipeScreen = () => {
                     required 
                 />
             </div>
+            <div>
+                <label>Category:</label>
+                <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                    {categoryChoices.map((choice, index) => (
+                        <option key={index} value={choice.value}>
+                            {choice.label}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <h2>Tags</h2>
             {tags.map((tag, index) => (
                 <div key={index}>

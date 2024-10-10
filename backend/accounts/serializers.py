@@ -6,7 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField(read_only=True)
     isAdmin = serializers.SerializerMethodField(read_only=True)
     profile_picture = serializers.SerializerMethodField()
-
+    
     class Meta:
         model = User
         fields = ['id', 'username', 'email', '_id', 'isAdmin', 'profile_picture']
