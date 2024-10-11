@@ -13,6 +13,7 @@ import {
 } from "../actions/commentActions";
 import Rating from "../components/Rating";
 import Footer from "../components/Footer";
+import Follow from "../components/Follow";
 
 const RecipeDetailedScreen = () => {
   const { id } = useParams(); // Get the recipe ID from the URL
@@ -163,7 +164,9 @@ const RecipeDetailedScreen = () => {
                         src={recipe.user.profile_picture}
                         alt="profile picture"
                       />
-                      <Button>Follow</Button>
+                      {userInfo && userInfo.id !== recipe.user.id && (
+                        <Follow userId={recipe.user.id} />
+                      )}
                     </>
                   ) : (
                     <p>No user information available.</p>
@@ -193,9 +196,12 @@ const RecipeDetailedScreen = () => {
                 <div>
                   <h2>Ingredients</h2>
                   {recipe.ingredients && recipe.ingredients.length > 0 ? (
-                    <ul style={{listStyle: 'none'}}>
+                    <ul style={{ listStyle: "none" }}>
                       {recipe.ingredients.map((ingredient, index) => (
-                        <li key={index}><span>{index + 1}</span><p>{ingredient}</p></li>
+                        <li key={index}>
+                          <span>{index + 1}</span>
+                          <p>{ingredient}</p>
+                        </li>
                       ))}
                     </ul>
                   ) : (
