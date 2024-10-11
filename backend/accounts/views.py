@@ -81,6 +81,7 @@ def getUsers(request):
     return Response(serializer.data)
 
 
+
 @api_view(['POST'])
 def registerUser(request):
     data = request.data
@@ -90,22 +91,29 @@ def registerUser(request):
     if password1 != password2:
         return Response({'detail': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
 
+    # Check if the username or email already exists
+    if User.objects.filter(username=data['name']).exists():
+        return Response({'detail': 'User with this username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if User.objects.filter(email=data['email']).exists():
+        return Response({'detail': 'User with this email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
         user = User.objects.create(
-            username = data['name'],
-            email = data['email'],
-            password = make_password(password1)
+            username=data['name'],
+            email=data['email'],
+            password=make_password(password1)
         )
         
-        # Create UserProfile with profile picture
+        # Create UserProfile with profile picture if it exists
         profile_picture = request.FILES.get('profile_picture')
-        UserProfilePicture.objects.create(user=user, profile_picture=profile_picture)
+        if profile_picture:
+            UserProfilePicture.objects.create(user=user, profile_picture=profile_picture)
         
         serializer = UserSerializerWithToken(user, many=False)
         return Response(serializer.data)
-    except:
-        message = {'detail': 'User with this email already exists'}
-        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 
 @api_view(['POST'])

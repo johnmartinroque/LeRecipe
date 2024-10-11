@@ -67,21 +67,30 @@ export const logout = () => (dispatch) => {
 };
 
 export const register =
-  (name, email, password1, password2) => async (dispatch) => {
+  (name, email, password1, password2, profilePicture) => async (dispatch) => {
     try {
       dispatch({
         type: USER_REGISTER_REQUEST,
       });
 
+      const formData = new FormData(); // Create a new FormData object
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password1', password1);
+      formData.append('password2', password2);
+      if (profilePicture) {
+        formData.append('profile_picture', profilePicture); // Append the profile picture
+      }
+
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
         },
       };
 
       const { data } = await instance.post(
         "/api/accounts/users/register/",
-        { name, email, password1, password2 },
+        formData, // Send the FormData object
         config
       );
 
