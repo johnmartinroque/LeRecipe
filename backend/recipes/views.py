@@ -12,6 +12,7 @@ from django.utils import timezone
 from django.db.models import Avg, Count
 import random
 from django.shortcuts import get_object_or_404
+from accounts.serializers import UserSerializer
 
 @api_view(['GET'])
 def getRecipes(request):
@@ -198,8 +199,18 @@ def getUserRecipes(request, user_id):
 
     # Get recipes for the specified user, ordered by id descending
     recipes = Recipe.objects.filter(user=user).order_by('-id')
-    serializer = RecipeSerializer(recipes, many=True)
-    return Response(serializer.data)
+    
+    # Serialize the user data
+    user_serializer = UserSerializer(user)
+
+    # Serialize the recipes data
+    recipe_serializer = RecipeListSerializer(recipes, many=True)
+    
+    # Combine user and recipe data into a response
+    return Response({
+        'user': user_serializer.data,  # Include user info
+        'recipes': recipe_serializer.data  # Include recipes info
+    })
 
 
 class FoodOfTheWeekView(generics.ListAPIView):
@@ -362,3 +373,21 @@ class RecipeUpdateView(APIView):
         # Add logging to help debug if needed
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['GET'])
+def get_user_comments(request, user_id):
+    try:
+        # Retrieve the user by user_id
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        raise NotFound("User not found.")
+    
+    # Retrieve all comments made by the user, ordered by creation date
+    comments = Comment.objects.filter(user=user).order_by('-created_at')
+    
+    # Serialize the comments
+    serializer = CommentSerializer(comments, many=True)
+    
+    # Return the serialized comments in the response
+    return Response(serializer.data)

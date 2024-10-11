@@ -1,7 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { thunk } from 'redux-thunk'
 import { bookmarkListReducer, bookmarkReducer, foodOfTheMonthReducer, foodOfTheWeekReducer, ownRecipesReducer, randomRecipeReducer, recipeCreateReducer, recipeDeleteReducer, recipeDetailedReducer, recipeListReducer, recipeUpdateReducer, userRecipesReducer } from './reducers/recipeReducers'
-import { followingListReducer, userLoginReducer, userRegisterReducer } from './reducers/userReducers'
+import { followingListReducer, userCommentsReducer, userLoginReducer, userRegisterReducer } from './reducers/userReducers'
 import { commentListReducer, commentCreateReducer } from './reducers/commentReducers'
 
 
@@ -28,6 +28,7 @@ const reducer = ({
     recipeDelete: recipeDeleteReducer,
     userRecipes: userRecipesReducer,
     recipeUpdate: recipeUpdateReducer,
+    userComments: userCommentsReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

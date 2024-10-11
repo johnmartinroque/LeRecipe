@@ -20,4 +20,5 @@ urlpatterns = [
     path('random-recipes/', RandomRecipesView.as_view(), name='random-recipes'),
     path('recipe/delete/<int:pk>/', views.RecipeDeleteView.as_view(), name='delete-recipe'),
     path('recipe/update/<recipe_id>/', views.RecipeUpdateView.as_view(), name='update-recipe' ),
+    path('user/comments/<int:user_id>/', views.get_user_comments, name='get_user_comments'),
 ]

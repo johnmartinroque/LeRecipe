@@ -10,7 +10,9 @@ import {
   GET_FOLLOWING_LIST_REQUEST,
   GET_FOLLOWING_LIST_SUCCESS,
   GET_FOLLOWING_LIST_FAIL,
-  
+  USER_COMMENTS_REQUEST,
+  USER_COMMENTS_SUCCESS,
+  USER_COMMENTS_FAIL,
 } from "../constants/userConstants";
 
 const instance = axios.create({
@@ -131,5 +133,34 @@ export const getFollowingList = () => async (dispatch, getState) => {
 };
 
 
+export const listUserComments = (userId) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: USER_COMMENTS_REQUEST });
 
+      const {
+          userLogin: { userInfo },
+      } = getState();
 
+      const config = {
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userInfo.token}`,
+          },
+      };
+
+      const { data } = await axios.get(`/api/recipes/user/comments/${userId}`, config);
+
+      dispatch({
+          type: USER_COMMENTS_SUCCESS,
+          payload: data,
+      });
+  } catch (error) {
+      dispatch({
+          type: USER_COMMENTS_FAIL,
+          payload:
+              error.response && error.response.data.detail
+                  ? error.response.data.detail
+                  : error.message,
+      });
+  }
+};
