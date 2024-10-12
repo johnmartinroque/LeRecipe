@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserFollow, UserProfilePicture
+from .models import UserFollow, UserProfilePicture, ForumPost
 
 class UserSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField(read_only=True)
@@ -28,3 +28,11 @@ class UserFollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
         fields = ['id', 'user', 'followed_user']
+
+
+class ForumPostSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)  # Nested serializer to include user info
+
+    class Meta:
+        model = ForumPost
+        fields = ['id', 'title', 'content', 'user', 'created_at']

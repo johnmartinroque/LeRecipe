@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.contrib import admin
-from .models import UserFollow, UserProfilePicture
+from .models import UserFollow, UserProfilePicture, ForumPost
 
 
 
@@ -40,3 +40,10 @@ admin.site.register(UserFollow, UserFollowAdmin)
 @admin.register(UserProfilePicture)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'profile_picture')
+
+
+@admin.register(ForumPost)
+class ForumPostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'user', 'created_at')  # Fields to display in the admin list view
+    search_fields = ('title', 'user__username')  # Add search functionality by title and username
+    list_filter = ('created_at',)  # Add a filter by creation date

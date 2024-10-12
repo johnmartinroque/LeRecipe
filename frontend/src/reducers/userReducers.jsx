@@ -18,6 +18,16 @@ import {
   USER_UNFOLLOW_REQUEST,
   USER_UNFOLLOW_SUCCESS,
   USER_UNFOLLOW_FAIL,
+  FORUM_POST_CREATE_REQUEST,
+  FORUM_POST_CREATE_SUCCESS,
+  FORUM_POST_CREATE_FAIL,
+  FORUM_POST_LIST_REQUEST,
+  FORUM_POST_LIST_SUCCESS,
+  FORUM_POST_LIST_FAIL,
+  FORUM_POST_DETAILS_REQUEST,
+  FORUM_POST_DETAILS_SUCCESS,
+  FORUM_POST_DETAILS_FAIL,
+  FORUM_POST_CREATE_RESET,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -48,16 +58,19 @@ export const userRegisterReducer = (state = {}, action) => {
   }
 };
 
-export const followingListReducer = (state = { following: [], loading: false, error: null }, action) => {
+export const followingListReducer = (
+  state = { following: [], loading: false, error: null },
+  action
+) => {
   switch (action.type) {
-      case GET_FOLLOWING_LIST_REQUEST:
-          return { ...state, loading: true };
-      case GET_FOLLOWING_LIST_SUCCESS:
-          return { loading: false, following: action.payload };
-      case GET_FOLLOWING_LIST_FAIL:
-          return { loading: false, error: action.payload };
-      default:
-          return state;
+    case GET_FOLLOWING_LIST_REQUEST:
+      return { ...state, loading: true };
+    case GET_FOLLOWING_LIST_SUCCESS:
+      return { loading: false, following: action.payload };
+    case GET_FOLLOWING_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
   }
 };
 
@@ -74,22 +87,65 @@ export const userCommentsReducer = (state = { comments: [] }, action) => {
   }
 };
 
-
 export const userFollowReducer = (state = {}, action) => {
   switch (action.type) {
-      case USER_FOLLOW_REQUEST:
-          return { loading: true };
-      case USER_FOLLOW_SUCCESS:
-          return { loading: false, success: true };
-      case USER_FOLLOW_FAIL:
-          return { loading: false, error: action.payload };
-      case USER_UNFOLLOW_REQUEST:
-          return { loading: true };
-      case USER_UNFOLLOW_SUCCESS:
-          return { loading: false, success: true };
-      case USER_UNFOLLOW_FAIL:
-          return { loading: false, error: action.payload };
-      default:
-          return state;
+    case USER_FOLLOW_REQUEST:
+      return { loading: true };
+    case USER_FOLLOW_SUCCESS:
+      return { loading: false, success: true };
+    case USER_FOLLOW_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_UNFOLLOW_REQUEST:
+      return { loading: true };
+    case USER_UNFOLLOW_SUCCESS:
+      return { loading: false, success: true };
+    case USER_UNFOLLOW_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
   }
 };
+
+
+export const forumPostCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+      case FORUM_POST_CREATE_REQUEST:
+          return { loading: true }
+      case FORUM_POST_CREATE_SUCCESS:
+          return { loading: false, success: true, forumPost: action.payload }
+      case FORUM_POST_CREATE_FAIL:
+          return { loading: false, error: action.payload }
+      case FORUM_POST_CREATE_RESET: // Add this case
+          return {} // Reset the state
+      default:
+          return state
+  }
+}
+
+// Reducer for listing all forum posts
+export const forumPostListReducer = (state = { forumPosts: [] }, action) => {
+  switch (action.type) {
+      case FORUM_POST_LIST_REQUEST:
+          return { loading: true, forumPosts: [] }
+      case FORUM_POST_LIST_SUCCESS:
+          return { loading: false, forumPosts: action.payload }
+      case FORUM_POST_LIST_FAIL:
+          return { loading: false, error: action.payload }
+      default:
+          return state
+  }
+}
+
+// Reducer for getting forum post details
+export const forumPostDetailsReducer = (state = { forumPost: {} }, action) => {
+  switch (action.type) {
+      case FORUM_POST_DETAILS_REQUEST:
+          return { loading: true, ...state }
+      case FORUM_POST_DETAILS_SUCCESS:
+          return { loading: false, forumPost: action.payload }
+      case FORUM_POST_DETAILS_FAIL:
+          return { loading: false, error: action.payload }
+      default:
+          return state
+  }
+}

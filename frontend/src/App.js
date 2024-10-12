@@ -12,6 +12,9 @@ import CreateRecipeScreen from './screens/CreateRecipeScreen';
 import AboutUs from './screens/AboutUs'; 
 import UserScreen from './screens/UserScreen';
 import UpdateRecipeScreen from './screens/UpdateRecipeScreen';
+import Forum from './screens/Forum';
+import ForumDetailed from './screens/ForumDetailed';
+
 
 
 function App() {
@@ -27,6 +30,8 @@ function App() {
           <Route path='/recipe/:id' element={<RecipeDetailedScreen />} />
           <Route path='/about' element={<AboutUs />} /> 
           <Route path='/user/:id' element={<UserScreen />} /> 
+          <Route path='/forum' element={<Forum />} /> 
+          <Route path='/forum/:id' element={<ForumDetailed />} /> 
           <Route path="/profile" element={<PrivateRoute><ProfileScreen /></PrivateRoute>} />
           <Route path="/update/:id" element={<PrivateRoute><UpdateRecipeScreen /></PrivateRoute>} />
           <Route path="/create" element={<PrivateRoute><CreateRecipeScreen /></PrivateRoute>} />

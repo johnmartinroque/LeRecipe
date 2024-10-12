@@ -1,16 +1,17 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializers import UserSerializer, UserFollowSerializer
+from .serializers import UserSerializer, UserFollowSerializer, ForumPostSerializer
 from .models import UserFollow
-from rest_framework import serializers
+from rest_framework import serializers, generics
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
-from .models import UserProfilePicture
+from .models import UserProfilePicture, ForumPost
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 # Create your views here.
 @api_view(['GET'])
@@ -166,3 +167,26 @@ def get_following_list(request):
     ]
 
     return Response(following_data, status=status.HTTP_200_OK)
+
+
+
+class ForumPostCreateView(generics.CreateAPIView):
+    queryset = ForumPost.objects.all()
+    serializer_class = ForumPostSerializer
+    permission_classes = [IsAuthenticated]  # Only authenticated users can create posts
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+# 2. View for listing all forum posts (GET request)
+class ForumPostListView(generics.ListAPIView):
+    queryset = ForumPost.objects.all()
+    serializer_class = ForumPostSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Anyone can view the list
+
+# 3. View for retrieving a single forum post (GET request)
+class ForumPostDetailView(generics.RetrieveAPIView):
+    queryset = ForumPost.objects.all()
+    serializer_class = ForumPostSerializer
+    lookup_field = 'id'  # Retrieve post by id
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Anyone can view post details
