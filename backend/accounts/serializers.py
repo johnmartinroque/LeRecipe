@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserFollow, UserProfilePicture, ForumPost
+from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField(read_only=True)
@@ -31,8 +31,36 @@ class UserFollowSerializer(serializers.ModelSerializer):
 
 
 class ForumPostSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)  # Nested serializer to include user info
+    user = UserSerializer(read_only=True)
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = ForumPost
-        fields = ['id', 'title', 'content', 'user', 'created_at']
+        fields = ['id', 'user', 'title', 'content', 'created_at', 'comments']
+
+    def get_comments(self, obj):
+        comments = Comment.objects.filter(post=obj, parent=None)  # Get only top-level comments
+        return CommentSerializer(comments, many=True).data
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    replies = serializers.SerializerMethodField()
+    replying_to = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'post', 'content', 'created_at', 'replies', 'replying_to']
+
+    def get_replies(self, obj):
+        replies = Comment.objects.filter(parent=obj)
+        return CommentSerializer(replies, many=True).data
+    
+    def get_replying_to(self, obj):
+        if obj.parent:  # Check if there's a parent comment
+            return {
+                'id': obj.parent.user.id,
+                'username': obj.parent.user.username,
+            }
+        return None  # No parent, so returning None
+

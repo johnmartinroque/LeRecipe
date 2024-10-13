@@ -42,3 +42,18 @@ class ForumPost(models.Model):
 
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(ForumPost, on_delete=models.CASCADE, related_name='comments')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies', null=True, blank=True)
+    content = models.TextField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.post.title}"
+    
+    
+
+
+

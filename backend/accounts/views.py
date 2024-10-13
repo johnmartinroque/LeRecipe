@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializers import UserSerializer, UserFollowSerializer, ForumPostSerializer
-from .models import UserFollow
-from rest_framework import serializers, generics
+from .serializers import *
+from .models import *
+from rest_framework import serializers, generics, permissions
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -190,3 +190,24 @@ class ForumPostDetailView(generics.RetrieveAPIView):
     serializer_class = ForumPostSerializer
     lookup_field = 'id'  # Retrieve post by id
     permission_classes = [IsAuthenticatedOrReadOnly]  # Anyone can view post details
+
+
+class ForumPostCommentListView(generics.ListAPIView):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        # Get the forum post by ID from the URL
+        post_id = self.kwargs.get('post_id')
+        # Filter comments that are related to the post and are top-level (no parent)
+        return Comment.objects.filter(post_id=post_id, parent=None)
+
+# View to retrieve a specific comment and its replies
+class CommentDetailView(generics.RetrieveAPIView):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        # Get the comment by ID
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)

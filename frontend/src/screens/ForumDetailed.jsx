@@ -4,6 +4,8 @@ import { Link, useParams } from "react-router-dom";
 
 import { Alert, Col, Row, Spinner } from "react-bootstrap";
 import { getForumPostDetails } from "../actions/userActions";
+import ForumCommentList from "../components/ForumCommentList";
+
 
 function ForumDetailed() {
   const { id } = useParams(); // Retrieve the post id from the URL
@@ -25,23 +27,34 @@ function ForumDetailed() {
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <Row >
+        <Row>
           <Col>
             <div style={{ background: "gray" }}>
-              <h1>{forumPost.title}</h1>
-              <p>{forumPost.content}</p>
-              <Link style={{textDecoration: 'none', color: 'white'}} to={`/user/${forumPost.user.id}`}>{forumPost.user?.username}</Link>
-              {forumPost.user?.profile_picture && (
+              <h1>{forumPost?.title}</h1>
+              <p>{forumPost?.content}</p>
+              {forumPost?.user && (
+                <Link
+                  style={{ textDecoration: "none", color: "white" }}
+                  to={`/user/${forumPost?.user?.id}`}
+                >
+                  {forumPost?.user?.username}
+                </Link>
+              )}
+              {forumPost?.user?.profile_picture && (
                 <img
                   src={forumPost.user.profile_picture}
-                  alt={`${forumPost.user.username}'s profile`}
+                  alt={`${forumPost?.user?.username}'s profile`}
                   style={{ width: "100px", borderRadius: "50%" }}
                 />
               )}
               <p>
-                Created At: {new Date(forumPost.created_at).toLocaleString()}
+                Created At:{" "}
+                {forumPost?.created_at
+                  ? new Date(forumPost.created_at).toLocaleString()
+                  : "N/A"}
               </p>
             </div>
+            <ForumCommentList postId={id} />
           </Col>
         </Row>
       )}

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.contrib import admin
-from .models import UserFollow, UserProfilePicture, ForumPost
+from .models import *
 
 
 
@@ -44,6 +44,19 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(ForumPost)
 class ForumPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'created_at')  # Fields to display in the admin list view
-    search_fields = ('title', 'user__username')  # Add search functionality by title and username
-    list_filter = ('created_at',)  # Add a filter by creation date
+    list_display = ['title', 'id', 'user', 'created_at']  # Fields to display in the list view
+    search_fields = ['title', 'user__username']  # Fields to search
+    list_filter = ['created_at', 'user']  # Filters based on date created and user
+    ordering = ['-created_at']  # Order by latest posts first
+    autocomplete_fields = ['user'] 
+
+# Customizing the display for the Comment model in the admin interface
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['user', 'id', 'post', 'parent', 'content', 'created_at']  # Display these fields
+    search_fields = ['user__username', 'content', 'post__title']  # Searchable fields
+    list_filter = ['created_at', 'post', 'user']  # Filterable fields
+    ordering = ['-created_at']  # Latest comments first
+    autocomplete_fields = ['user', 'post', 'parent']  # Use lookup widgets for user, post, and parent comment
+
+

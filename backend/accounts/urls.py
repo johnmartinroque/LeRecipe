@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ForumPostDetailView, ForumPostCreateView, ForumPostListView
+from .views import *
 
 
 
@@ -16,5 +16,7 @@ urlpatterns = [
     path('post/create/', ForumPostCreateView.as_view(), name='post-create'),  # For creating a post
     path('posts/', ForumPostListView.as_view(), name='post-list'),  # For listing all posts
     path('post/<int:id>/', ForumPostDetailView.as_view(), name='post-detail'),
+    path('post/comments/<int:post_id>/', ForumPostCommentListView.as_view(), name='post-comments'),
+    path('post/comment/<int:pk>/', CommentDetailView.as_view(), name='comment-detail'),
     
 ]

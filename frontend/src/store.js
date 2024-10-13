@@ -10,6 +10,7 @@ import { commentListReducer, commentCreateReducer } from './reducers/commentRedu
 
 
 
+
 const reducer = ({
     recipeList: recipeListReducer,
     userLogin: userLoginReducer,
@@ -33,6 +34,7 @@ const reducer = ({
     forumPostCreate: forumPostCreateReducer,
     forumPostList: forumPostListReducer,
     forumPostDetails: forumPostDetailsReducer,
+    commentList: commentListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

@@ -28,7 +28,13 @@ import {
   FORUM_POST_DETAILS_REQUEST,
   FORUM_POST_DETAILS_SUCCESS,
   FORUM_POST_DETAILS_FAIL,
-  FORUM_POST_CREATE_RESET
+  FORUM_POST_CREATE_RESET,
+  COMMENT_LIST_REQUEST,
+  COMMENT_LIST_SUCCESS,
+  COMMENT_LIST_FAIL,
+  COMMENT_DETAIL_REQUEST,
+  COMMENT_DETAIL_SUCCESS,
+  COMMENT_DETAIL_FAIL,
 } from "../constants/userConstants";
 
 const instance = axios.create({
@@ -271,33 +277,39 @@ export const unfollowUser = (userId) => async (dispatch, getState) => {
   }
 };
 
-
-export const createForumPost = (title, content) => async (dispatch, getState) => {
-  try {
+export const createForumPost =
+  (title, content) => async (dispatch, getState) => {
+    try {
       dispatch({ type: FORUM_POST_CREATE_REQUEST });
 
       const {
-          userLogin: { userInfo },
+        userLogin: { userInfo },
       } = getState();
 
       const config = {
-          headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${userInfo.token}`,
-          },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
       };
 
-      const { data } = await axios.post(`/api/accounts/post/create/`, { title, content }, config);
+      const { data } = await axios.post(
+        `/api/accounts/post/create/`,
+        { title, content },
+        config
+      );
 
       dispatch({ type: FORUM_POST_CREATE_SUCCESS, payload: data }); // Ensure data includes the post ID
-  } catch (error) {
+    } catch (error) {
       dispatch({
-          type: FORUM_POST_CREATE_FAIL,
-          payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        type: FORUM_POST_CREATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
       });
-  }
-};
-
+    }
+  };
 
 export const resetForumPostCreate = () => (dispatch) => {
   dispatch({ type: FORUM_POST_CREATE_RESET });
@@ -306,31 +318,74 @@ export const resetForumPostCreate = () => (dispatch) => {
 // Action for listing all forum posts
 export const listForumPosts = () => async (dispatch) => {
   try {
-      dispatch({ type: FORUM_POST_LIST_REQUEST })
+    dispatch({ type: FORUM_POST_LIST_REQUEST });
 
-      const { data } = await axios.get('/api/accounts/posts/')
+    const { data } = await axios.get("/api/accounts/posts/");
 
-      dispatch({ type: FORUM_POST_LIST_SUCCESS, payload: data })
+    dispatch({ type: FORUM_POST_LIST_SUCCESS, payload: data });
   } catch (error) {
-      dispatch({
-          type: FORUM_POST_LIST_FAIL,
-          payload: error.response && error.response.data.message ? error.response.data.message : error.message,
-      })
+    dispatch({
+      type: FORUM_POST_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
-}
+};
 
 // Action for getting forum post details
 export const getForumPostDetails = (id) => async (dispatch) => {
   try {
-      dispatch({ type: FORUM_POST_DETAILS_REQUEST })
+    dispatch({ type: FORUM_POST_DETAILS_REQUEST });
 
-      const { data } = await axios.get(`/api/accounts/post/${id}/`)
+    const { data } = await axios.get(`/api/accounts/post/${id}/`);
 
-      dispatch({ type: FORUM_POST_DETAILS_SUCCESS, payload: data })
+    dispatch({ type: FORUM_POST_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: FORUM_POST_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+
+export const listComments = (postId) => async (dispatch) => {
+  try {
+    dispatch({ type: COMMENT_LIST_REQUEST });
+    const { data } = await axios.get(`/api/accounts/post/comments/${postId}/`);
+    
+    // Log the response data
+    console.log("Fetched Comments:", data);
+
+    dispatch({ type: COMMENT_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: COMMENT_LIST_FAIL,
+      payload: error.response && error.response.data.detail
+        ? error.response.data.detail
+        : error.message,
+    });
+  }
+};
+
+// Fetch a single comment by ID
+export const getCommentDetail = (commentId) => async (dispatch) => {
+  try {
+      dispatch({ type: COMMENT_DETAIL_REQUEST });
+      const { data } = await axios.get(`/api/accounts/post/comment/${commentId}/`);
+      dispatch({ type: COMMENT_DETAIL_SUCCESS, payload: data });
   } catch (error) {
       dispatch({
-          type: FORUM_POST_DETAILS_FAIL,
-          payload: error.response && error.response.data.message ? error.response.data.message : error.message,
-      })
+          type: COMMENT_DETAIL_FAIL,
+          payload: error.response && error.response.data.detail
+              ? error.response.data.detail
+              : error.message,
+      });
   }
-}
+};

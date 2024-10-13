@@ -34,7 +34,7 @@ function Header() {
             <Nav.Link  as={Link} to="/">Home</Nav.Link>
             <Nav.Link  as={Link} to="/recipes">Recipes</Nav.Link>
             <Nav.Link  as={Link} to="/create">Create</Nav.Link>
-            <Nav.Link as={Link} to="/about">About Us</Nav.Link>
+            
             <Nav.Link as={Link} to="/forum">Forum</Nav.Link>
             
             {userInfo ? (
