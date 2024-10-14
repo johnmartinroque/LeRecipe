@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { followUser, unfollowUser, getFollowingList } from '../actions/userActions';
+import '../css/components/Follow.css'
 
 const Follow = ({ userId }) => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Follow = ({ userId }) => {
     };
 
     return (
-        <button onClick={handleFollow} disabled={loadingFollowingList}>
+        <button className="follow-button" onClick={handleFollow} disabled={loadingFollowingList}>
             {loadingFollowingList ? "Loading..." : isFollowing ? "Unfollow" : "Follow"}
         </button>
     );

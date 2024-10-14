@@ -27,7 +27,7 @@ const Following = () => {
             ) : (
                 <ListGroup>
                     {following.map((user) => (
-                        <ListGroup.Item key={user.username} className="d-flex align-items-center">
+                        <ListGroup.Item style={{padding: "10px" }} key={user.username} className="d-flex align-items-center">
                             {/* Display Profile Picture */}
                             <Image
                                 src={user.profile_picture || 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'}  
@@ -38,7 +38,7 @@ const Following = () => {
                                 alt={user.username}
                             />
                             {/* Display Username */}
-                            <Link to={`/user/${user.id}`}><span>{user.username}</span></Link>
+                            <Link style={{textDecoration: "none", padding: "10px" }}to={`/user/${user.id}`}><span>{user.username}</span></Link>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>

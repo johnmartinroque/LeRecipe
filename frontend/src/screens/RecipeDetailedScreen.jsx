@@ -14,6 +14,8 @@ import {
 import Rating from "../components/Rating";
 import Footer from "../components/Footer";
 import Follow from "../components/Follow";
+import '../css/screens/RecipeDetailedScreen.css';
+
 
 const RecipeDetailedScreen = () => {
   const { id } = useParams(); // Get the recipe ID from the URL
@@ -125,7 +127,7 @@ const RecipeDetailedScreen = () => {
 
   return (
     <div>
-      <Button onClick={() => navigate(-1)}>Back</Button>
+      <Button className="back-button" onClick={() => navigate(-1)}>Back</Button>
       <Row className="justify-content-center">
         <Col md={8} className="text-center">
           <div className="recipe-detail-container">
@@ -142,25 +144,25 @@ const RecipeDetailedScreen = () => {
                   recipe.user &&
                   userInfo.id === recipe.user.id && ( // Check if the logged-in user owns the recipe
                     <div className="mb-3">
-                      <Button variant="warning" className="me-2">
-                        <Link to={`/update/${recipe.id}`}>Update</Link>
+                      <Button className="update-button">
+                        <Link style={{color: 'white', textDecoration: 'none'}} to={`/update/${recipe.id}`}>Update</Link>
                       </Button>
-                      <Button variant="danger" onClick={handleShowDeleteModal}>
+                      <Button className="delete-button"onClick={handleShowDeleteModal}>
                         Delete
                       </Button>
                     </div>
                   )}
-                <div style={{ backgroundColor: "green", padding: "2rem" }}>
+                <div className="recipe-user">
                   {recipe && recipe.user ? (
                     <>
                       <Link
                         to={`/user/${recipe.user.id}`}
-                        style={{ color: "white", textDecoration: "none" }}
+                        className="recipe-user-id"
                       >
                         {recipe.user.username}
                       </Link>
                       <img
-                        style={{ maxWidth: "20rem" }}
+                        className="recipe-user-img"
                         src={recipe.user.profile_picture}
                         alt="profile picture"
                       />
@@ -172,11 +174,14 @@ const RecipeDetailedScreen = () => {
                     <p>No user information available.</p>
                   )}
                 </div>
-                <h1>{recipe.name}</h1>
+
+                <div className="recipe-container">
+                <h1 className="recipe-title">{recipe.name}</h1>
                 {recipe.image && (
                   <img
-                    style={{ maxWidth: "40rem" }}
+                    className="recipe-img"
                     src={recipe.image}
+                    class="img-fluid"
                     alt={recipe.name}
                   />
                 )}
@@ -191,12 +196,15 @@ const RecipeDetailedScreen = () => {
                     </div>
                   )}
                 </div>
-                <p>{recipe.category}</p>
-                <p>{recipe.description}</p>
-                <div>
-                  <h2>Ingredients</h2>
+                <p className="recipe-category">{recipe.category}</p>
+                <p className="recipe-description">{recipe.description}</p>
+                </div>
+                
+                <div className="ingredients">
+                <h2 className="recipe-components">Ingredients</h2>
+                <div className="ingredients-part">
                   {recipe.ingredients && recipe.ingredients.length > 0 ? (
-                    <ul style={{ listStyle: "none" }}>
+                    <ul style={{ listStyle: "none", textAlign: "center" }}>
                       {recipe.ingredients.map((ingredient, index) => (
                         <li key={index}>
                           <span>{index + 1}</span>
@@ -208,28 +216,24 @@ const RecipeDetailedScreen = () => {
                     <p>No ingredients listed for this recipe.</p>
                   )}
                 </div>
+                </div>
 
-                <h2>Steps</h2>
+                <div className="steps">
+                <h2 className="recipe-components">Steps</h2>
                 {recipe.steps &&
                   recipe.steps.map((step, index) => (
                     <div
                       key={index}
                       className="step"
-                      style={{
-                        backgroundColor: "gray",
-                        margin: "1rem auto",
-                        maxWidth: "50rem",
-                        padding: "1rem",
-                      }}
                     >
-                      <h3>
+                      <h3 className="step-title">
                         {index + 1}. {step.stepname}
                       </h3>
-                      <p>{step.description}</p>
+                      <p className="step-description">{step.description}</p>
                       {step.image && (
                         <img
-                          style={{ maxWidth: "30rem" }}
                           src={step.image}
+                          class="img-fluid"
                           alt={step.stepname}
                         />
                       )}
@@ -242,9 +246,10 @@ const RecipeDetailedScreen = () => {
                       )}
                     </div>
                   ))}
+                  </div>
 
                 {/* Comment Section */}
-                <h2>Comments</h2>
+                <h2 className="recipe-components">Comments</h2>
                 {loadingComments ? (
                   <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
@@ -259,11 +264,7 @@ const RecipeDetailedScreen = () => {
                       comments.map((comment) => (
                         <div
                           key={comment.id}
-                          style={{
-                            margin: "1rem 0",
-                            padding: "1rem",
-                            border: "1px solid #ccc",
-                          }}
+                          className="comment-design"
                         >
                           <strong>{comment.username}</strong>
                           <Rating
@@ -302,7 +303,7 @@ const RecipeDetailedScreen = () => {
                 )}
 
                 {/* Create Comment Form */}
-                <h3>Add a Comment</h3>
+                <h3 className="add-comment">Add a Comment</h3>
                 {errorCreateComment && (
                   <Alert variant="danger">{errorCreateComment}</Alert>
                 )}

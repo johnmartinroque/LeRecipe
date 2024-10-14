@@ -26,7 +26,7 @@ function UserComments() {
       {comments && comments.length > 0 ? (
         <ul>
           {comments.map((comment) => (
-            <div style={{ backgroundColor: "gray", padding: "1rem", margin: '1rem' }}>
+            <div style={{ backgroundColor: "#e8e3dd", padding: "0.8rem", margin: '1rem', borderRadius: "8px" }}>
               <li key={comment.id} style={{ listStyle: "none" }}>
                 <p>
                   <strong>{comment.username}</strong>: {comment.text}
