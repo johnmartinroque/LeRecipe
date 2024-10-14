@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+import '../css/screens/Forum.css'; 
 
 import { listForumPosts, resetForumPostCreate } from '../actions/userActions'
 import { Alert, Spinner } from 'react-bootstrap'
@@ -26,43 +26,50 @@ function Forum() {
   }, [dispatch]);
 
   return (
-    <div>
-      <h1>Forum</h1>
-
-      {loading ? (
-        <Spinner />
-      ) : error ? (
-        <Alert variant="danger">{error}</Alert>
-      ) : (
-        <div>
+    <div className="forum-container">
+      <div className="forum-content">
+        <h1>Forum</h1> {/* Forum title should be left-aligned */}
+        {loading ? (
+          <Spinner />
+        ) : error ? (
+          <Alert variant="danger">{error}</Alert>
+        ) : (
+          <div>
             <ForumPost />
-          {forumPosts.length === 0 ? (
-            <Alert>No posts found</Alert>
-          ) : (
-            <ul>
-              {forumPosts.map((post) => (
-                <Link to={`/forum/${post.id}`} style={{textDecoration: 'none', color: 'white'}}>
-                <div style={{backgroundColor: 'gray'}}>
-                    <li key={post.id} style={{listStyle: 'none'}}>
-                  <h2>{post.title}</h2>
-                  <p>{post.content}</p>
-                  <p>{post.user.username}</p>
-                  <img
-                    src={post.user.profile_picture}
-                    alt={`${post.user.username}'s profile`}
-                    style={{ width: '50px', borderRadius: '50%' }}
-                  />
-                  <p>Created At: {new Date(post.created_at).toLocaleString()}</p>
-                </li>
-                </div>
-                </Link>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
+            {forumPosts.length === 0 ? (
+              <Alert>No posts found</Alert>
+            ) : (
+              <ul>
+                {forumPosts.map((post) => (
+                  <li className="forum-box" key={post.id}>
+                    <div className="post-info">
+                      <img
+                        src={post.user.profile_picture}
+                        alt={`${post.user.username}'s profile`}
+                      />
+                      <div className="post-details">
+                        <h2>{post.title}</h2>
+                        <p className="created-at">
+                          Created At: {new Date(post.created_at).toLocaleString()}
+                        </p>
+                        <p className="username">
+                          Posted By: {post.user.username}
+                        </p>
+                        <p>{post.content}</p>
+                        <Link to={`/forum/${post.id}`} className="read-more">
+                          Read More
+                        </Link>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
     </div>
-  )
+  );
 }
 
 export default Forum

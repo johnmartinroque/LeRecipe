@@ -57,7 +57,7 @@ function AboutUs() {
             {/* Image Column */}
             <Col md={6} className="my-3 text-center levision-image-column">
               <img 
-                src="/LEBRON.png" 
+                src="/CHEF.jpg" 
                 alt="LeVision Example"
                 className="img-fluid levision-image" 
               />
@@ -73,7 +73,7 @@ function AboutUs() {
             {/* Image Column */}
             <Col md={6} className="my-3 text-center levision-image-column">
               <img 
-                src="/LEGOAT.jpg" 
+                src="/LECHEF.jpeg" 
                 alt="LeMission Example"
                 className="img-fluid levision-image" 
               />
@@ -124,7 +124,7 @@ function AboutUs() {
                   </p>
                   <br />
                   <br />
-                    WHAT TO LAGAY PA HERE HEHE
+                   
                 </div>
               </Col>
             </Row>
@@ -132,7 +132,7 @@ function AboutUs() {
               {/* Image Column */}
               <Col md={12} className="my-3 text-center">
                 <img 
-                  src="/GOAT.jpg" // Replace with your actual G.O.A.T. image path
+                  src="/LEWAITER.jpg" // Replace with your actual G.O.A.T. image path
                   alt="The G.O.A.T! Example"
                   className="img-fluid" 
                 />
