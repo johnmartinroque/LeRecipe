@@ -1,0 +1,68 @@
+/* Main container for the forum detail screen */
+.forum-detail-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Forum post content box */
+.forum-detail-box {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Post title */
+.forum-detail-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Post content */
+.forum-detail-content {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Link to the user's profile */
+.forum-user-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.forum-user-link:hover {
+    color: #0056b3;
+}
+
+/* User profile picture */
+.forum-user-picture {
+    width: 35px; /* Adjusted width to make it smaller */
+    height: 35px; /* Adjusted height to make it smaller */
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 10px 0; /* Margin adjusted for vertical spacing */
+}
+
+
+/* User details container */
+.user-details {
+    display: flex;
+    flex-direction: column; /* Stack username and created at vertically */
+    justify-content: center; /* Center-align content */
+}
+
+/* Post creation time */
+.forum-created-at {
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 5px; /* Spacing below created at text */
+}

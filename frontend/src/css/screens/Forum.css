@@ -1,0 +1,85 @@
+/* Container for the entire forum page */
+.forum-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Main content area for the posts */
+.forum-content {
+    flex: 3;
+    margin-right: 20px;
+}
+
+/* Style for each forum post box */
+.forum-box {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Flexbox for post info section */
+.post-info {
+    display: flex;
+    align-items: flex-start; /* Aligns items at the start */
+}
+
+/* Style for post image */
+.post-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px; /* Space between image and text */
+}
+
+/* Post details */
+.post-details {
+    flex-grow: 1; /* Allows the details to take remaining space */
+}
+
+/* Title styling */
+.forum-box h2 {
+    font-size: 18px;
+    color: #000000; /* Darker title color */
+    margin-bottom: 5px;
+    text-align: left; /* Align title to the left */
+    font-weight: bold; /* Make the title bold */
+}
+
+/* Creation date and posted by styling */
+.created-at,
+.posted-by {
+    color: #888; /* Set to a lighter gray color to match reference */
+    font-size: 12px; /* Match the font size from the image */
+    margin-bottom: 5px; /* Space between created-at and username */
+    font-weight: normal; /* Make it normal weight to differentiate from the username */
+}
+
+/* Username styling */
+.username {
+    color: #007bff; /* Changed to a blue color to match the reference */
+    margin-bottom: 10px; /* Space between username and content */
+    font-weight: bold; /* Make the username bold */
+}
+
+/* Content styling */
+.forum-box p {
+    color: #000000; /* Body text color */
+    margin-bottom: 10px;
+}
+
+/* Read more button styling */
+.read-more {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-align: left; /* Align text to the left */
+}
