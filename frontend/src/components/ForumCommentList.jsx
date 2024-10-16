@@ -32,7 +32,7 @@ const ForumCommentList = ({ postId }) => {
     };
 
     return (
-      <ListGroup.Item key={comment.id}>
+      <ListGroup.Item key={comment.id} style={{ margin:'1rem'}}>
         {comment.replying_to && (
         <p style={{ fontStyle: 'italic' }}>
           Replying to: {comment.replying_to.username}
@@ -47,6 +47,7 @@ const ForumCommentList = ({ postId }) => {
         {/* Button to show/hide replies */}
         {comment.replies && comment.replies.length > 0 && (
           <>
+          <div>Reply Button</div>
             <Button 
               onClick={toggleReplies} 
               style={{ margin: '10px 0' }}
@@ -54,6 +55,7 @@ const ForumCommentList = ({ postId }) => {
               {showReplies ? 'Hide Replies' : 'Show Replies'}
             </Button>
             {showReplies && renderReplies(comment.replies)}
+            
           </>
         )}
       </ListGroup.Item>

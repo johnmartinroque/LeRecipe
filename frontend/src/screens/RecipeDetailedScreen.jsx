@@ -207,7 +207,6 @@ const RecipeDetailedScreen = () => {
                     <ul style={{ listStyle: "none", textAlign: "center" }}>
                       {recipe.ingredients.map((ingredient, index) => (
                         <li key={index}>
-                          <span>{index + 1}</span>
                           <p>{ingredient}</p>
                         </li>
                       ))}

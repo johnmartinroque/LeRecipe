@@ -45,6 +45,7 @@ class ForumPostSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    post = serializers.PrimaryKeyRelatedField(read_only=True)
     replies = serializers.SerializerMethodField()
     replying_to = serializers.SerializerMethodField()
 

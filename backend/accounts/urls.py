@@ -18,5 +18,7 @@ urlpatterns = [
     path('post/<int:id>/', ForumPostDetailView.as_view(), name='post-detail'),
     path('post/comments/<int:post_id>/', ForumPostCommentListView.as_view(), name='post-comments'),
     path('post/comment/<int:pk>/', CommentDetailView.as_view(), name='comment-detail'),
+    path('post/comment/create/<int:post_id>/', CommentCreateView.as_view(), name='comment-create'),  # New path
+    path('post/comment/<int:post_id>/reply/<int:parent_comment_id>/', CreateReplyView.as_view(), name='create-reply'),
     
 ]

@@ -211,3 +211,28 @@ class CommentDetailView(generics.RetrieveAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class CommentCreateView(generics.CreateAPIView):
+    serializer_class = CommentSerializer
+
+    def perform_create(self, serializer):
+        # Optionally, you can set the user and post before saving
+        serializer.save(user=self.request.user, post_id=self.kwargs['post_id'])
+
+    def post(self, request, *args, **kwargs):
+        # Include the post_id in the request data for saving
+        self.kwargs['post_id'] = kwargs['post_id']
+        return self.create(request, *args, **kwargs)
+    
+
+class CreateReplyView(generics.CreateAPIView):
+    serializer_class = CommentSerializer
+
+    def perform_create(self, serializer):
+        # Set the user, post, and parent before saving the reply
+        serializer.save(
+            user=self.request.user,
+            post_id=self.kwargs['post_id'],
+            parent_id=self.kwargs['parent_comment_id']
+        )

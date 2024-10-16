@@ -34,6 +34,12 @@ import {
   COMMENT_DETAIL_REQUEST,
   COMMENT_DETAIL_SUCCESS,
   COMMENT_DETAIL_FAIL,
+  COMMENT_CREATE_REQUEST,
+    COMMENT_CREATE_SUCCESS,
+    COMMENT_CREATE_FAIL,
+    REPLY_CREATE_REQUEST,
+    REPLY_CREATE_SUCCESS,
+    REPLY_CREATE_FAIL,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -179,5 +185,23 @@ export const commentDetailReducer = (state = { comment: {} }, action) => {
       return { loading: false, error: action.payload };
     default:
       return state;
+  }
+};
+
+
+export const replyCreateReducer = (state = { comments: [] }, action) => {
+  switch (action.type) {
+      case REPLY_CREATE_REQUEST:
+          return { loading: true };
+      case REPLY_CREATE_SUCCESS:
+          return {
+              loading: false,
+              success: true,
+              comments: [...state.comments, action.payload], // Add the new comment to the existing comments
+          };
+      case REPLY_CREATE_FAIL:
+          return { loading: false, error: action.payload };
+      default:
+          return state;
   }
 };

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import '../css/screens/ForumDetailed.css';
-import { Alert, Col, Row, Spinner } from "react-bootstrap";
-import { getForumPostDetails } from "../actions/userActions";
+import { Alert, Spinner, Form, Button } from "react-bootstrap";
+import { getForumPostDetails, createComment, listComments } from "../actions/userActions";
 import ForumCommentList from "../components/ForumCommentList";
 
 
@@ -16,10 +16,29 @@ function ForumDetailed() {
   const forumPostDetails = useSelector((state) => state.forumPostDetails);
   const { loading, error, forumPost } = forumPostDetails;
 
+  // State for the new comment input
+  const [commentContent, setCommentContent] = useState("");
+
+  const commentCreate = useSelector((state) => state.commentCreate);
+  const { success: commentSuccess } = commentCreate;
+
   useEffect(() => {
     dispatch(getForumPostDetails(id)); // Dispatch the action to get the post details
   }, [dispatch, id]);
 
+  useEffect(() => {
+    if (commentSuccess) {
+      dispatch(listComments(id)); // Re-fetch comments after successfully creating a comment
+    }
+  }, [commentSuccess, dispatch, id]);
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    if (commentContent) {
+      dispatch(createComment(id, commentContent));
+      setCommentContent("");
+    }
+  };
   return (
     <div className="forum-detail-container">
       {loading ? (
@@ -31,7 +50,7 @@ function ForumDetailed() {
           <div className="forum-detail-box">
             <h1 className="forum-detail-title">{forumPost?.title}</h1>
             <p className="forum-detail-content">{forumPost?.content}</p>
-  
+
             {/* User info section */}
             {forumPost?.user && (
               <div className="user-info">
@@ -56,6 +75,22 @@ function ForumDetailed() {
               </div>
             )}
           </div>
+
+          {/* Comment Input Section */}
+          <Form onSubmit={handleCommentSubmit}>
+            <Form.Group controlId="commentContent">
+              <Form.Control
+                type="text"
+                placeholder="Add a comment..."
+                value={commentContent}
+                onChange={(e) => setCommentContent(e.target.value)}
+              />
+            </Form.Group>
+            <Button type="submit" variant="primary">
+              Submit Comment
+            </Button>
+          </Form>
+
           <ForumCommentList postId={id} />
         </div>
       )}

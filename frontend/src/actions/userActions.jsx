@@ -35,6 +35,12 @@ import {
   COMMENT_DETAIL_REQUEST,
   COMMENT_DETAIL_SUCCESS,
   COMMENT_DETAIL_FAIL,
+  COMMENT_CREATE_REQUEST,
+  COMMENT_CREATE_SUCCESS,
+  COMMENT_CREATE_FAIL,
+  REPLY_CREATE_REQUEST,
+  REPLY_CREATE_SUCCESS,
+  REPLY_CREATE_FAIL,
 } from "../constants/userConstants";
 
 const instance = axios.create({
@@ -353,13 +359,11 @@ export const getForumPostDetails = (id) => async (dispatch) => {
   }
 };
 
-
-
 export const listComments = (postId) => async (dispatch) => {
   try {
     dispatch({ type: COMMENT_LIST_REQUEST });
     const { data } = await axios.get(`/api/accounts/post/comments/${postId}/`);
-    
+
     // Log the response data
     console.log("Fetched Comments:", data);
 
@@ -367,9 +371,10 @@ export const listComments = (postId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: COMMENT_LIST_FAIL,
-      payload: error.response && error.response.data.detail
-        ? error.response.data.detail
-        : error.message,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
     });
   }
 };
@@ -377,15 +382,73 @@ export const listComments = (postId) => async (dispatch) => {
 // Fetch a single comment by ID
 export const getCommentDetail = (commentId) => async (dispatch) => {
   try {
-      dispatch({ type: COMMENT_DETAIL_REQUEST });
-      const { data } = await axios.get(`/api/accounts/post/comment/${commentId}/`);
-      dispatch({ type: COMMENT_DETAIL_SUCCESS, payload: data });
+    dispatch({ type: COMMENT_DETAIL_REQUEST });
+    const { data } = await axios.get(
+      `/api/accounts/post/comment/${commentId}/`
+    );
+    dispatch({ type: COMMENT_DETAIL_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: COMMENT_DETAIL_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+
+
+export const createComment = (postId, content) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: COMMENT_CREATE_REQUEST });
+
+      const {
+          userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userInfo.token}`, // Assuming you use token-based auth
+          },
+      };
+
+      const { data } = await axios.post(`/api/accounts/post/comment/create/${postId}/`, { content }, config);
+
+      dispatch({ type: COMMENT_CREATE_SUCCESS, payload: data });
   } catch (error) {
       dispatch({
-          type: COMMENT_DETAIL_FAIL,
-          payload: error.response && error.response.data.detail
-              ? error.response.data.detail
-              : error.message,
+          type: COMMENT_CREATE_FAIL,
+          payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
+      });
+  }
+};
+
+// Action to create a reply to a comment
+export const createReply = (postId, parentCommentId, content) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: REPLY_CREATE_REQUEST });
+
+      const {
+          userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userInfo.token}`, // Assuming you use token-based auth
+          },
+      };
+
+      const { data } = await axios.post(`/api/accounts/post/comment/${postId}/reply/${parentCommentId}/`, { content }, config);
+
+      dispatch({ type: REPLY_CREATE_SUCCESS, payload: data });
+  } catch (error) {
+      dispatch({
+          type: REPLY_CREATE_FAIL,
+          payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
       });
   }
 };
