@@ -22,40 +22,48 @@ function RecipeScreen() {
   }, [dispatch]);
 
   const categories = [
-    { value: '', label: 'All' },
-    { value: 'Appetizers & Snacks', label: 'Appetizers & Snacks' },
-    { value: 'Breakfast & Brunch', label: 'Breakfast & Brunch' },
-    { value: 'Main Dishes', label: 'Main Dishes' },
-    { value: 'Soups & Stews', label: 'Soups & Stews' },
-    { value: 'Salads', label: 'Salads' },
-    { value: 'Side Dishes', label: 'Side Dishes' },
-    { value: 'Desserts & Sweets', label: 'Desserts & Sweets' },
-    { value: 'Beverages', label: 'Beverages' },
-    { value: 'Vegan & Vegetarian', label: 'Vegan & Vegetarian' },
-    { value: 'Gluten-Free', label: 'Gluten-Free' },
-    { value: 'Low-Carb & Keto', label: 'Low-Carb & Keto' },
-    { value: 'Quick & Easy Meals', label: 'Quick & Easy Meals' },
-    { value: 'Seafood & Fish', label: 'Seafood & Fish' },
-    { value: 'Pasta & Noodles', label: 'Pasta & Noodles' },
-    { value: 'Breads & Baked Goods', label: 'Breads & Baked Goods' },
-    { value: 'Casseroles', label: 'Casseroles' },
-    { value: 'Grilling & BBQ', label: 'Grilling & BBQ' },
-    { value: 'International Cuisine', label: 'International Cuisine' },
-    { value: 'Comfort Food', label: 'Comfort Food' },
-    { value: 'Healthy Recipes', label: 'Healthy Recipes' },
+    { value: "", label: "All" },
+    { value: "Appetizers & Snacks", label: "Appetizers & Snacks" },
+    { value: "Breakfast & Brunch", label: "Breakfast & Brunch" },
+    { value: "Main Dishes", label: "Main Dishes" },
+    { value: "Soups & Stews", label: "Soups & Stews" },
+    { value: "Salads", label: "Salads" },
+    { value: "Side Dishes", label: "Side Dishes" },
+    { value: "Desserts & Sweets", label: "Desserts & Sweets" },
+    { value: "Beverages", label: "Beverages" },
+    { value: "Vegan & Vegetarian", label: "Vegan & Vegetarian" },
+    { value: "Gluten-Free", label: "Gluten-Free" },
+    { value: "Low-Carb & Keto", label: "Low-Carb & Keto" },
+    { value: "Quick & Easy Meals", label: "Quick & Easy Meals" },
+    { value: "Seafood & Fish", label: "Seafood & Fish" },
+    { value: "Pasta & Noodles", label: "Pasta & Noodles" },
+    { value: "Breads & Baked Goods", label: "Breads & Baked Goods" },
+    { value: "Casseroles", label: "Casseroles" },
+    { value: "Grilling & BBQ", label: "Grilling & BBQ" },
+    { value: "International Cuisine", label: "International Cuisine" },
+    { value: "Comfort Food", label: "Comfort Food" },
+    { value: "Healthy Recipes", label: "Healthy Recipes" },
   ];
 
-  const filteredRecipes = recipes.filter(recipe => {
-    const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory ? recipe.category === selectedCategory : true;
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesSearch =
+      recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      recipe.tags.some((tag) =>
+        tag.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    const matchesCategory = selectedCategory
+      ? recipe.category === selectedCategory
+      : true;
     return matchesSearch && matchesCategory;
   });
+
+
 
   return (
     <div>
       <Form.Control
         type="text"
-        placeholder="Search for recipes..."
+        placeholder="Search for recipes or tags..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="mb-3"
