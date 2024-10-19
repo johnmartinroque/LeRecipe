@@ -11,9 +11,10 @@
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
-    max-width: 800px;
-    width: 100%;
+    max-width: 1000px; /* Increased maximum width for wider forum boxes */
+    width: 800px; /* Set a fixed width for the forum box */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Space below the forum box for separation from comments */
 }
 
 /* Post title */
@@ -52,7 +53,6 @@
     margin: 10px 0; /* Margin adjusted for vertical spacing */
 }
 
-
 /* User details container */
 .user-details {
     display: flex;
@@ -65,4 +65,30 @@
     color: #888;
     font-size: 0.9rem;
     margin-top: 5px; /* Spacing below created at text */
+}
+
+/* Comment list container */
+.comment-list-container {
+    width: 800px; /* Match the width of the forum box */
+    margin: 0 auto; /* Centers the comment list */
+}
+
+/* Comment item styles */
+.comment-item {
+    margin: 1rem;
+    background-color: #fefefe; /* Light background color for comments */
+    border: 1px solid #ddd; /* Light border for definition */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* More padding for content */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: transform 0.3s ease; /* Animation for hover effect */
+}
+
+/* Reply input and button styles */
+.reply-input {
+    margin-top: 10px;
+    width: 100%;
+    border: 1px solid #ccc; /* Light border for input */
+    border-radius: 4px; /* Rounded corners for input */
+    padding: 8px; /* Padding for input */
 }

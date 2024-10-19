@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, ListGroup, Spinner } from "react-bootstrap";
 import { createReply, listComments } from "../actions/userActions";
 
+
 const ForumCommentList = ({ postId }) => {
   const dispatch = useDispatch();
 
@@ -42,13 +43,24 @@ const ForumCommentList = ({ postId }) => {
       if (replyContent.trim()) {
         // Ensure the postId is being correctly passed
         dispatch(createReply(postId, comment.id, replyContent)); // Use postId from component props
-        setReplyContent(''); 
-        setShowReplyInput(false); 
+        setReplyContent("");
+        setShowReplyInput(false);
       }
     };
 
     return (
-      <ListGroup.Item key={comment.id} style={{ margin: "1rem" }}>
+      <ListGroup.Item
+        key={comment.id}
+        style={{
+          margin: "1rem",
+          backgroundColor: "#fefefe", // Light background color for comments
+          border: "1px solid #ddd", // Light border for definition
+          borderRadius: "8px", // Rounded corners
+          padding: "15px", // More padding for content
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)", // Soft shadow
+          transition: "transform 0.3s ease", // Animation for hover effect
+        }}
+      >
         {comment.replying_to && (
           <p style={{ fontStyle: "italic" }}>
             Replying to: {comment.replying_to.username}
@@ -56,37 +68,59 @@ const ForumCommentList = ({ postId }) => {
         )}
         <strong>{comment.user.username}</strong>
         <p>{comment.content}</p>
+
+        {/* Created at timestamp */}
         <small>
           Created At: {new Date(comment.created_at).toLocaleString()}
         </small>
 
-        {/* Reply button to toggle input */}
-        <Button onClick={toggleReplyInput} style={{ margin: "10px 0" }}>
-          {showReplyInput ? "Cancel" : "Reply"}
-        </Button>
+        {/* Buttons for Reply and Show Replies */}
+        <div
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            justifyContent: "flex-start", // Align buttons to the left
+            gap: "10px", // Add space between buttons
+          }}
+        >
+          {/* Reply Button */}
+          <Button onClick={toggleReplyInput} variant="primary">
+            {showReplyInput ? "Cancel" : "Reply"}
+          </Button>
 
+          {/* Show Replies Button */}
+          {comment.replies && comment.replies.length > 0 && (
+            <Button 
+              onClick={toggleReplies} 
+              variant={showReplies ? "danger" : "secondary"} // Change color based on state
+            >
+              {showReplies ? "Hide Replies" : "Show Replies"}
+            </Button>
+          )}
+        </div>
+
+        {/* Reply Input Section */}
         {showReplyInput && (
-          <div>
+          <div style={{ marginTop: "10px" }}>
             <textarea
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
               placeholder="Write a reply..."
               rows="3"
-              style={{ width: "100%", margin: "10px 0" }}
+              style={{
+                width: "100%",
+                margin: "10px 0",
+                border: "1px solid #ccc", // Light border for input
+                borderRadius: "4px", // Rounded corners for input
+                padding: "8px", // Padding for input
+              }}
             />
             <Button onClick={submitReply}>Submit Reply</Button>
           </div>
         )}
 
-        {/* Show replies */}
-        {comment.replies && comment.replies.length > 0 && (
-          <>
-            <Button onClick={toggleReplies} style={{ margin: "10px 0" }}>
-              {showReplies ? "Hide Replies" : "Show Replies"}
-            </Button>
-            {showReplies && renderReplies(comment.replies)}
-          </>
-        )}
+        {/* Replies Section */}
+        {showReplies && comment.replies && renderReplies(comment.replies)}
       </ListGroup.Item>
     );
   };
