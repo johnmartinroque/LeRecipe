@@ -22,7 +22,7 @@ const OwnRecipes = () => {
 
   return (
     <div>
-      <h1>Your Own Recipes</h1>
+      <h2 style={{fontWeight: "bold"}}>Your Own Recipes</h2>
 
       {loading ? (
         <div className="spinner-border" role="status">
@@ -33,7 +33,7 @@ const OwnRecipes = () => {
       ) : (
         <Row className="flex-column">
           {recipes.map((recipe) => (
-            <Col key={recipe.id} style={{ maxWidth: "30rem" }}>
+            <Col key={recipe.id} style={{ maxWidth: "30rem"}}>
               <Recipe
                 recipe={{
                   id: recipe.id,

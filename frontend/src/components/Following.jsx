@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFollowingList } from '../actions/userActions'; // Import your action
 import { ListGroup, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
+import '../css/components/Following.css'
 
 const Following = () => {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Following = () => {
 
     return (
         <div>
-            <h1>Following</h1>
+            <h2 style={{fontWeight:"bold"}}>Following</h2>
             {loading ? (
                 <div className="spinner-border" role="status">
                     <span className="sr-only">Loading...</span>
@@ -25,9 +25,9 @@ const Following = () => {
             ) : error ? (
                 <p>Error: {error}</p>
             ) : (
-                <ListGroup>
+                <ListGroup className='following-list'>
                     {following.map((user) => (
-                        <ListGroup.Item style={{padding: "10px" }} key={user.username} className="d-flex align-items-center">
+                        <ListGroup.Item style={{padding: "10px", textAlign: 'center', justifyContent: 'center'}} key={user.username} className="d-flex align-items-center">
                             {/* Display Profile Picture */}
                             <Image
                                 src={user.profile_picture || 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'}  
@@ -38,7 +38,7 @@ const Following = () => {
                                 alt={user.username}
                             />
                             {/* Display Username */}
-                            <Link style={{textDecoration: "none", padding: "10px" }}to={`/user/${user.id}`}><span>{user.username}</span></Link>
+                            <Link style={{textDecoration: "none", padding: "10px", color: 'black', fontSize: '18px'}}to={`/user/${user.id}`}><span>{user.username}</span></Link>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>

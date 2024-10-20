@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listUserComments } from "../actions/userActions";
+import '../css/components/UserComments.css'
 
 function UserComments() {
   const dispatch = useDispatch();
@@ -20,21 +21,20 @@ function UserComments() {
 
   return (
     <div>
-      <h2>User Comments</h2>
+      <h2 style={{fontWeight: "bold"}}>User Comments</h2>
       {loading && <p>Loading comments...</p>}
       {error && <p>Error: {error}</p>}
       {comments && comments.length > 0 ? (
-        <ul>
+        <ul className="comment-list">
           {comments.map((comment) => (
-            <div style={{ backgroundColor: "#e8e3dd", padding: "0.8rem", margin: '1rem', borderRadius: "8px" }}>
+            <div className="user-comments">
               <li key={comment.id} style={{ listStyle: "none" }}>
-                <p>
-                  <strong>{comment.username}</strong>: {comment.text}
-                </p>
+              <p style={{ display: "flex", justifyContent: "space-between" }}>
+                <strong>{comment.username}</strong> 
+                <span>Posted on: {new Date(comment.created_at).toLocaleDateString()}</span>
+              </p>
+                <p style={{textIndent: "2rem", fontStyle:"italic"}}>{comment.text}</p>
                 <p>Rating: {comment.rating}</p>
-                <p>
-                  Posted on: {new Date(comment.created_at).toLocaleDateString()}
-                </p>
               </li>
             </div>
           ))}

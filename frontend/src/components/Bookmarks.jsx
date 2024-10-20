@@ -18,7 +18,7 @@ const Bookmarks = () => {
   
     return (
       <div>
-        <h1>Your Bookmarked Recipes</h1>
+        <h2 style={{fontWeight:"bold"}}>Your Bookmarked Recipes</h2>
   
         {loading ? (
           <div className="spinner-border" role="status">

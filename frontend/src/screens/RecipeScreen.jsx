@@ -67,14 +67,14 @@ function RecipeScreen() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="mb-3"
-        style={{ width: "50rem" }}
+        style={{ width: "50rem", margin: "0 auto", marginTop: "1rem" }}
       />
       <Form.Select
         aria-label="Select Category"
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
         className="mb-3"
-        style={{ width: "50rem" }}
+        style={{ width: "50rem", margin: "0 auto" }}
       >
         {categories.map((category) => (
           <option key={category.value} value={category.value}>
