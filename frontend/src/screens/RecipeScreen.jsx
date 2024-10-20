@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listRecipes, listBookmarks } from "../actions/recipeActions"; // Import both actions
+import { listRecipes, listBookmarks } from "../actions/recipeActions";
 import Recipe from "../components/Recipe";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Form, Row, Container } from "react-bootstrap";
+import Footer from "../components/Footer";
 
 function RecipeScreen() {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function RecipeScreen() {
 
   useEffect(() => {
     dispatch(listRecipes());
-    dispatch(listBookmarks()); // Fetch bookmarks whenever the component mounts
+    dispatch(listBookmarks());
   }, [dispatch]);
 
   const categories = [
@@ -61,20 +62,21 @@ function RecipeScreen() {
 
   return (
     <div>
+      <Container fluid style={{ padding: '0 20px', marginBottom: '5rem' }}>
       <Form.Control
         type="text"
         placeholder="Search for recipes or tags..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="mb-3"
-        style={{ width: "50rem", margin: "0 auto", marginTop: "1rem" }}
+        style={{ width: "100%", Maxwidth: "50rem", margin: "0 auto", marginTop: "1rem" }}
       />
       <Form.Select
         aria-label="Select Category"
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
         className="mb-3"
-        style={{ width: "50rem", margin: "0 auto" }}
+        style={{ width: "100%", Maxwidth: "50rem", margin: "0 auto" }}
       >
         {categories.map((category) => (
           <option key={category.value} value={category.value}>
@@ -82,7 +84,7 @@ function RecipeScreen() {
           </option>
         ))}
       </Form.Select>
-      <h1>Recipes</h1>
+      <h1 style={{ marginBottom: '3rem', marginTop: '3rem', fontSize: '4rem'}}>Recipes</h1>
 
       {loading ? (
         <div className="spinner-border" role="status">
@@ -99,6 +101,8 @@ function RecipeScreen() {
           ))}
         </Row>
       )}
+      </Container>
+      <Footer/>
     </div>
   );
 }
