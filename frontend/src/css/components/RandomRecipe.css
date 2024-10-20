@@ -1,5 +1,9 @@
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
 .random-recipe-container {
     padding: 2rem;
+    margin-bottom: 5rem;
 }
 
 .random-recipe-title {
@@ -7,6 +11,14 @@
     color: #333;
     font-size: 2rem;
     margin-bottom: 2rem;
+}
+
+.slick-prev:before, .slick-next:before {
+    color: #000000;
+}
+
+.slick-dots li button:before {
+    color: #000000;
 }
 
 .error-message {

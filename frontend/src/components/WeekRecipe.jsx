@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFoodOfTheWeek } from "../actions/recipeActions"; // Import the action
+import { getFoodOfTheWeek } from "../actions/recipeActions"; 
 import Recipe from "../components/Recipe";
-import { Row, Col } from "react-bootstrap";
 import '../css/components/WeekRecipe.css';
 
 function WeekRecipe() {
@@ -25,13 +24,13 @@ function WeekRecipe() {
       ) : error ? (
         <p className="error-message">Error: {error}</p>
       ) : (
-        <Row>
+        <div>
           {recipes.map((recipe) => (
-            <Col key={recipe.id} sm={12} md={6} lg={4} xl={3}>
+            <div key={recipe.id} sm={12} md={6} lg={4} xl={3}>
               <Recipe recipe={recipe} />
-            </Col>
+            </div>
           ))}
-        </Row>
+        </div>
       )}
     </div>
   );

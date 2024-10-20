@@ -26,13 +26,13 @@ function MonthRecipe() {
       ) : error ? (
         <p className="error-message">Error: {error}</p>
       ) : (
-        <Row>
+        <div>
           {recipes.map((recipe) => (
-            <Col key={recipe.id} sm={12} md={6} lg={4} xl={3}>
+            <div key={recipe.id} sm={12} md={6} lg={4} xl={3}>
               <Recipe recipe={recipe} />
-            </Col>
+            </div>
           ))}
-        </Row>
+        </div>
       )}
     </div>
   );

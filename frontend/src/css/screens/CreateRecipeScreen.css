@@ -1,10 +1,8 @@
-
-
 form {
     margin: 2rem auto;
-    padding: 2.5rem;
+    padding: 3rem;
     max-width: 48rem;
-    background-color: #ffffff;
+    background-color: #e7caa2;
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     font-family: 'Poppins', sans-serif;
@@ -12,74 +10,560 @@ form {
 
 h1, h2 {
     text-align: center;
-    margin-bottom: 2rem;
-    color: #212529;
+    margin-bottom: 3rem;
+    color: #3A2E25; 
     font-weight: 700;
     font-size: 2rem;
 }
 
-label {
+h3 {
+    color: #3A2E25; 
     font-weight: 600;
-    color: #495057;
-    margin-bottom: 0.8rem;
-    display: inline-block;
-    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
 }
 
-input[type="text"],
-input[type="file"],
-textarea {
+ /* IMAGE PREVIEW */
+.image-preview-container {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center; 
+}
+
+.image-preview {
     width: 100%;
-    padding: 1rem;
-    border: 1px solid #ced4da;
+    height: 25rem;
     border-radius: 10px;
     margin-bottom: 1.5rem;
-    font-size: 1rem;
-    font-family: 'Poppins', sans-serif;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
+    object-fit: cover; 
 }
 
-input[type="text"]:focus,
-input[type="file"]:focus,
-textarea:focus {
-    border-color: #007bff;
-    background-color: #e9f5ff;
+.image-preview:hover {
+    background-color: rgba(0, 0, 0, 0.1); 
+}
+
+.image-preview-container {
+    position: relative;
+    margin-top: 10px;
+}
+
+.image-preview-container:hover .remove-photo {
+    display: block;
+}
+
+.upload-box {
+    width: 100%; 
+    height: 25rem; 
+    border: 2px dashed #525252;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.upload-box:hover {
+    background-color: rgba(0, 0, 0, 0.1); 
+}
+
+.plus-sign {
+    font-size: 48px; 
+    color: #525252;
+}
+
+.remove-photo {
+    position: absolute;
+    top: 42.5%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none; 
+}
+
+ /* TITLE */
+
+.TitleBox {
+    position: relative;
+  }
+  
+
+.TitleBox input[type="text"], input[type="file"]
+    {
+    padding: 15px 20px;
     outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    background: transparent;
+    border-radius: 5px;
+    color: #000000;
+    border: 1px solid #000000;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 1rem;
 }
 
-textarea {
+.TitleBox span {
+    position: absolute;
+    left: 0.5rem;
+    transform: translateY(65%) translateX(10px);
+    font-size: 1rem;
+    color: #4b4b4b; 
+    transition: 0.4s cubic-bezier(0.05, 0.81, 0.93, 0.93);
+    pointer-events: none;
+}
+
+.TitleBox input:focus ~ span,
+.TitleBox input:valid ~ span {
+
+    font-size: 0.8rem;
+    transform: translateX(10px) translateY(-9px);
+    padding: 0 10px;
+    border-radius: 0.2rem;
+    background-color: #e7caa2;
+    letter-spacing: 0em;
+    color: #000000; 
+    border: 1px solid #000000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    }
+
+ /* DESCRIPTION  */
+
+.DescriptionBox{
+    position: relative;
+}
+
+.DescriptionBox textarea {
+    padding: 15px 20px;
+    outline: none;
+    background: transparent;
+    border-radius: 5px;
+    color: #000000;
+    border: 1px solid #000000;
+    font-size: 1rem;
+    transition: 0.4s cubic-bezier(0.05, 0.81, 0.93, 0.93);
     resize: vertical;
     min-height: 150px;
-}
-
-button {
-    display: inline-block;
-    padding: 1rem 1.5rem;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-}
-
-button:disabled {
-    background-color: #6c757d;
-}
-
-button[type="submit"] {
     width: 100%;
-    margin-top: 2.5rem;
+    padding: 1rem;
 }
+
+.DescriptionBox span {
+    position: absolute;
+    left: 0.5rem;
+    transform: translateY(65%) translateX(10px);
+    font-size: 1rem;
+    color: #4b4b4b; 
+    transition: 0.4s cubic-bezier(0.05, 0.81, 0.93, 0.93);
+    pointer-events: none;
+}
+
+.DescriptionBox textarea:focus ~ span,
+.DescriptionBox textarea:valid ~ span {
+    font-size: 0.8rem;
+    transform: translateX(10px) translateY(-9px);
+    padding: 0 10px;
+    border-radius: 0.2rem;
+    background-color: #e7caa2;
+    letter-spacing: 0em;
+    color: #000000; 
+    border: 1px solid #000000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    }
+
+/* CATEGORY */
+
+.category-tags-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.CategoryBox {
+    flex: 0;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.CategoryBox select {
+    padding: 18.5px 13.5px;
+    outline: none;
+    background: transparent;
+    border-radius: 5px;
+    color: #000000; 
+    border: 1px solid #000000;
+    font-size: 1rem;
+    width: 15rem;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.CategoryBox span {
+    position: absolute;
+    left: 0.5rem;
+    transform: translateY(65%) translateX(10px);
+    font-size: 1rem;
+    color: #000000;
+    transition: 0.4s cubic-bezier(0.05, 0.81, 0.93, 0.93);
+    pointer-events: none;
+    border-radius: 5px;
+}
+
+.CategoryBox select:focus + span,
+.CategoryBox select:valid + span {
+    font-size: 0.8rem;
+    transform: translateX(10px) translateY(-1px);
+    padding: 0 10px;
+    background-color: #e7caa2;
+    border: 1px solid #000000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+}
+
+/* TAGS */
+.TagBox {
+    position: relative;
+    width: 28.65rem;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto; 
+    white-space: nowrap;  
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.TagInputBox {
+    position: relative; 
+}
+
+.TagInputBox input {
+    padding: 15px 20px;
+    outline: none;
+    background: transparent;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    flex-grow: 1;  
+    width: 28.4rem;
+    padding: 1rem;
+    /* background-color: red; */
+    width: calc(100% - 40px);
+}
+
+.TagInputBox span {
+    position: absolute;
+    left: 0.5rem;
+    transform: translateY(65%) translateX(10px);
+    font-size: 1rem;
+    color: #4b4b4b;
+    transition: 0.4s cubic-bezier(0.05, 0.81, 0.93, 0.93);
+    pointer-events: none;
+}
+
+.TagInputBox input:focus + span,
+.TagInputBox input:not(:empty) + span,
+.TagInputBox span.focused {
+    font-size: 0.8rem;
+    transform: translateY(-10px) translateX(10px);
+    background-color: #e7caa2;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+}
+
+.tag-input-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;  
+    gap: 10px;
+    overflow-x: auto;  
+}
+
+.tag-list {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    white-space: nowrap;
+    overflow-x: auto;  
+    flex-shrink: 0; 
+}
+
+.tag {
+    padding: 5px 15px;
+    border-radius: 15px;
+    background-color: #c0c0c0;
+    align-items: center;
+    white-space: nowrap;
+    margin-left: 10px;
+}
+
+.remove-tag-button,
+.add-tag-button {
+    background: transparent;
+    border: none;
+    font-size: 1rem; 
+    cursor: pointer;
+    outline: none; 
+    padding: 2px; 
+    margin-left: 10px;
+    transition: none; 
+    color: red;
+    border-radius: 5px;
+    
+}
+
+
+.remove-tag-button:hover,
+.add-tag-button:hover {
+    opacity: 0.7; 
+}
+
+
+
+.IngredientInputBox {
+    position: relative;
+}
+
+.IngredientInputBox input {
+    padding: 15px 20px;
+    outline: none;
+    background: transparent;
+    border-radius: 5px;
+    color: #000000;
+    border: 1px solid #000000;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    width: 92%;
+    padding: 1rem;
+}
+
+.IngredientInputBox span {
+    position: absolute;
+    left: 0.5rem;
+    transform: translateY(65%) translateX(10px);
+    font-size: 1rem;
+    color: #4b4b4b;
+    transition: 0.4s cubic-bezier(0.05, 0.81, 0.93, 0.93);
+    pointer-events: none;
+}
+
+.IngredientInputBox input:focus ~ span,
+.IngredientInputBox input:valid ~ span {
+    font-size: 0.8rem;
+    transform: translateX(10px) translateY(-9px);
+    padding: 0 10px;
+    border-radius: 0.2rem;
+    background-color: #e7caa2;
+    letter-spacing: 0em;
+    color: #000000; 
+    border: 1px solid #000000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+}
+
+.remove-ingredient-button {
+    position: absolute;
+    right: 5rem; 
+    top: 37%; 
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #ff0000;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease; 
+    border-radius: 50%;
+    line-height: 1;    
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity 0.3s ease, visibility 0.3s ease; 
+}
+
+.remove-ingredient-button {
+    opacity: 1;
+    visibility: visible; 
+}
+
+.remove-ingredient-button:hover {
+    background-color: transparent;
+    color: #ff4444;  
+    transform: translateY(-50%) scale(1.2); 
+} 
+
+.add-ingredient-button {
+    background-color: #e7caa2; 
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 10px; 
+    color: black;
+}
+
+/* Steps Input Box */
+.StepInputBox {
+    position: relative;
+}
+
+.StepInputBox input {
+    padding: 1rem;
+    width: 92%;
+    border: 1px solid #000;
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 20px;
+    background-color: transparent;
+}
+
+.StepInputBox textarea {
+    padding: 1rem;
+    width: 100%;
+    border: 1px solid #000;
+    border-radius: 5px;
+    outline: none;
+    background-color: transparent;
+    margin-bottom: 30px;
+}
+
+.StepInputBox span {
+    position: absolute;
+    left: 0.5rem;
+    transform: translateY(65%) translateX(10px);
+    font-size: 1rem;
+    color: #4b4b4b;
+    transition: 0.4s cubic-bezier(0.05, 0.81, 0.93, 0.93);
+    pointer-events: none;
+}
+
+.StepInputBox input:focus ~ span,
+.StepInputBox input:valid ~ span {
+    font-size: 0.8rem;
+    transform: translateX(10px) translateY(-9px);
+    padding: 0 10px;
+    border-radius: 0.2rem;
+    background-color: #e7caa2;
+    letter-spacing: 0em;
+    color: #000000; 
+    border: 1px solid #000000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+
+}
+
+.StepInputBox textarea:focus ~ span,
+.StepInputBox textarea:valid ~ span {
+    font-size: 0.8rem;
+    transform: translateX(10px) translateY(-9px);
+    padding: 0 10px;
+    border-radius: 0.2rem;
+    background-color: #e7caa2;
+    letter-spacing: 0em;
+    color: #000000; 
+    border: 1px solid #000000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+}
+
+.remove-step-button {
+    position: absolute;
+    right: 5rem; 
+    top: 11.9%; 
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #ff0000;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease; 
+    border-radius: 50%;
+    line-height: 1;    
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity 0.3s ease, visibility 0.3s ease; 
+}
+
+.remove-step-button {
+    opacity: 1;
+    visibility: visible; 
+}
+
+.remove-step-button:hover {
+    background-color: transparent;
+    color: #ff4444;  
+    transform: translateY(-50%) scale(1.2); 
+} 
+
+.add-step-button {
+    background-color: #e7caa2; 
+    border: none;
+    padding: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 10px; 
+    color: black;
+}
+
+
+.media-upload-section {
+    display: flex;
+    justify-content: space-between; 
+    gap: 1rem; 
+    background-color: transparent; 
+}
+
+.media-upload {
+    display: flex;
+    align-items: center;
+    gap: 1rem; 
+    flex: 1; 
+}
+
+.media-upload label {
+    position: absolute;
+    font-size: 0.8rem;
+    top: 4.3rem;
+    margin-left: 20px;
+    padding: 0 10px;
+    border-radius: 0.2rem;
+    background-color: #e7caa2;
+    letter-spacing: 0em;
+    color: #000000; 
+    border: 1px solid #000000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+}
+
+.media-upload input[type="file"] {
+    border: 1px solid #000000;
+    padding: 1rem; 
+    flex-grow: 1; 
+}
+
+.media-upload input[type="file"]:focus {
+    outline: none; 
+    border-color: #020202; 
+}
+
+.media-upload input[type="file"]:hover {
+    outline: none; 
+background-color: rgba(0, 0, 0, 0.3);
+}
+
+.line {
+    height: 2px; 
+    background-color: #806549;
+    margin-bottom: 15px; 
+    width: 40rem;
+    margin-left: 4%;
+}
+
 
 .error-message {
     color: #dc3545;
@@ -103,48 +587,19 @@ button[type="submit"] {
     border-width: 0.4rem;
 }
 
-.create-recipe-buttons {
-    background-color: #17a2b8;
-    margin-top: 1.5rem;
-    padding: 0.75rem 1.25rem;
-    border-radius: 5px;
+
+/* SUBMIT BUTTON */
+
+.submit-button button{
+    width: 100%;
+    border-radius: 30px;
+    border: 1px solid black;
+    background-color: #806549; ;
+    padding: 10px;
+    color: white;
 }
 
-.create-recipe-buttons:hover {
-    background-color: #138496;
-    box-shadow: 0 4px 10px rgba(19, 132, 150, 0.3);
+.submit-button button:hover{
+    background-color: #6e563e; ;
 }
 
-.step-container, .ingredient-container, .tag-container {
-    border: 1px solid #e9ecef;
-    border-radius: 10px;
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-    background-color: #fdfdfd;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-h3 {
-    color: #007bff;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-}
-
-@media (max-width: 768px) {
-    form {
-        padding: 2rem;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    h1, h2 {
-        font-size: 1.75rem;
-    }
-
-    h3 {
-        font-size: 1.4rem;
-    }
-}

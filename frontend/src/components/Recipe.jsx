@@ -11,7 +11,6 @@ function Recipe({ recipe }) {
       <Link to={`/recipe/${recipe.id}`}>
         <Card.Img className="card-img-top" src={recipe.image} alt={recipe.name} />
         <div className="hover-content">
-          {/* <p className="recipe-description">{recipe.description}</p> */}
           <button className="try-now-button">Try Now!</button>
         </div>
       </Link>
@@ -39,6 +38,7 @@ function Recipe({ recipe }) {
         </Card.Title>
       </Card.Body>
     </Card>
+    
   );
 }
 
