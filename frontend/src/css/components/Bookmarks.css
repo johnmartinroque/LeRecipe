@@ -1,0 +1,12 @@
+.scroll-container {
+    max-height: 550px;
+    overflow-y: auto; 
+    padding: 1rem;
+  }
+  
+  .scroll-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+  }
+  

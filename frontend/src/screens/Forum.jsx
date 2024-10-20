@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import '../css/screens/Forum.css'; 
 
-import { listForumPosts, resetForumPostCreate } from '../actions/userActions'
-import { Alert, Spinner } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import ForumPost from '../components/ForumPost'
-
+import { listForumPosts, resetForumPostCreate } from '../actions/userActions';
+import { Alert, Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import ForumPost from '../components/ForumPost';
+import Footer from '../components/Footer';
 
 function Forum() {
   const dispatch = useDispatch()
@@ -26,9 +26,10 @@ function Forum() {
   }, [dispatch]);
 
   return (
+    <div>
     <div className="forum-container">
       <div className="forum-content">
-        <h1>Forum</h1> {/* Forum title should be left-aligned */}
+        <h1>Forum</h1> 
         {loading ? (
           <Spinner />
         ) : error ? (
@@ -68,6 +69,8 @@ function Forum() {
           </div>
         )}
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 }

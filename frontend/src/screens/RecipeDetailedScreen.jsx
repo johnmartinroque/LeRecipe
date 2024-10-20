@@ -127,7 +127,7 @@ const RecipeDetailedScreen = () => {
 
   return (
     <div>
-      <Button className="back-button" onClick={() => navigate(-1)}>Back</Button>
+      <Button style= {{marginLeft: '20px', marginTop: '20px', paddingTop: '10px', paddingBottom: '10px', padding: '0.5rem', position: 'absolute', left: '20rem'}} className="back-button" onClick={() => navigate(-1)}>Back</Button>
       <Row className="justify-content-center">
         <Col md={8} className="text-center">
           <div className="recipe-detail-container">

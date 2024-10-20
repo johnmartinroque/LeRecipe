@@ -17,6 +17,16 @@ body {
     z-index: 1;
 }
 
+.modal-background form {
+    margin: 2rem auto;
+    padding: 3rem;
+    max-width: 48rem;
+    background-color: #e7caa2;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    font-family: 'Poppins', sans-serif;
+}
+
 .logo-register {
     flex: 1.5; /* Take up space on the left for the logo */
     display: flex; 

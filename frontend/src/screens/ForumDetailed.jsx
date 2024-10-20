@@ -49,7 +49,7 @@ function ForumDetailed() {
         <div className="forum-detail-content">
           <div className="forum-detail-box">
             <h1 className="forum-detail-title">{forumPost?.title}</h1>
-            <p className="forum-detail-content">{forumPost?.content}</p>
+
 
             {/* User info section */}
             {forumPost?.user && (
@@ -74,16 +74,19 @@ function ForumDetailed() {
                 </p>
               </div>
             )}
+          <p className="forum-detail-content">{forumPost?.content}</p>
+
           </div>
 
           {/* Comment Input Section */}
-          <Form onSubmit={handleCommentSubmit}>
+          <Form onSubmit={handleCommentSubmit} className="Form-submit-comment">
             <Form.Group controlId="commentContent">
               <Form.Control
                 type="text"
                 placeholder="Add a comment..."
                 value={commentContent}
                 onChange={(e) => setCommentContent(e.target.value)}
+                style={{ marginBottom: '20px', padding: '1rem', width: '100%'}}
               />
             </Form.Group>
             <Button type="submit" variant="primary">

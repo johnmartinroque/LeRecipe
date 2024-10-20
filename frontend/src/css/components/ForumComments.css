@@ -1,0 +1,39 @@
+.user-info {
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 1rem; 
+
+}
+
+/* User profile picture */
+.forum-user-picture {
+    width: 50px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    border-radius: 50%; /* Makes the image circular */
+    margin-right: 10px; /* Space between the image and text */
+    margin-left: 10px;
+}
+
+/* User details container */
+.user-details {
+    display: flex;
+    flex-direction: column; /* Aligns user details vertically */
+    margin-top: -0.5rem;
+}
+
+/* Post creation time */
+.forum-created-at2 {
+    color: #888;
+    font-size: 0.9rem;
+    left: 5.3rem;
+    margin-top: 3rem;
+    position: absolute;
+}
+
+.comment-content2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    padding: 1rem;
+    width: 97%;
+    margin-top: -1rem;
+}

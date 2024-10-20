@@ -1,7 +1,7 @@
 .following-list {
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 10px; 
-    background-color: #cfc9c2;
     width: 400px;
+    height: auto;
+
 }

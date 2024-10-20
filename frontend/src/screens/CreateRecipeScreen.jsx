@@ -198,7 +198,7 @@ const CreateRecipeScreen = () => {
     }, [success, recipe, navigate, dispatch]);
 
     return (
-        <div>
+        <div className="Form-CreateRecipe">
         <form onSubmit={handleSubmit} style={{maxWidth: '50rem'}}>
         <h1>Create Recipe</h1>
         {previewImage ? (

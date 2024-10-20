@@ -16,7 +16,7 @@ const Following = () => {
     }, [dispatch]);
 
     return (
-        <div>
+        <div className="following-container">
             <h2 style={{fontWeight:"bold"}}>Following</h2>
             {loading ? (
                 <div className="spinner-border" role="status">

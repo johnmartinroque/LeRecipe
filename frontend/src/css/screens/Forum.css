@@ -1,4 +1,15 @@
-/* Container for the entire forum page */
+form {
+    margin: 2rem auto;
+    padding: 3rem;
+    max-width: 69rem;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff;
+    margin-left: 33px;
+}
+
+
 .forum-container {
     display: flex;
     justify-content: space-between;
@@ -7,13 +18,13 @@
     padding: 20px;
 }
 
-/* Main content area for the posts */
+
 .forum-content {
     flex: 3;
     margin-right: 20px;
 }
 
-/* Style for each forum post box */
+
 .forum-box {
     background-color: #fff;
     border: 1px solid #e0e0e0;
@@ -23,7 +34,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Flexbox for post info section */
+
 .post-info {
     display: flex;
     align-items: flex-start; /* Aligns items at the start */

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { createForumPost, resetForumPostCreate } from "../actions/userActions"; // Import the reset action
+import '../css/screens/Forum.css';
 
 function ForumPost() {
   const dispatch = useDispatch();
@@ -44,13 +45,13 @@ function ForumPost() {
   }, [success, forumPost, navigate, dispatch]); // Added dispatch to dependencies
 
   return (
-    <div>
+    <div >
       {loading && <div>Loading...</div>}
       {error && <Alert variant="danger">{error}</Alert>}
 
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formTitle">
-          <Form.Label>Title</Form.Label>
+        <Form.Group controlId="formTitle" style={{ marginBottom: '20px'}}>
+          <Form.Label >Title</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter post title"
@@ -60,7 +61,7 @@ function ForumPost() {
           />
         </Form.Group>
 
-        <Form.Group controlId="formContent">
+        <Form.Group controlId="formContent"  style={{ marginBottom: '20px'}}>
           <Form.Label>Content</Form.Label>
           <Form.Control
             as="textarea"
@@ -72,7 +73,7 @@ function ForumPost() {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" >
           Submit
         </Button>
       </Form>

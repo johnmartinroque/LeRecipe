@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, ListGroup, Spinner } from "react-bootstrap";
 import { createReply, listComments } from "../actions/userActions";
+import { Link } from "react-router-dom";
+import '../css/components/ForumComments.css'
 
 
 const ForumCommentList = ({ postId }) => {
@@ -29,36 +31,36 @@ const ForumCommentList = ({ postId }) => {
     );
   };
 
-  const CommentItem = ({ comment, parentUsername }) => {
-    const [showReplies, setShowReplies] = useState(false); // For toggling replies visibility
-    const [showReplyInput, setShowReplyInput] = useState(false); // To show/hide the reply input
-    const [replyContent, setReplyContent] = useState(""); // Reply content state
-
-    const dispatch = useDispatch(); // To dispatch reply action
-
+  const CommentItem = ({ comment }) => {
+    const [showReplies, setShowReplies] = useState(false);
+    const [showReplyInput, setShowReplyInput] = useState(false);
+    const [replyContent, setReplyContent] = useState("");
+  
+    const dispatch = useDispatch();
+  
     const toggleReplies = () => setShowReplies((prev) => !prev);
     const toggleReplyInput = () => setShowReplyInput((prev) => !prev);
-
+  
     const submitReply = () => {
       if (replyContent.trim()) {
-        // Ensure the postId is being correctly passed
-        dispatch(createReply(postId, comment.id, replyContent)); // Use postId from component props
+        dispatch(createReply(postId, comment.id, replyContent));
         setReplyContent("");
         setShowReplyInput(false);
       }
     };
-
+  
     return (
       <ListGroup.Item
-        key={comment.id}
         style={{
           margin: "1rem",
-          backgroundColor: "#fefefe", // Light background color for comments
-          border: "1px solid #ddd", // Light border for definition
-          borderRadius: "8px", // Rounded corners
-          padding: "15px", // More padding for content
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)", // Soft shadow
-          transition: "transform 0.3s ease", // Animation for hover effect
+          backgroundColor: "#fefefe",
+          border: "1px solid #ddd",
+          borderRadius: "20px",
+          padding: "15px",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+          transition: "transform 0.3s ease",
+          width: "100%",
+          marginLeft: '0rem'
         }}
       >
         {comment.replying_to && (
@@ -66,40 +68,49 @@ const ForumCommentList = ({ postId }) => {
             Replying to: {comment.replying_to.username}
           </p>
         )}
-        <strong>{comment.user.username}</strong>
-        <p>{comment.content}</p>
-
-        {/* Created at timestamp */}
-        <small>
-          Created At: {new Date(comment.created_at).toLocaleString()}
-        </small>
-
-        {/* Buttons for Reply and Show Replies */}
+        <div className="user-info">
+          {comment.user.profile_picture && (
+            <img
+              className="forum-user-picture"
+              src={comment.user.profile_picture}
+              alt={`${comment.user.username}'s profile`}
+            />
+          )}
+          <div className="user-details">
+            <Link to={`/user/${comment.user.id}`} className="forum-user-link">
+              {comment.user.username}
+            </Link>
+            <small className="forum-created-at2">
+              Created At: {new Date(comment.created_at).toLocaleString()}
+            </small>
+          </div>
+        </div>
+        <p className="comment-content2">{comment.content}</p>
+  
         <div
           style={{
             marginTop: "10px",
             display: "flex",
-            justifyContent: "flex-start", // Align buttons to the left
-            gap: "10px", // Add space between buttons
+            justifyContent: "flex-start",
+            gap: "10px",
+            marginBottom: '10px',
+            marginLeft: '10px'
           }}
         >
-          {/* Reply Button */}
           <Button onClick={toggleReplyInput} variant="primary">
             {showReplyInput ? "Cancel" : "Reply"}
           </Button>
-
-          {/* Show Replies Button */}
+  
           {comment.replies && comment.replies.length > 0 && (
-            <Button 
-              onClick={toggleReplies} 
-              variant={showReplies ? "danger" : "secondary"} // Change color based on state
+            <Button
+              onClick={toggleReplies}
+              variant={showReplies ? "danger" : "secondary"}
             >
               {showReplies ? "Hide Replies" : "Show Replies"}
             </Button>
           )}
         </div>
-
-        {/* Reply Input Section */}
+  
         {showReplyInput && (
           <div style={{ marginTop: "10px" }}>
             <textarea
@@ -110,16 +121,15 @@ const ForumCommentList = ({ postId }) => {
               style={{
                 width: "100%",
                 margin: "10px 0",
-                border: "1px solid #ccc", // Light border for input
-                borderRadius: "4px", // Rounded corners for input
-                padding: "8px", // Padding for input
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                padding: "8px",
               }}
             />
             <Button onClick={submitReply}>Submit Reply</Button>
           </div>
         )}
-
-        {/* Replies Section */}
+  
         {showReplies && comment.replies && renderReplies(comment.replies)}
       </ListGroup.Item>
     );
